@@ -74,11 +74,11 @@
 }
 
 .round-button-left {
-  background-image: url(../../public/EllipseLeft16.png);
+  background-image: url('/EllipseLeft16.png');
   left: 0px;
 }
 
 .round-button-right {
-  background-image: url(../../public/EllipseRight16.png);
+  background-image: url('/EllipseRight16.png');
   right: 0px;
 }

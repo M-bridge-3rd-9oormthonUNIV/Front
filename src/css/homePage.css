@@ -75,6 +75,6 @@
   right: 8px;
   width: 39px; /* 크기 조정 */
   height:39px;
-  background-image: url(../../public/Vector.png);
+  background-image: url('/Vector.png');
 }
 
