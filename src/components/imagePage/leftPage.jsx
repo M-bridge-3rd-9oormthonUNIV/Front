@@ -1,11 +1,12 @@
 import React from "react";
+import "../../css/contentPage.css";
 
 // 70% 구간 (sidePage)
 // (1) 갤러리 화면, (2) 이미지 생성화면
 
 // 30% 구간 (subPage)
 // (1) 노래 검색화면, (2) 가사 화면
-export default function LeftPage({ leftSubPageVisible, leftButtonPosition, handleDragStart }) {
+export default function LeftPage({ leftSubPageVisible, leftButtonPosition, rightSubPageVisible, handleDragStart }) {
   return (
     <>
       {/* 왼쪽 버튼 */}
@@ -14,6 +15,7 @@ export default function LeftPage({ leftSubPageVisible, leftButtonPosition, handl
         onMouseDown={() => handleDragStart("left")}
         style={{
           transform: `translateX(${leftButtonPosition}px)`,
+          display: rightSubPageVisible ? "none" : "block"
         }}
       ></div>
 

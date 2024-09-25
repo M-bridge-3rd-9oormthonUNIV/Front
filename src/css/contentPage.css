@@ -1,82 +1,84 @@
 /* 70% 화면 (챗지피티 + 이미지생성) */
 .side-page {
-    position: absolute;
-    top: 0;
-    width: 70%; 
-    height: 100%;
-    background-color: rgba(211, 211, 211, 0.8);
-    z-index: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    opacity: 0.5;
-    transition: opacity 0.4s ease;
-  }
-  
-  .side-page.show {
-    z-index: 2;
-  }
-  
-  .left-side {
-    left: 0;
-  }
-  
-  .right-side {
-    right: 0;
-  }
-  
-  .side-content {
-    padding: 20px;
-  }
-  
-  /* 30% 화면 (가사) */
-  .sub-page {
-    overflow: hidden;
-    position: absolute;
-    width: 30%;
-    height: 100%;
-    opacity: 0%;
-    border: 1px solid #ff00e5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 0;
-    background-color: rgba(211, 211, 211, 0.8);
-    transition: opacity 0.3s ease;
-  }
-  
-  .sub-page.show {
-    z-index: 2;
-    opacity: 1;
-  }
-  
-  .left-sub {
-    right: 0;
-  }
-  
-  .right-sub {
-    left: 0;
-  }
-  
-  .round-button-left,
-  .round-button-right {
-    border: none;
-    outline: none;
-    position: absolute;
-    top: 35vh;
-    width: 140px;
-    height: 240px;
-    cursor: pointer;
-    z-index: 3;
-  }
-  
-  .round-button-left {
-    background-image: url(../../public/EllipseLeft16.png);
-    left: 0px;
-  }
-  
-  .round-button-right {
-    background-image: url(../../public/EllipseRight16.png);
-    right: 0px;
-  }
+  position: absolute;
+  top: 0;
+  width: 70%;
+  height: 100%;
+  z-index: 0;
+  background-color: gray;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.215;
+  transition: opacity 0.4s ease;
+  overflow: hidden;
+}
+
+.side-page.show {
+  z-index: 2;
+}
+
+.left-side {
+  left: 0;
+}
+
+.right-side {
+  right: 0;
+}
+
+.side-content {
+  padding: 20px;
+}
+
+/* 30% 화면 (가사) */
+.sub-page {
+  position: absolute;
+  width: 30vw;
+  height: 100%;
+  border: 1px solid #ff00e5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+  background-color: rgba(211, 211, 211, 0.8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  overflow: hidden;
+}
+
+.sub-page.show {
+  z-index: 2;
+  opacity: 0.215;
+}
+
+.left-sub {
+  right: 0;
+}
+
+.right-sub {
+  left: 0;
+}
+
+/* 버튼 */
+.round-button-left,
+.round-button-right {
+  border: none;
+  outline: none;
+  position: absolute;
+  top: 35vh;
+  width: 140px;
+  height: 270px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.round-button-left {
+  background-image: url(../../public/EllipseLeft16.png);
+  left: 0px;
+}
+
+.round-button-right {
+  background-image: url(../../public/EllipseRight16.png);
+  right: 0px;
+}

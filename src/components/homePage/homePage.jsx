@@ -6,7 +6,6 @@ import RightPage from "../chatGPT-page/rightPage";
 
 // 홈 화면
 // (1) 검색화면, (2) 유튜브 영상 + 가사 화면
-
 export default function HomePage() {
   const [leftSubPageVisible, setLeftSubPageVisible] = useState(false);
   const [rightSubPageVisible, setRightSubPageVisible] = useState(false);
@@ -24,14 +23,18 @@ export default function HomePage() {
       if (dragDirection === "left") {
         // 왼쪽 드래그
         setLeftButtonPosition(Math.min(newPosition, limit));
-        setLeftSubPageVisible(newPosition >= limit);
       } else if (dragDirection === "right") {
         // 오른쪽 드래그
         setRightButtonPosition(
           Math.min(window.innerWidth - newPosition, limit)
         );
-        setRightSubPageVisible(newPosition <= window.innerWidth - limit);
       }
+
+      // 왼쪽 서브페이지 표시 여부 결정
+      setLeftSubPageVisible(leftButtonPosition >= limit);
+
+      // 오른쪽 서브페이지 표시 여부 결정
+      setRightSubPageVisible(rightButtonPosition >= limit);
     }
   };
 
@@ -49,44 +52,42 @@ export default function HomePage() {
     <div
       className="main-container"
       onMouseMove={handleDrag}
-      onMouseUp={handleDragEnd}
+      onMouseUp={handleDragEnd} // 여기서 드래그 종료 처리
     >
       <div className="main-page">
-        <img // 도움말
-          className="vector-image"
-          src={`${process.env.PUBLIC_URL}/Vector.png`}
-        ></img>
+        <button className="vector-image" alt="Vector"></button>
 
-        <img // 로고
-          className="logo"
-          src={`${process.env.PUBLIC_URL}/Group26.png`}
+        <div className="center">
+          <img // 로고
+            className="logo"
+            src={`${process.env.PUBLIC_URL}/Group26.png`}
+            alt="Logo"
+          />
+
+          <h1 className="title">M-bridge</h1>
+
+          <form>
+            {/* 검색창 */}
+            <input className="search" />
+          </form>
+        </div>
+
+        {/* 왼쪽 버튼과 이미지 생성(갤러리)화면 */}
+        <LeftPage
+          leftSubPageVisible={leftSubPageVisible}
+          leftButtonPosition={leftButtonPosition}
+          rightSubPageVisible={rightSubPageVisible}
+          handleDragStart={handleDragStart}
         />
 
-        <h1 className="title"
-        >
-          M-bridge
-        </h1>
-
-        <form>
-          {" "}
-          {/* 검색창*/}
-          <input className="search" />
-        </form>
+        {/* 오른쪽 버튼과 챗지피티 화면 */}
+        <RightPage
+          rightSubPageVisible={rightSubPageVisible}
+          rightButtonPosition={rightButtonPosition}
+          leftSubPageVisible={leftSubPageVisible}
+          handleDragStart={handleDragStart}
+        />
       </div>
-
-      {/* 왼쪽 버튼과 이미지 생성(갤러리)화면 */}
-      <LeftPage
-        leftSubPageVisible={leftSubPageVisible}
-        leftButtonPosition={leftButtonPosition}
-        handleDragStart={handleDragStart}
-      />
-
-      {/* 오른쪽 버튼과 챗지피티 화면 */}
-      <RightPage
-        rightSubPageVisible={rightSubPageVisible}
-        rightButtonPosition={rightButtonPosition}
-        handleDragStart={handleDragStart}
-      />
     </div>
   );
 }

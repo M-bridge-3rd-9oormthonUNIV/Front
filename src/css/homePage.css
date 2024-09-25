@@ -5,9 +5,10 @@
   height: 100vh;
   overflow: hidden;
   background-color: black;
+  opacity: 0.95;
 }
 
-/* 메인 페이지 스타일 */
+/* 메인 페이지 */
 .main-page {
   position: relative;
   width: 100%;
@@ -32,6 +33,15 @@
   width: 300px;
   height: 162.16px;
   top: 1vh;
+  cursor:pointer;
+}
+
+.center {
+  position:absolute;
+  top:18vh;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 타이틀(엠브릿지) */
@@ -40,6 +50,7 @@
   font-size: "20px";
   position: "absolute";
   top: "40vh";
+  font-style: "Pretendard";
 }
 
 /* 검색창 */
@@ -52,11 +63,18 @@
   box-shadow: 0 0 30px #ff00e5;
 }
 
-/* 아이콘 이미지 */
+/* 도움말 */
 .vector-image {
   position: absolute;
-  top: 1px;
-  right: 1px;
-  z-index: 4;
-  width: 50px; /* 크기 조정 */
+  z-index: 2;
+  background-color: transparent; /* 배경 투명 */
+  border: none; /* 경계 없앰 */
+  outline: none; /* 경계 없앰 */
+  cursor: pointer; /* 커서 설정 */
+  top: 8px;
+  right: 8px;
+  width: 39px; /* 크기 조정 */
+  height:39px;
+  background-image: url(../../public/Vector.png);
 }
+
