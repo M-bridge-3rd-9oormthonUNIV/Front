@@ -4,15 +4,12 @@ import React from "react";
 // 비디오
 export const requestYoutubeUrl = async (trackId) => {
   try {
-    // 가수, 노래 정보 먼저 백엔드에 주고나서 영상 요청
-    // 그냥 유튜브 영상 api param에다가 가수, 노래 정보 요청하는 게 나을 것 같기도 ..
-
     // const response = await fetch(`https:// ? /api/youtube/video/${trackId}`);
-    // const response = await fetch("");
     // const data = await response.json();
 
     // return(data.videoUrl);
     return("https://youtu.be/ic8j13piAhQ?si=Cqq5qJd-ygbJ34DG");
+    // https://youtu.be/ic8j13piAhQ?si=Cqq5qJd-ygbJ34DG (예시)
 
   } catch (error) {
     console.error("Error fetching video URL:", error);

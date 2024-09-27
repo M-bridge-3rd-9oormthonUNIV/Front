@@ -8,15 +8,15 @@ export default function YoutubePlayer({ videoUrl }) {
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
     document.body.appendChild(tag);
-  
+
     window.onYouTubeIframeAPIReady = () => {
       const videoId = extractVideoId(videoUrl);
-      
+
       if (!videoId) {
         console.error("비디오 ID가 유효하지 않습니다.");
         return;
       }
-  
+
       playerRef.current = new window.YT.Player("youtube-player", {
         videoId: videoId,
         playerVars: {
@@ -37,14 +37,13 @@ export default function YoutubePlayer({ videoUrl }) {
         },
       });
     };
-  
+
     return () => {
       if (playerRef.current) {
         playerRef.current.destroy();
       }
     };
   }, [videoUrl]);
-  
 
   // 비디오 ID를 추출하는 함수
   const extractVideoId = (url) => {
@@ -56,10 +55,14 @@ export default function YoutubePlayer({ videoUrl }) {
 
   return (
     <div>
-      <div
-        id="youtube-player"
-        style={{ marginTop: "30px", width: "450px", height: "253px" }}
-      ></div>
+      {videoUrl ? (
+        <div
+          id="youtube-player"
+          style={{ marginTop: "30px", width: "450px", height: "253px" }}
+        ></div>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 }

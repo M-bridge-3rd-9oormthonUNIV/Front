@@ -124,6 +124,7 @@ export default function MusicLyricsPage() {
           translatedLyrics={translatedLyrics}
         />
 
+        {/* 왼쪽 버튼과 이미지 생성(갤러리)화면 */}
         <LeftPage
           leftSubPageVisible={leftSubPageVisible}
           leftButtonPosition={leftButtonPosition}
@@ -131,6 +132,7 @@ export default function MusicLyricsPage() {
           handleDragStart={handleDragStart}
         />
 
+        {/* 오른쪽 버튼과 챗지피티 화면 */}
         <RightPage
           rightSubPageVisible={rightSubPageVisible}
           rightButtonPosition={rightButtonPosition}
