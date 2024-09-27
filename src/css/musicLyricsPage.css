@@ -1,7 +1,6 @@
 @font-face {
   font-family: "Pretendard";
   src: url("../assets/fonts/Pretendard-Bold.ttf") format("ttf");
-
   font-weight: bold;
   font-style: normal;
 }
@@ -31,6 +30,15 @@
   align-items: center;
   background-color: transparent;
 }
+
+.search-container{
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .search-box {
   width: 600px;
   height: 45px;
@@ -119,8 +127,10 @@
 }
 
 .line {
+  position: fixed;
+  left:50%;
   width: 1px;
-  height: 100vh;
+  height: 46%;
   background-image: url("https://i.postimg.cc/1XqNrmgT/Line-1.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -180,4 +190,20 @@
   background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
   background-color: transparent; /* 배경색 투명 */
   box-shadow: none; /* 그림자 없음 */
+}
+
+.arrow {
+  display: flex;
+  position: absolute;
+  width: 11%;
+  height: 7%;
+  left:14px;
+  margin-left: 5px;
+  margin-right: 8px;
+  color: white;
+  font-size: 17px;  /* 크기를 조정 */
+  line-height: 0;   /* 라인 높이를 0으로 해서 화살표가 더 위로 오도록 */
+  justify-content: center;
+  align-items: center;
+  top: -10px;        /* 필요에 따라 값을 조정해서 더 위로 이동 */
 }
