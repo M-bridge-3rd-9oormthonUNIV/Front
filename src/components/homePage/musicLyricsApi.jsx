@@ -1,9 +1,13 @@
 import React from "react";
 
-// api 요청 - 영상
-export const requestYoutubeUrl = async () => {
+// api 비동기 요청 (api 완성될 시 수정)
+// 비디오
+export const requestYoutubeUrl = async (trackId) => {
   try {
-    // const response = await fetch("https://mbridge/api/youtube/video");
+    // 가수, 노래 정보 먼저 백엔드에 주고나서 영상 요청
+    // 그냥 유튜브 영상 api param에다가 가수, 노래 정보 요청하는 게 나을 것 같기도 ..
+
+    // const response = await fetch(`https:// ? /api/youtube/video/${trackId}`);
     // const response = await fetch("");
     // const data = await response.json();
 
@@ -15,10 +19,10 @@ export const requestYoutubeUrl = async () => {
   }
 };
 
-// api 요청 - 원문 가사
-export const requestOriginalLyrics = async () => {
+// 원문 가사
+export const requestOriginalLyrics = async (trackId) => {
   try {
-    // const response = await fetch("");
+    // const response = await fetch(`https:// ? /api/lyrics/original/${trackId}`);
     // const data = await response.json();
 
     // return(data.lyrics);
@@ -98,10 +102,10 @@ export const requestOriginalLyrics = async () => {
   }
 };
 
-// api 요청 - 번역 가사
-export const requestTranslateLyrics = async () => {
+// 번역 가사
+export const requestTranslateLyrics = async (trackId, lang) => {
   try {
-    // const response = await fetch("");
+    // const response = await fetch(`https:// ? /api/lyrics/original/${trackId}/${lang}`);
     // const data = await response.json();
 
     // return(data.translatedLyrics);
