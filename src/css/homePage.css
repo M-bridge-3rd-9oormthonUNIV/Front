@@ -30,10 +30,14 @@
 
 /* 로고 */
 .logo {
-  width: 300px;
-  height: 162.16px;
+  width: 310px;
+  height: 170.16px;
   top: 1vh;
-  cursor:pointer;
+  cursor: pointer;
+  object-fit: cover; /* 이미지 비율 유지하면서 크기 맞추기 */
+  background-image: url("https://i.postimg.cc/zGSc8Wzd/Group-26.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .center {
@@ -47,20 +51,23 @@
 /* 타이틀(엠브릿지) */
 .title {
   color: #ff00e5;
-  font-size: "20px";
-  position: "absolute";
+  font-size: 20px;
   top: "40vh";
-  font-style: "Pretendard";
+  font-weight: 700;
+  margin-bottom: 25px;
 }
 
 /* 검색창 */
 .search {
   width: 600px; /* 최대 너비 지정 */
-  height: 50px;
-  background-color: #454545;
+  height: 45px;
+  background-color: #130118;
   border: 1px solid;
   border-color: #ff00e5;
   box-shadow: 0 0 30px #ff00e5;
+  padding-left: 15px;
+  color: white;
+  font-size: 20px !important;
 }
 
 /* 도움말 */
@@ -74,7 +81,7 @@
   top: 8px;
   right: 8px;
   width: 39px; /* 크기 조정 */
-  height:39px;
-  background-image: url('/Vector.png');
+  height: 39px;
+  background-image: url("https://i.postimg.cc/fRL456ZD/Vector.png");
 }
 

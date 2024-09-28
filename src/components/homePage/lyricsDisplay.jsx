@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { requestTranslateLyrics } from "./musicLyricsApi";
 import "../../css/homePage.css";
 import "../../css/musicLyricsPage.css";
 
 /* 가사 컴포넌트 (가사 호출, 표시) */
-export default function Lyrics({ originalLyrics, translatedLyrics }) {
+export default function LyricsDisplay({ originalLyrics, translatedLyrics }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("korean");
   const options = ["korean", "english"];
@@ -16,6 +17,7 @@ export default function Lyrics({ originalLyrics, translatedLyrics }) {
   // 옵션 클릭
   const handleOptionClick = (option) => {
     setSelectedOption(option);
+    requestTranslateLyrics("songId", option); // * 전역변수 songId 사용, 수정해야함
     setIsOpen(false); // 선택 후 드롭다운 닫기
   };
 
@@ -42,7 +44,7 @@ export default function Lyrics({ originalLyrics, translatedLyrics }) {
             <div className="lyrics">{originalLyrics}</div>
           </div>
 
-          {/* 가운데 라인 */}
+          {/* 가운데 라인 (스크롤?)*/}
           <div className="line"></div>
 
           {/* 번역 가사 */}
@@ -110,10 +112,12 @@ export default function Lyrics({ originalLyrics, translatedLyrics }) {
           <div className="lyricsBox">
             <div
               style={{
-                marginTop: "40px",
+                marginTop: "50px",
+                marginBottom: "90px",
                 display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
+                flexDirection: "column",
+                justifyItems: "center",
+                alignItems: "center",
                 border: "none",
                 outline: "none",
                 color: "transparent",
@@ -121,19 +125,16 @@ export default function Lyrics({ originalLyrics, translatedLyrics }) {
               }}
             >
               <div className="face"></div>
+              <p
+                style={{
+                  color: "#FF00E5",
+                  textAlign: "center",
+                }}
+              >
+                Sorry, We don't have lyrics<br></br>가사가 제공되지 않는
+                음원입니다
+              </p>
             </div>
-            <p
-              style={{
-                color: "#FF00E5",
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-                textAlign: "center",
-              }}
-            >
-              Sorry, We don't have lyrics<br></br>가사가 제공되지 않는
-              음원입니다
-            </p>
           </div>
         </div>
       )}

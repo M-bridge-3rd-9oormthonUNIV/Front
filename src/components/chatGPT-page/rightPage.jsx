@@ -22,7 +22,7 @@ export default function RightPage({
           transform: `translateX(-${rightButtonPosition}px)`,
           display: leftSubPageVisible ? "none" : "block",
         }}
-      ></div>
+      ><div className="round-button-right-image"></div></div>
 
       {/* 오른쪽 사이드 페이지 70% */}
       <div
