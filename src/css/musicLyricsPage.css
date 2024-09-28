@@ -1,0 +1,221 @@
+@font-face {
+  font-family: "Pretendard";
+  src: url("../assets/fonts/Pretendard-Bold.ttf") format("ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* 전체 글꼴 설정 */
+* {
+  font-family: "Pretendard";
+}
+
+/* 백그라운드 로고 설정 */
+.background-image {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-size: 40%;
+  background-position-x: 50%;
+  background-position-y: 55%;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.1); /* 어두운 색상 추가 (검은색, 투명도 50%) */
+  background-image: url("https://i.postimg.cc/zGSc8Wzd/Group-26.png");
+  background-blend-mode: darken;
+  object-fit: cover; /* 이미지 비율 유지하면서 크기 맞추기 */
+  filter: blur(17px); /* 블러 효과 */
+  z-index: -1; /* 내용 뒤에 위치하도록 설정 */
+}
+
+/* 전체 container */
+.music-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent;
+}
+
+/* 검색 컨테이너 */
+.search-container{
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 600px;
+  height: 45px;
+}
+
+/* 검색창 */
+.search {
+  width: 600px; /* 최대 너비 지정 */
+  height: 45px;
+  background-color: #130118;
+  border: 1px solid;
+  border-color: #ff00e5;
+  box-shadow: 0 0 30px #ff00e5;
+  padding-left: 15px;
+  color: white;
+}
+
+.search::placeholder {
+  color: white; /* placeholder 색상을 흰색으로 설정 */
+  opacity: 1; /* 불투명도를 100%로 설정 */
+}
+
+/* 검색창 돋보기 버튼 */
+.search-bt {
+  position: absolute;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-image: url("https://i.postimg.cc/cLMwzLDG/Vector-1.png");
+}
+
+/* 가사 */
+.allLyricsBox {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  overflow: scroll;
+  scrollbar-width: none;
+  display: flex;
+  justify-items: center;
+  align-items: flex-start;
+  color: white;
+}
+
+/* 가사 + 아이콘 box */
+.LyricsBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 중앙 정렬 */
+  align-items: center; /* 가로 중앙 정렬 (선택 사항) */
+  height: 100vh;
+}
+
+/* 가사 */
+.lyrics {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 2;
+  z-index: 0;
+  padding-top: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+/* 아이콘 (origianl, korean ..) */
+.lyricsIcon {
+  display: flex;
+  border: none;
+  outline: none;
+  width: 100px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+  background-image: url("https://i.postimg.cc/Hncbv0N6/Rectangle-21.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  color: white;
+}
+
+/* 가운데 스크롤 line */
+.line {
+  position: fixed;
+  left:50%;
+  width: 1px;
+  height: 44%;
+  background-image: url("https://i.postimg.cc/1XqNrmgT/Line-1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: center;
+}
+
+.dropdown {
+  position: relative; /* 드롭다운을 절대 위치 기준으로 설정하기 위해 relative 추가 */
+  display: inline-block;
+  border: "none";
+  outline: "none";
+  width: 100px;
+  height: 25px;
+  font-size: 15px;
+  background-size: contain;
+  background-image: url("https://i.postimg.cc/Hncbv0N6/Rectangle-21.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  color: black;
+}
+
+.dropdown-menu {
+  position: absolute; /* 드롭다운 메뉴를 절대 위치로 설정 */
+  top: 100%; /* 드롭다운 버튼 바로 아래에 위치 */
+  left: 50%; /* 가로 중앙 정렬을 위해 50%로 설정 */
+  transform: translateX(-50%);
+  margin-top: 3px;
+  width: 80px;
+  border: 0.3px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.dropdown-item {
+  padding: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.dropdown-item:hover {
+  background-color: #a1a1a1;
+  border: 0.3px solid #ccc;
+  border-radius: 4px;
+}
+
+/* 가사 미제공 화면 아이콘 */
+.face {
+  margin-top: 20px;
+  width: 80px;
+  height: 80px;
+  border: none; /* 경계 없음 */
+  outline: none; /* 윤곽선 없음 */
+  color: transparent; /* 텍스트 색상 투명 */
+  background-size: cover; /* 배경 이미지 크기 설정 */
+  background-image: url("https://i.postimg.cc/pLDJtZL7/face.png"); /* 배경 이미지 경로 */
+  background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+  background-color: transparent; /* 배경색 투명 */
+  box-shadow: none; /* 그림자 없음 */
+}
+
+/* 번역 언어 설정 화살표 아이콘 */
+.arrow {
+  display: flex;
+  position: absolute;
+  width: 11%;
+  height: 7%;
+  left:14px;
+  margin-left: 5px;
+  margin-right: 8px;
+  color: white;
+  font-size: 17px;  /* 크기를 조정 */
+  line-height: 0;   /* 라인 높이를 0으로 해서 화살표가 더 위로 오도록 */
+  justify-content: center;
+  align-items: center;
+  top: -10px;        /* 필요에 따라 값을 조정해서 더 위로 이동 */
+}
