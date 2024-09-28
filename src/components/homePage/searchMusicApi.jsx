@@ -1,19 +1,26 @@
-// 가수 - 제목 나눠서 검색
-export default function searchMusicApi({ query }) {
-  const dummy = { trackId: "sdfsdf", lang: "sdfsdf" };
+// 음악 검색하고 song 세팅하는 메서드
+export default async function searchMusicApi({ artist, title }) {
+  try {
+    const response = await fetch(
+      `https://m-bridge/api/search?artist=${artist}&title=${title}`
+    );
 
-//   try {
-    // 가수, 노래 정보 먼저 백엔드에 주고나서 영상 요청
-    // 그냥 유튜브 영상 api param에다가 가수, 노래 정보 요청하는 게 나을 것 같기도 ..
-    // const response = await fetch(`https:// ? /api/search/${query}`);
-    // const data = await response.json();
-    // 반환값 - songs: [{ title: String, artist: String, albumUrl: String, songId: String }]
-    // return(songs.songId) - lang도 필요한데 ..
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
 
-//     return dummy;
-//   } catch (error) {
-//     console.error("Error fetching video URL:", error);
-//   }
+    const data = await response.json();
 
-return {trackId: "test", lang:"korean"};
-};
+    // 반환값 - song: { title: String, artist: String, albumUrl: String, songId: String }
+    if (data && data.song) {
+      // * (1) 여기서 전역변수 song 세팅 or (2) song 리턴 -> 리턴값으로 값 설정
+
+    } else {
+      console.error("No songs found");
+    }
+  } catch (error) {
+    console.error("Error fetching song ID:", error);
+  }
+
+  return "zz";
+}

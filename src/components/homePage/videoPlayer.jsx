@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
 /* 영상 컴포넌트 (영상 api 호출) */
-export default function YoutubePlayer({ videoUrl }) {
+export default function VideoPlayer({ videoUrl }) {
   const playerRef = useRef(null);
 
   useEffect(() => {

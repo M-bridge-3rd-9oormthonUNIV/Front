@@ -1,32 +1,64 @@
 import React, { useEffect, useState } from "react";
-import "../../css/homePage.css";
-import "../../css/musicLyricsPage.css";
-import Lyrics from "./lyricsDisplay";
-import YoutubePlayer from "./videoPlayer";
+import { useNavigate } from "react-router-dom";
+import LyricsDisplay from "./lyricsDisplay";
+import VideoPlayer from "./videoPlayer";
 import RightPage from "../chatGPT-page/rightPage";
 import LeftPage from "../imagePage/leftPage";
 import {
-  requestYoutubeUrl,
+  requestVideoUrl,
   requestTranslateLyrics,
   requestOriginalLyrics,
 } from "./musicLyricsApi";
-import searchMusicApi from "./searchMusicApi";
+import "../../css/homePage.css";
+import "../../css/musicLyricsPage.css";
+
+
+/* 홈화면 2- 검색 후 화면 */
 
 export default function MusicLyricsPage() {
+  // 양 옆 페이지 드래그 제어
   const [leftSubPageVisible, setLeftSubPageVisible] = useState(false);
   const [rightSubPageVisible, setRightSubPageVisible] = useState(false);
   const [leftButtonPosition, setLeftButtonPosition] = useState(0);
   const [rightButtonPosition, setRightButtonPosition] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [dragDirection, setDragDirection] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태 추가
+  const navigate = useNavigate(); // 페이지 이동을 위한 훅
 
+  // * 가사 (순서대로 원문, 번역), 비디오 링크 -> 나중에 전역변수로 수정해야할듯 (컨텍스트 api 아님 리덕스 써서..)
   const [originalLyrics, setOriginalLyrics] = useState();
   const [translatedLyrics, setTranslatedLyrics] = useState();
   const [videoUrl, setVideoUrl] = useState("");
 
-  // 드래그 핸들러 (추후 수정 필요)
+  // * 검색 작업
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    // searchQuery.trim()이 빈 문자열인지 확인
+    if (searchQuery.trim() === "") {
+      alert("검색어를 입력하세요."); // 아무 것도 입력되지 않았을 때의 처리
+    } else {
+      // 가수-제목 또는 가수 - 제목 형식 확인
+      const regex = /^[^\s-]+ ?- ?[^\s-]+$/; // 공백이 있을 수 있고, -로 구분된 두 단어를 요구하는 정규 표현식
+      if (!regex.test(searchQuery)) {
+        alert(
+          "형식이 올바르지 않습니다. \n'가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
+        ); // 형식이 맞지 않을 때의 처리
+      } else {
+        // searchMusicApi 호출
+        // searchMusicApi(artist.trim(), title.trim()); // 트림하여 공백 제거
+
+        fetchAllData(searchQuery);
+        // navigate("/music-lyrics"); // 검색 후 MusicLyricsPage로 이동
+      }
+    }
+  };
+
+  // 드래그 작업
   const handleDrag = (event) => {
     if (!dragging) return;
+
     const newPosition = event.clientX;
     const limit = window.innerWidth * 0.7;
 
@@ -50,48 +82,29 @@ export default function MusicLyricsPage() {
     setDragDirection(null);
   };
 
-  // 초기 1회 fetch
-  useEffect(() => {
-    fetchAllData({ trackId: "dd", lang: "fdf" });
-  }, []);
-
-  // 데이터 fetch
-  const fetchAllData = async ({ trackId, lang }) => {
-    if (!trackId) {
-      console.error("trackId가 없습니다:", trackId);
-      return;
-    }
+  // 영상 가져오고 가사 fetch (쿼리 - 가수, 제목 정보)
+  // * 추후 수정 필요.. 각 컴포넌트에 fetch 맡겨야 할 듯
+  const fetchAllData = async (query) => {
     try {
       const [data1, data2, data3] = await Promise.all([
-        requestYoutubeUrl(trackId),
-        requestOriginalLyrics(trackId),
-        requestTranslateLyrics(trackId, lang),
+        requestVideoUrl(query),
+        requestOriginalLyrics(query),
+        requestTranslateLyrics(query),
       ]);
 
       setVideoUrl(data1);
       setOriginalLyrics(data2);
       setTranslatedLyrics(data3);
+
+      navigate("/music-lyrics"); // 검색 후 MusicLyricsPage로 이동
     } catch (error) {
       console.error("API 호출 중 오류 발생:", error);
     }
   };
 
-  // 검색 후 작업 (fetch)
-  const handleSearch = async (event) => {
-    event.preventDefault(); // 기본 폼 제출 방지
-    const query = event.target.elements.search.value; // input에서 검색어를 가져옴
-
-    // 검색 API 호출
-    const query2 = await searchMusicApi(query);
-
-    // trackId가 없는 경우 처리
-    if (!query2.trackId) {
-      console.error("trackId가 없습니다:", query2);
-      return;
-    }
-
-    fetchAllData(query2);
-  };
+  useEffect(() => {
+    fetchAllData();
+  }, []);
 
   return (
     <div
@@ -101,30 +114,37 @@ export default function MusicLyricsPage() {
     >
       <div className="main-page">
         <button className="vector-image" alt="Vector"></button>
+
+        {/* 뒷배경 */}
         <img className="background-image" alt="Background"></img>
 
         <div className="search-container">
+          {/* 검색창 */}
           <form className="search-box" onSubmit={handleSearch}>
             <input
               className="search"
-              name="search"
-              placeholder="Taylor Swift - cruel summer"
-              style={{ fontWeight: "700", fontSize: "15px" }}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              name="search" // input에 name 속성 추가
+              placeholder="Taylor Swift - cruel summer" // * 백엔드 api 완성되면 전역 변수로 변경 예정
             />
-            <button type="submit" className="search-bt"></button>
+            <button
+              type="submit"
+              onClick={handleSearch}
+              className="search-bt"
+            ></button>
           </form>
 
-          {/* 비디오(영상) 부분 */}
-          <YoutubePlayer videoUrl={videoUrl} />
+          {/* 유튜브 영상 */}
+          <VideoPlayer videoUrl={videoUrl} />
         </div>
 
-        {/* 가사 부분 */}
-        <Lyrics
+        {/* 가사 (원문, 번역) */}
+        <LyricsDisplay
           originalLyrics={originalLyrics}
           translatedLyrics={translatedLyrics}
         />
 
-        {/* 왼쪽 버튼과 이미지 생성(갤러리)화면 */}
         <LeftPage
           leftSubPageVisible={leftSubPageVisible}
           leftButtonPosition={leftButtonPosition}
@@ -132,7 +152,6 @@ export default function MusicLyricsPage() {
           handleDragStart={handleDragStart}
         />
 
-        {/* 오른쪽 버튼과 챗지피티 화면 */}
         <RightPage
           rightSubPageVisible={rightSubPageVisible}
           rightButtonPosition={rightButtonPosition}

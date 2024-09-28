@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import "../../css/homePage.css";
-import "../../css/contentPage.css";
+import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 사용
 import LeftPage from "../imagePage/leftPage";
 import RightPage from "../chatGPT-page/rightPage";
+import searchMusicApi from "./searchMusicApi";
+import "../../css/homePage.css";
+import "../../css/contentPage.css";
 
-// 홈 화면
-// (1) 검색화면, (2) 유튜브 영상 + 가사 화면
+/* 홈화면 1- 메인 (검색 전 화면) */
 export default function HomePage() {
   const [leftSubPageVisible, setLeftSubPageVisible] = useState(false);
   const [rightSubPageVisible, setRightSubPageVisible] = useState(false);
@@ -13,6 +14,31 @@ export default function HomePage() {
   const [rightButtonPosition, setRightButtonPosition] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [dragDirection, setDragDirection] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태 추가
+  const navigate = useNavigate(); // 페이지 이동을 위한 훅
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    // searchQuery.trim()이 빈 문자열인지 확인
+    if (searchQuery.trim() === "") {
+      alert("검색어를 입력하세요."); // 아무 것도 입력되지 않았을 때의 처리
+    } else {
+      // 가수-제목 또는 가수 - 제목 형식 확인
+      const regex = /^[^\s-]+ ?- ?[^\s-]+$/; // 공백이 있을 수 있고, -로 구분된 두 단어를 요구하는 정규 표현식
+      if (!regex.test(searchQuery)) {
+        alert(
+          "형식이 올바르지 않습니다. \n'가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
+        ); // 형식이 맞지 않을 때의 처리
+      } else {
+
+        // searchMusicApi 호출
+        // searchMusicApi(artist.trim(), title.trim()); // 트림하여 공백 제거
+
+        navigate("/music-lyrics"); // 검색 후 MusicLyricsPage로 이동
+      }
+    }
+  };
 
   // 마우스 드래그 이벤트
   const handleDrag = (event) => {
@@ -58,17 +84,23 @@ export default function HomePage() {
         <button className="vector-image" alt="Vector"></button>
 
         <div className="center">
-          <img // 로고
-            className="logo"
-            src={`${process.env.PUBLIC_URL}/Group26.png`}
-            alt="Logo"
-          />
+          <div className="logo" />
 
-          <h1 className="title">M-bridge</h1>
+          <p className="title">M-BRIDGE</p>
 
-          <form>
+          <form className="search-box" onSubmit={handleSearch}>
             {/* 검색창 */}
-            <input className="search" />
+            <input
+              className="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="가수 - 제목으로 검색해주세요"
+              style={{
+                background: "rgba(255, 255, 255, 0.15)",
+                fontSize: "25px",
+              }}
+            />
+            <button type="submit" className="search-bt"></button>
           </form>
         </div>
 
