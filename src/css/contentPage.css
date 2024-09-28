@@ -63,6 +63,7 @@
 /* 버튼 */
 .round-button-left,
 .round-button-right {
+  position: relative;
   border: none;
   outline: none;
   position: absolute;
@@ -74,11 +75,34 @@
 }
 
 .round-button-left {
-  background-image: url('/EllipseLeft16.png');
+  background-image: url("https://i.postimg.cc/1RGZzGJh/Ellipse-Left16.png");
   left: 0px;
+  /* clip-path: ellipse(62% 32% at -0.5% 50.4%);  */
 }
 
 .round-button-right {
-  background-image: url('/EllipseRight16.png');
+  background-image: url("https://i.postimg.cc/RVG57vkg/Ellipse-Right16.png");
   right: 0px;
+  /* clip-path: ellipse(62% 32% at 100.5% 50.4%); */
+}
+
+.round-button-left-image {
+  position: absolute;
+  right: 20px;
+  top: 110px;
+  width: 100px;
+  height: 50px;
+  background-repeat: no-repeat;
+  background-image: url("https://i.postimg.cc/xdFxQDg5/Group-47.png");
+  z-index: 4; /* z-index 추가 */
+}
+
+.round-button-right-image {
+  position: absolute;
+  left: 80px;
+  top: 110px;
+  width: 100px;
+  height: 50px;
+  background-repeat: no-repeat;
+  background-image: url("https://i.postimg.cc/pdkCZNgx/Group-29.png");
 }

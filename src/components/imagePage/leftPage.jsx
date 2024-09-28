@@ -6,7 +6,12 @@ import "../../css/contentPage.css";
 
 // 30% 구간 (subPage)
 // (1) 노래 검색화면, (2) 가사 화면
-export default function LeftPage({ leftSubPageVisible, leftButtonPosition, rightSubPageVisible, handleDragStart }) {
+export default function LeftPage({
+  leftSubPageVisible,
+  leftButtonPosition,
+  rightSubPageVisible,
+  handleDragStart,
+}) {
   return (
     <>
       {/* 왼쪽 버튼 */}
@@ -15,9 +20,11 @@ export default function LeftPage({ leftSubPageVisible, leftButtonPosition, right
         onMouseDown={() => handleDragStart("left")}
         style={{
           transform: `translateX(${leftButtonPosition}px)`,
-          display: rightSubPageVisible ? "none" : "block"
+          display: rightSubPageVisible ? "none" : "block",
         }}
-      ></div>
+      >
+        <div className="round-button-left-image"></div>
+      </div>
 
       {/* 왼쪽 사이드 페이지 70% */}
       <div
