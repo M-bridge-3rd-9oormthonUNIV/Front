@@ -1,45 +1,87 @@
-import React from "react";
+import React, { useState } from "react";
+import { requestImageGenerate, requestImageShare } from "./imageControlApi";
+import "../../css/imagePage.css";
 import "../../css/contentPage.css";
+import ImageGeneratePage from "./imageGeneratePage";
+import GalleryPage from "./galleryPage";
 
-// 70% 구간 (sidePage)
-// (1) 갤러리 화면, (2) 이미지 생성화면
-
-// 30% 구간 (subPage)
-// (1) 노래 검색화면, (2) 가사 화면
 export default function LeftPage({
   leftSubPageVisible,
   leftButtonPosition,
   rightSubPageVisible,
   handleDragStart,
 }) {
+  const [isImageButtonGroupVisible, setIsImageButtonGroupVisible] =
+    useState(false); // 버튼 그룹 보이기 상태 추가
+
+  const handleButtonClick = () => {
+    // 버튼 클릭 시 이미지 버튼 그룹의 보이기 상태 토글
+    setIsImageButtonGroupVisible(!isImageButtonGroupVisible);
+  };
+
   return (
     <>
       {/* 왼쪽 버튼 */}
+
       <div
-        className="round-button-left"
+        className="bt-left"
         onMouseDown={() => handleDragStart("left")}
+        onClick={handleButtonClick} // 클릭 이벤트 추가
         style={{
           transform: `translateX(${leftButtonPosition}px)`,
-          display: rightSubPageVisible ? "none" : "block",
+          visibility: rightSubPageVisible ? "hidden" : "visible",
+          
         }}
-      >
-        <div className="round-button-left-image"></div>
-      </div>
+      ></div>
 
-      {/* 왼쪽 사이드 페이지 70% */}
+      {/* 가짜 왼쪽 버튼 페이지(배경투명 윤곽선만 있음) */}
       <div
-        className={`side-page left-side show`}
+        className={`fake-side-page-left`}
         style={{
-          width: `${leftButtonPosition}px`,
+          transform: `translateX(${Math.min(
+            leftButtonPosition - window.innerWidth * 0.7,
+            0
+          )}px)`,
+          visibility:
+            rightSubPageVisible === false && leftButtonPosition >= 0
+              ? "visible"
+              : "hidden", // 두 조건 모두 만족할 때만 보이게 설정
         }}
-      >
-        <div className="side-content">image(이미지띄우기, 스크롤기능)</div>
-      </div>
+      ></div>
 
-      {/* 서브 페이지 30% */}
-      <div className={`sub-page left-sub ${leftSubPageVisible ? "show" : ""}`}>
-        <div>lyrics(가사띄우기, 스크롤기능)</div>
-      </div>
+      {/* 가짜 왼쪽 반원 버튼(shadow효과) */}
+      <div
+        className={`fake-ellipse-left`}
+        style={{
+          transform: `translateX(${Math.min(
+            leftButtonPosition - window.innerWidth * 0.7,
+            0
+          )}px)`,
+          visibility:
+            rightSubPageVisible === false && leftButtonPosition <= 0
+              ? "visible"
+              : "hidden", // 두 조건 모두 만족할 때만 보이게 설정
+
+        }}
+      ></div>
+
+      {/* 분기 작업 필요 */}
+{/* 
+      <GalleryPage
+        leftSubPageVisible={leftSubPageVisible}
+        leftButtonPosition={leftButtonPosition}
+        rightSubPageVisible={rightSubPageVisible}
+        handleDragStart={handleDragStart}
+        isImageButtonGroupVisible={isImageButtonGroupVisible}
+      ></GalleryPage>   */}
+
+      <ImageGeneratePage
+        leftSubPageVisible={leftSubPageVisible}
+        leftButtonPosition={leftButtonPosition}
+        rightSubPageVisible={rightSubPageVisible}
+        handleDragStart={handleDragStart}
+        isImageButtonGroupVisible={isImageButtonGroupVisible}
+      ></ImageGeneratePage>
     </>
   );
 }

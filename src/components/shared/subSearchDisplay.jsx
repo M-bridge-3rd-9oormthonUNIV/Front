@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../css/contentPage.css";
-import searchMusicApi from "./searchMusicApi";
+import searchMusicApi from "../homePage/searchMusicApi";
 
 export default function SubSearchDisplay() {
   const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태 추가
@@ -36,6 +36,7 @@ export default function SubSearchDisplay() {
           className="sub-search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="가수 - 제목으로 검색해주세요"
           style={{
             background: "rgba(255, 255, 255, 0.15)",
             fontSize: "25px",
