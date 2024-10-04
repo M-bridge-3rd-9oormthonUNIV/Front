@@ -7,11 +7,11 @@
   justify-content: flex-start;
   align-items: center;
   background-repeat: no-repeat;
-  background-size:cover;
+  background-size: cover;
   background-position: center;
 
   height: 100vh;
-  width: 76.5vw;
+  width: 77.5vw;
   z-index: 0;
   opacity: 0;
 
@@ -22,7 +22,7 @@
 }
 
 .side-page.show {
-  z-index: 2;
+  z-index: 3;
 }
 
 .left-side {
@@ -44,24 +44,41 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  z-index: 0;
+  z-index: 2;
   opacity: 0;
   top: 0;
+
   transition: opacity 0.3s ease;
 }
 
 .sub-page.show {
-  z-index: 1;
   opacity: 1;
-  background-color: transparent;
 }
 
 .left-sub {
   right: 0px;
+
+  /* 서브페이지 배경 */
+  background: linear-gradient(
+    326deg,
+    rgba(161, 0, 135, 0.9) 0%,
+    /* #8A0074, 투명도 80% */ rgba(64, 7, 55, 0.85) 13%,
+    /* #400737, 투명도 80% */ rgba(0, 0, 0, 0.85) 30%, /* #000000, 투명도 80% */
+    rgb(43, 43, 43, 1) 100%
+  );
 }
 
 .right-sub {
   left: 0px;
+
+  /* 서브페이지 배경 */
+  background: linear-gradient(
+    139deg,
+    rgba(161, 0, 135, 0.9) 0%,
+    /* #8A0074, 투명도 80% */ rgba(64, 7, 55, 0.85) 13%,
+    /* #400737, 투명도 80% */ rgba(0, 0, 0, 0.85) 30%, /* #000000, 투명도 80% */
+    rgb(43, 43, 43,1) 100%
+  );
 }
 
 /* 양쪽 버튼(왼쪽, 오른쪽) */
@@ -74,7 +91,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  z-index: 3;
+  z-index: 4;
   cursor: pointer;
 }
 
@@ -92,6 +109,10 @@
 
 .subLyricsDisplay,
 .subSearchDisplay {
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+
   overflow: scroll;
   display: flex;
   flex-direction: column;
@@ -99,10 +120,7 @@
   align-items: center;
 }
 .subLyricsDisplay {
-  color: white;
-}
-
-.subSearchDisplay {
+  color: white; /* 폰트 컬러 흰색 */
 }
 
 /* 공통 화면 가사 */
@@ -120,7 +138,6 @@
   overflow-y: scroll; /* 세로 스크롤 가능 */
   overflow-x: hidden; /* 가로 스크롤 비활성화 */
   scrollbar-width: none; /* Firefox의 스크롤바 숨기기 */
-  z-index: 0;
 }
 
 /* 로고 스타일 (가사 영역 위에 위치하도록 조정) */
@@ -196,17 +213,16 @@
   background-image: url("https://i.postimg.cc/fRL456ZD/Vector.png");
 }
 
-
 /* 드래그 효과를 위한 가짜 버튼? 화면 */
 .fake-side-page-left,
 .fake-side-page-right {
   position: absolute;
   background-repeat: no-repeat;
   background-position: center;
-  background-size:cover;
+  background-size: cover;
   /* background-size: scale-down; */
   height: 100vh; /* 화면 높이에 맞춤 */
-  width: 76.5vw; /* 화면 너비에 맞춤 */
+  width: 77.5vw; /* 화면 너비에 맞춤 */
   z-index: 0;
   opacity: 1;
   transition: opacity 0.4s ease;
@@ -233,7 +249,6 @@
   z-index: -6;
   opacity: 1;
   transition: opacity 0.4s ease;
-
 }
 
 .fake-ellipse-left {
