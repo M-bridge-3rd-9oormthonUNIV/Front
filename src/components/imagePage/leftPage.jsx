@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { requestImageGenerate, requestImageShare } from "./imageControlApi";
 import "../../css/imagePage.css";
 import "../../css/contentPage.css";
@@ -13,6 +13,21 @@ export default function LeftPage({
 }) {
   const [isImageButtonGroupVisible, setIsImageButtonGroupVisible] =
     useState(false); // 버튼 그룹 보이기 상태 추가
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // 화면 너비 상태 추가
+
+  // 화면 크기 변화를 감지하여 상태 업데이트
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 제거
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleButtonClick = () => {
     // 버튼 클릭 시 이미지 버튼 그룹의 보이기 상태 토글
@@ -22,7 +37,6 @@ export default function LeftPage({
   return (
     <>
       {/* 왼쪽 버튼 */}
-
       <div
         className="bt-left"
         onMouseDown={() => handleDragStart("left")}
@@ -30,7 +44,6 @@ export default function LeftPage({
         style={{
           transform: `translateX(${leftButtonPosition}px)`,
           visibility: rightSubPageVisible ? "hidden" : "visible",
-          
         }}
       ></div>
 
@@ -39,11 +52,11 @@ export default function LeftPage({
         className={`fake-side-page-left`}
         style={{
           transform: `translateX(${Math.min(
-            leftButtonPosition - window.innerWidth * 0.7,
+            leftButtonPosition - windowWidth * 0.7, // windowWidth 사용
             0
           )}px)`,
           visibility:
-            rightSubPageVisible === false && leftButtonPosition >= 0
+            rightSubPageVisible === false && leftButtonPosition >= 1
               ? "visible"
               : "hidden", // 두 조건 모두 만족할 때만 보이게 설정
         }}
@@ -54,19 +67,18 @@ export default function LeftPage({
         className={`fake-ellipse-left`}
         style={{
           transform: `translateX(${Math.min(
-            leftButtonPosition - window.innerWidth * 0.7,
+            leftButtonPosition - windowWidth * 0.7, // windowWidth 사용
             0
           )}px)`,
           visibility:
-            rightSubPageVisible === false && leftButtonPosition <= 0
+            rightSubPageVisible === false && leftButtonPosition <= 1
               ? "visible"
               : "hidden", // 두 조건 모두 만족할 때만 보이게 설정
-
         }}
       ></div>
 
       {/* 분기 작업 필요 */}
-{/* 
+      {/* 
       <GalleryPage
         leftSubPageVisible={leftSubPageVisible}
         leftButtonPosition={leftButtonPosition}

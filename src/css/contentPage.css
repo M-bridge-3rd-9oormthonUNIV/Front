@@ -7,12 +7,14 @@
   justify-content: flex-start;
   align-items: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size:cover;
   background-position: center;
+
   height: 100vh;
   width: 76.5vw;
   z-index: 0;
   opacity: 0;
+
   transition: opacity 0.4s ease;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -24,17 +26,13 @@
 }
 
 .left-side {
-  background-image: url("https://i.postimg.cc/SxxG5SS5/Group-33.png");
-  /* background-image: url("https://i.postimg.cc/66FsCgpZ/Group-33-1.png"); */
-  /* background-image: url("https://i.postimg.cc/Zq91dkQ9/Union-2.png"); */
-  /* background-image: url("https://i.postimg.cc/vHjmg3p2/Union-5.png"); */
-
-  left: -2px;
+  background-image: url("https://i.postimg.cc/hvWTGy05/Union-7.png");
+  left: -1vw; /* vw 단위로 변경 */
 }
 
 .right-side {
-  background-image: url("https://i.postimg.cc/8kdBzJs9/Union.png");
-  right: -3px;
+  background-image: url("https://i.postimg.cc/g0xZHFS7/Group-19-1.png");
+  right: -1vw; /* vw 단위로 변경 */
 }
 
 /* 30% 화면 (가사, 검색화면) */
@@ -53,7 +51,7 @@
 }
 
 .sub-page.show {
-  z-index: 2;
+  z-index: 1;
   opacity: 1;
   background-color: transparent;
 }
@@ -70,23 +68,23 @@
 .bt-left,
 .bt-right {
   position: absolute;
-  top: 47vh;
-  width: 50px;
-  height: 50px;
+  top: 47vh; /* 화면 비율에 맞춤 */
+  width: 5%; /* vw 단위로 변경 */
+  height: 5%; /* vw 단위로 변경 */
   background-repeat: no-repeat;
   background-position: center;
-
-  z-index: 3; /* z-index 추가 */
+  background-size: contain;
+  z-index: 3;
   cursor: pointer;
 }
 
 .bt-left {
-  left: 14px;
+  left: 0vw; /* vw 단위로 변경 */
   background-image: url("https://i.postimg.cc/xdFxQDg5/Group-47.png");
 }
 
 .bt-right {
-  right: 14px;
+  right: 0vw; /* vw 단위로 변경 */
   background-image: url("https://i.postimg.cc/pdkCZNgx/Group-29.png");
 }
 
@@ -115,13 +113,14 @@
   flex-direction: column;
   text-align: center;
   align-items: center;
-  width: 20vw; /* 너비 설정 */
+  width: 21vw; /* 너비 설정 */
   height: 85vh; /* 고정 높이 설정 */
   gap: 0.1px;
   font-size: 15px;
   overflow-y: scroll; /* 세로 스크롤 가능 */
   overflow-x: hidden; /* 가로 스크롤 비활성화 */
   scrollbar-width: none; /* Firefox의 스크롤바 숨기기 */
+  z-index: 0;
 }
 
 /* 로고 스타일 (가사 영역 위에 위치하도록 조정) */
@@ -197,35 +196,30 @@
   background-image: url("https://i.postimg.cc/fRL456ZD/Vector.png");
 }
 
+
 /* 드래그 효과를 위한 가짜 버튼? 화면 */
 .fake-side-page-left,
 .fake-side-page-right {
   position: absolute;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
-  height: 100vh;
-  width: 76.5vw;
+  background-size:cover;
+  /* background-size: scale-down; */
+  height: 100vh; /* 화면 높이에 맞춤 */
+  width: 76.5vw; /* 화면 너비에 맞춤 */
   z-index: 0;
   opacity: 1;
   transition: opacity 0.4s ease;
 }
 
 .fake-side-page-left {
-  left: -2px;
-  top: -11px;
-/* 
-  left:48px;
-  top: 0px; */
-
-  background-image: url("https://i.postimg.cc/Zq91dkQ9/Union-2.png");
-  /* background-image: url("https://i.postimg.cc/RZHZcwmS/Union-4.png"); */
+  left: -1vw; /* vw 단위로 변경 */
+  background-image: url("https://i.postimg.cc/YS01Dm9b/Union-8.png");
 }
 
 .fake-side-page-right {
-  right: -3px;
-  top: 11px;
-  background-image: url("https://i.postimg.cc/ZnFrSJC9/Union-2.png");
+  right: -1vw; /* vw 단위로 변경 */
+  background-image: url("https://i.postimg.cc/MTRfg08b/Group-19-2.png");
 }
 
 .fake-ellipse-left,
@@ -234,22 +228,22 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-
-  height: 320px;
-  width: 400px;
-  z-index: 0;
+  height: 35.7%; /* vh 단위로 변경 */
+  width: 32vw; /* vw 단위로 변경 */
+  z-index: -6;
   opacity: 1;
   transition: opacity 0.4s ease;
+
 }
 
 .fake-ellipse-left {
-  right: 177px;
-  top: 30vh;
+  right: 9.8vw; /* vw 단위로 변경 */
+  top: 32.6vh; /* vh 단위로 변경 */
   background-image: url("https://i.postimg.cc/Fz8hL6kr/Ellipse-16.png");
 }
 
 .fake-ellipse-right {
-  left: 177px;
-  top: 29.8vh;
+  left: 9.8vw; /* vw 단위로 변경 */
+  top: 32.6vh; /* vh 단위로 변경 */
   background-image: url("https://i.postimg.cc/8PfpSTxj/Ellipse-16-1.png");
 }

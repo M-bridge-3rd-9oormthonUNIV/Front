@@ -69,7 +69,6 @@ export default function ImageGeneratePage({
             0
           )}px)`,
           opacity: Math.min((leftButtonPosition / (window.innerWidth * 0.7)), 1),
-        // opacity: 1,
 
           visibility:
             rightSubPageVisible === false && leftButtonPosition >= 0
