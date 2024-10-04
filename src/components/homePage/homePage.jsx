@@ -21,19 +21,27 @@ export default function HomePage() {
     if (searchQuery.trim() === "") {
       alert("검색어를 입력하세요.");
     } else {
-      const regex = /^[^\s-]+ ?- ?[^\s-]+$/;
-      if (!regex.test(searchQuery)) {
+      // 정규 표현식 수정
+      const regex = /^\s*([^\s-]+(?:\s+[^\s-]+)*)\s*-\s*([^\s-]+(?:\s+[^\s-]+)*)\s*$/;
+      const match = searchQuery.match(regex);
+  
+      if (!match) {
         alert(
           "형식이 올바르지 않습니다. \n'가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
         );
       } else {
-        // searchMusicApi 호출
-        // const song = searchMusicApi("taylorswift", "cruelsummer");
-        // console.log(song);
+        const artist = match[1]; // 가수 이름
+        const title = match[2]; // 노래 제목
+  
+        // API 호출 부분 주석 해제 및 매개변수 전달
+        const song = searchMusicApi(artist, title);
+        console.log(song);
+  
         navigate("/music-lyrics");
       }
     }
   };
+  
 
   const handleDrag = (event) => {
     if (dragging) {
