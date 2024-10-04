@@ -76,7 +76,12 @@ export default function HomePage() {
       <div className="main-page">
         <>
           <button className="vector-image" alt="Vector"></button>
-          <div className="center">
+          <div
+            className="center"
+            style={{
+              opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1,
+            }}
+          >
             <div className="logo" />
             <p className="title">M-BRIDGE</p>
             <form className="search-box" onSubmit={handleSearch}>

@@ -111,7 +111,7 @@
 .subSearchDisplay {
   width: 100vw;
   height: 100vh;
-  z-index: 2;
+  z-index: -3;
 
   overflow: scroll;
   display: flex;
@@ -119,6 +119,7 @@
   justify-content: flex-start;
   align-items: center;
 }
+
 .subLyricsDisplay {
   color: white; /* 폰트 컬러 흰색 */
 }
@@ -220,7 +221,6 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  /* background-size: scale-down; */
   height: 100vh; /* 화면 높이에 맞춤 */
   width: 77.5vw; /* 화면 너비에 맞춤 */
   z-index: 0;

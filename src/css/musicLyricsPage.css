@@ -48,6 +48,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 3;
 }
 
 .search-box {
@@ -69,6 +70,7 @@
   padding-left: 15px;
   color: white;
   font-size: 20px !important;
+  z-index: 3;
 }
 
 .search::placeholder {
@@ -101,6 +103,7 @@
   justify-items: center;
   align-items: flex-start;
   color: white;
+  z-index: 3;
 }
 
 /* 가사 + 아이콘 box */
