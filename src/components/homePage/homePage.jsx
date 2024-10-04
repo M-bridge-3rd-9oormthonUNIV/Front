@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 사용
-import LeftPage from "../imagePage/leftPage";
-import RightPage from "../chatGPT-page/rightPage";
-import searchMusicApi from "./searchMusicApi";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../css/homePage.css";
 import "../../css/contentPage.css";
+import LeftPage from "../imagePage/leftPage";
+import RightPage from "../chatGPT-page/rightPage";
+import searchMusicApi from "../shared/searchMusicApi";
 
-/* 홈화면 1- 메인 (검색 전 화면) */
 export default function HomePage() {
   const [leftSubPageVisible, setLeftSubPageVisible] = useState(false);
   const [rightSubPageVisible, setRightSubPageVisible] = useState(false);
@@ -14,53 +13,40 @@ export default function HomePage() {
   const [rightButtonPosition, setRightButtonPosition] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [dragDirection, setDragDirection] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태 추가
-  const navigate = useNavigate(); // 페이지 이동을 위한 훅
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
-
-    // searchQuery.trim()이 빈 문자열인지 확인
     if (searchQuery.trim() === "") {
-      alert("검색어를 입력하세요."); // 아무 것도 입력되지 않았을 때의 처리
+      alert("검색어를 입력하세요.");
     } else {
-      // 가수-제목 또는 가수 - 제목 형식 확인
-      const regex = /^[^\s-]+ ?- ?[^\s-]+$/; // 공백이 있을 수 있고, -로 구분된 두 단어를 요구하는 정규 표현식
+      const regex = /^[^\s-]+ ?- ?[^\s-]+$/;
       if (!regex.test(searchQuery)) {
         alert(
           "형식이 올바르지 않습니다. \n'가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
-        ); // 형식이 맞지 않을 때의 처리
+        );
       } else {
-
         // searchMusicApi 호출
-        // searchMusicApi(artist.trim(), title.trim()); // 트림하여 공백 제거
-
-        navigate("/music-lyrics"); // 검색 후 MusicLyricsPage로 이동
+        // const song = searchMusicApi("taylorswift", "cruelsummer");
+        // console.log(song);
+        navigate("/music-lyrics");
       }
     }
   };
 
-  // 마우스 드래그 이벤트
   const handleDrag = (event) => {
     if (dragging) {
       const newPosition = event.clientX;
       const limit = window.innerWidth * 0.7;
 
       if (dragDirection === "left") {
-        // 왼쪽 드래그
         setLeftButtonPosition(Math.min(newPosition, limit));
       } else if (dragDirection === "right") {
-        // 오른쪽 드래그
         setRightButtonPosition(
           Math.min(window.innerWidth - newPosition, limit)
         );
       }
-
-      // 왼쪽 서브페이지 표시 여부 결정
-      setLeftSubPageVisible(leftButtonPosition >= limit);
-
-      // 오른쪽 서브페이지 표시 여부 결정
-      setRightSubPageVisible(rightButtonPosition >= limit);
     }
   };
 
@@ -74,37 +60,65 @@ export default function HomePage() {
     setDragDirection(null);
   };
 
+  // leftButtonPosition과 rightButtonPosition에 따라 서브페이지 표시 여부를 결정하는 로직
+  useEffect(() => {
+    const limit = window.innerWidth * 0.7;
+    setLeftSubPageVisible(leftButtonPosition >= limit);
+    setRightSubPageVisible(rightButtonPosition >= limit);
+  }, [leftButtonPosition, rightButtonPosition]);
+
   return (
     <div
       className="main-container"
       onMouseMove={handleDrag}
-      onMouseUp={handleDragEnd} // 여기서 드래그 종료 처리
+      onMouseUp={handleDragEnd}
     >
-      <div className="main-page">
-        <button className="vector-image" alt="Vector"></button>
+      <div
+        className="main-page"
+        style={{
+          background:
+            leftSubPageVisible || rightSubPageVisible
+              ? `linear-gradient(
+          ${rightSubPageVisible ? 136 : 314}deg, 
+          rgba(255, 0, 229, 0.41) 0%,     /* FF00E5 41% */
+          rgba(0, 0, 0, 1) 26%,            /* 000000 100% */
+          rgba(38, 38, 38, 1) 47%,         /* 262626 100% */
+          rgba(77, 22, 71, 1) 65%,         /* 4D1647 100% */
+          rgba(255, 0, 229, 0.41) 100%     /* FF00E5 41% */
+        )` // 서브페이지가 열렸을 때 배경 변경
+              : `linear-gradient(
+          122deg,
+          rgba(153, 0, 131, 0.8) -135.51%,
+          rgba(64, 7, 55, 0.8) 12.92%,
+          rgba(0, 0, 0, 0.8) 96.91%
+        )`, // 서브페이지가 닫혔을 때 원래 배경
+          transition: "background 0.3s ease",
+        }}
+      >
 
-        <div className="center">
-          <div className="logo" />
+        {!leftSubPageVisible && !rightSubPageVisible && (
+          <>
+            <button className="vector-image" alt="Vector"></button>
+            <div className="center">
+              <div className="logo" />
+              <p className="title">M-BRIDGE</p>
+              <form className="search-box" onSubmit={handleSearch}>
+                <input
+                  className="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="가수 - 제목으로 검색해주세요"
+                  style={{
+                    background: "rgba(255, 255, 255, 0.15)",
+                    fontSize: "25px",
+                  }}
+                />
+                <button type="submit" className="search-bt"></button>
+              </form>
+            </div>
+          </>
+        )}
 
-          <p className="title">M-BRIDGE</p>
-
-          <form className="search-box" onSubmit={handleSearch}>
-            {/* 검색창 */}
-            <input
-              className="search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="가수 - 제목으로 검색해주세요"
-              style={{
-                background: "rgba(255, 255, 255, 0.15)",
-                fontSize: "25px",
-              }}
-            />
-            <button type="submit" className="search-bt"></button>
-          </form>
-        </div>
-
-        {/* 왼쪽 버튼과 이미지 생성(갤러리)화면 */}
         <LeftPage
           leftSubPageVisible={leftSubPageVisible}
           leftButtonPosition={leftButtonPosition}
@@ -112,7 +126,6 @@ export default function HomePage() {
           handleDragStart={handleDragStart}
         />
 
-        {/* 오른쪽 버튼과 챗지피티 화면 */}
         <RightPage
           rightSubPageVisible={rightSubPageVisible}
           rightButtonPosition={rightButtonPosition}

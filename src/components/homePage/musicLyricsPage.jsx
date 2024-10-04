@@ -12,7 +12,6 @@ import {
 import "../../css/homePage.css";
 import "../../css/musicLyricsPage.css";
 
-
 /* 홈화면 2- 검색 후 화면 */
 
 export default function MusicLyricsPage() {
@@ -112,7 +111,28 @@ export default function MusicLyricsPage() {
       onMouseMove={handleDrag}
       onMouseUp={handleDragEnd}
     >
-      <div className="main-page">
+      <div
+        className="main-page"
+        style={{
+          background:
+            leftSubPageVisible || rightSubPageVisible
+              ? `linear-gradient(
+          ${rightSubPageVisible ? 136 : 314}deg, 
+          rgba(255, 0, 229, 0.41) 0%,     /* FF00E5 41% */
+          rgba(0, 0, 0, 1) 26%,            /* 000000 100% */
+          rgba(38, 38, 38, 1) 47%,         /* 262626 100% */
+          rgba(77, 22, 71, 1) 65%,         /* 4D1647 100% */
+          rgba(255, 0, 229, 0.41) 100%     /* FF00E5 41% */
+        )` // 서브페이지가 열렸을 때 배경 변경
+              : `linear-gradient(
+          122deg,
+          rgba(153, 0, 131, 0.8) -135.51%,
+          rgba(64, 7, 55, 0.8) 12.92%,
+          rgba(0, 0, 0, 0.8) 96.91%
+        )`, // 서브페이지가 닫혔을 때 원래 배경
+          transition: "background 0.3s ease",
+        }}
+      >
         <button className="vector-image" alt="Vector"></button>
 
         {/* 뒷배경 */}
