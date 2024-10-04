@@ -124,7 +124,9 @@ export default function HomePage() {
         />
 
         <div>
+        <div className="carousel-wrapper">
           <Carousel />
+        </div>
         {/* 필요한 다른 내용들 */}
         </div>
       </div>
