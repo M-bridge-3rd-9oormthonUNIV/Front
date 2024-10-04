@@ -1,0 +1,39 @@
+.logo {
+    width: 310px;
+    height: 170.16px;
+    top: 1vh;
+    cursor: pointer;
+    object-fit: cover; /* 이미지 비율 유지하면서 크기 맞추기 */
+    background-image: url("https://i.postimg.cc/zGSc8Wzd/Group-26.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.service-description {
+opacity: 0;
+animation: fadeIn 2s forwards; /* 클릭 시 페이드 인 애니메이션 */
+}
+
+.service-image {
+    width: 415px;
+    height: auto;
+}
+
+.service-text {
+    color: #ffffff;
+    width: 408px;
+    height: 124px;
+    font-size: 19px;
+    text-align: center;
+    margin-bottom: 25px;
+    line-height: 30px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

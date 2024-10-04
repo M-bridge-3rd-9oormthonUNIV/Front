@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+  
+  .container {
+    position: fixed; /* 화면 맨 밑에 고정 */
+    bottom: 0; /* 화면 하단에 위치 */
+    left: 0;
+    width: 100%;
+    height: 30%; /* 컨테이너 크기를 키움 */
+    text-align: center;
+    box-sizing: border-box;
+    z-index: 9999;
+    align-items: center;
+  }
+  
+  .wrapper {
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%; /* wrapper는 전체 높이를 가짐 */
+    max-width: 500px;
+    margin: 0 auto;
+    top: 200px;
+  }
+  
+  .item {
+    position: absolute;
+    width: 200px; /* 기본 이미지 크기 */
+    height: 200px; /* 기본 이미지 크기 */
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .item:hover {
+    transform: scale(1.2); /* 아이템 크기 커짐 */
+  }
+  
+  .hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* 검은색 배경, 60% 불투명도 */
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+    border-radius: 50%; /* 불투명도 애니메이션 */
+  }
+  
+  .item:hover .hover-overlay {
+    opacity: 1; /* 마우스 오버 시 보이도록 설정 */
+  }
+  
+  .hover-text {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    pointer-events: none;
+    line-height: 1.4; /* 줄 간격 */
+    padding: 5px; /* 내부 여백 */
+  }
+
+  .hover-text::first-line {
+    font-size: 22px; /* 첫 번째 줄의 글자 크기 증가 */
+    font-weight: bold; /* 첫 줄의 글자 굵게 (선택 사항) */
+  }
+  
+
+  svg {
+    height: 100%;
+    overflow: visible;
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .st0 {
+    fill: none;
+    stroke: none;
+  }
+  
+  .start {
+    position: absolute;
+    top: 50%;
+    right: -30px;
+    font-size: 16px;
+    color: #333;
+  }

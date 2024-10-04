@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 �
 import LeftPage from "../imagePage/leftPage";
 import RightPage from "../chatGPT-page/rightPage";
 import searchMusicApi from "./searchMusicApi";
+import LogoWithAnimation from "./logoExplanation";
+import Carousel from "./carousel";
 import "../../css/homePage.css";
 import "../../css/contentPage.css";
 
@@ -74,6 +76,7 @@ export default function HomePage() {
     setDragDirection(null);
   };
 
+
   return (
     <div
       className="main-container"
@@ -84,7 +87,7 @@ export default function HomePage() {
         <button className="vector-image" alt="Vector"></button>
 
         <div className="center">
-          <div className="logo" />
+          <LogoWithAnimation />
 
           <p className="title">M-BRIDGE</p>
 
@@ -119,6 +122,11 @@ export default function HomePage() {
           leftSubPageVisible={leftSubPageVisible}
           handleDragStart={handleDragStart}
         />
+
+        <div>
+          <Carousel />
+        {/* 필요한 다른 내용들 */}
+        </div>
       </div>
     </div>
   );
