@@ -223,9 +223,10 @@
   margin-left: 5px;
   margin-right: 8px;
   color: white;
-  font-size: 17px; /* 크기를 조정 */
-  line-height: 0; /* 라인 높이를 0으로 해서 화살표가 더 위로 오도록 */
+  font-size: 17px;
+  line-height: 0;
   justify-content: center;
   align-items: center;
-  top: -10px; /* 필요에 따라 값을 조정해서 더 위로 이동 */
+  top: 38%; /* 50%로 중앙 정렬 */
+  transform: translateY(-50%); /* Y축으로 중앙 정렬 보정 */
 }
