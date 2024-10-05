@@ -38,6 +38,7 @@
   background-image: url("https://i.postimg.cc/zGSc8Wzd/Group-26.png");
   background-size: cover;
   background-repeat: no-repeat;
+  z-index: 3;
 }
 
 .center {
@@ -46,6 +47,7 @@
   display:flex;
   flex-direction: column;
   align-items: center;
+  z-index: 3;
 }
 
 /* 타이틀(엠브릿지) */

@@ -2,7 +2,7 @@
 export default async function searchMusicApi({ artist, title }) {
   try {
     const response = await fetch(
-      `https://m-bridge/api/search?artist=${artist}&title=${title}`
+      `https://www.m-bridge.site/api/search/${artist}/${title}`
     );
 
     if (!response.ok) {

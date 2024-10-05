@@ -1,0 +1,41 @@
+/* Modal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* 모달이 다른 요소 위에 보이도록 */
+}
+
+.modal-content {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-select-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-logo {
+  position: relative;
+  width: 55px;
+  height: 30px;
+  object-fit: cover; /* 이미지 비율 유지하면서 크기 맞추기 */
+  background-image: url("https://i.postimg.cc/zG83vsbq/Group-26-2.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}

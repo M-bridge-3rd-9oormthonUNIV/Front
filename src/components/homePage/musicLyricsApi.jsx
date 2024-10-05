@@ -4,7 +4,7 @@ import React from "react";
 // 비디오
 export const requestVideoUrl = async (songId) => {
   try {
-    // const response = await fetch(`https://m-bridge/api/youtube/video?songId=${songId}`);
+    // const response = await fetch(`https://www.m-bridge.site/api/youtube/video/${songId}`);
     // const data = await response.json();
 
     // return(data.videoUrl);
@@ -19,7 +19,7 @@ export const requestVideoUrl = async (songId) => {
 // 원문 가사
 export const requestOriginalLyrics = async (songId) => {
   try {
-    // const response = await fetch(`https://m-bridge/api/lyrics/original?songId=${songId}`);
+    // const response = await fetch(`https://www.m-bridge.site/api/lyrics/original/${songId}`);
     // const data = await response.json();
 
     // return(data.lyrics);
@@ -162,7 +162,7 @@ export const requestOriginalLyrics = async (songId) => {
 // 번역 가사
 export const requestTranslateLyrics = async (songId, lang) => {
   try {
-    // const response = await fetch(`https://m-bridge/api/lyrics/original?songId=${songId}&lang=${lang}`);
+    // const response = await fetch(`https://www.m-bridge.site/api/lyrics/original/${songId}/${lang}`);
     // const data = await response.json();
 
     // return(data.translatedLyrics);

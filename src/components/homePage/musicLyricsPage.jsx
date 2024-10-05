@@ -12,7 +12,6 @@ import {
 import "../../css/homePage.css";
 import "../../css/musicLyricsPage.css";
 
-
 /* 홈화면 2- 검색 후 화면 */
 
 export default function MusicLyricsPage() {
@@ -112,13 +111,16 @@ export default function MusicLyricsPage() {
       onMouseMove={handleDrag}
       onMouseUp={handleDragEnd}
     >
-      <div className="main-page">
+      <div
+        className="main-page"
+        
+      >
         <button className="vector-image" alt="Vector"></button>
 
         {/* 뒷배경 */}
         <img className="background-image" alt="Background"></img>
 
-        <div className="search-container">
+        <div className="search-container" style={{ opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1 }} >
           {/* 검색창 */}
           <form className="search-box" onSubmit={handleSearch}>
             <input
@@ -143,6 +145,7 @@ export default function MusicLyricsPage() {
         <LyricsDisplay
           originalLyrics={originalLyrics}
           translatedLyrics={translatedLyrics}
+          style={{ opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1 }} // opacity 조정
         />
 
         <LeftPage
