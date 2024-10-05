@@ -105,6 +105,9 @@ export default function HomePage() {
             />
             <button type="submit" className="search-bt"></button>
           </form>
+            <div className="carousel-wrapper">
+              <Carousel />
+            </div>
         </div>
 
         {/* 왼쪽 버튼과 이미지 생성(갤러리)화면 */}
@@ -123,12 +126,9 @@ export default function HomePage() {
           handleDragStart={handleDragStart}
         />
 
-        <div>
-        <div className="carousel-wrapper">
-          <Carousel />
-        </div>
+
+        
         {/* 필요한 다른 내용들 */}
-        </div>
       </div>
     </div>
   );

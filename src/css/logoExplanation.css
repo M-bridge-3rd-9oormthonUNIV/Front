@@ -7,6 +7,7 @@
     background-image: url("https://i.postimg.cc/zGSc8Wzd/Group-26.png");
     background-size: cover;
     background-repeat: no-repeat;
+    margin-bottom: 10px;
 }
 
 .service-description {
@@ -17,6 +18,7 @@ animation: fadeIn 2s forwards; /* 클릭 시 페이드 인 애니메이션 */
 .service-image {
     width: 415px;
     height: auto;
+    margin-bottom: 10px;
 }
 
 .service-text {
