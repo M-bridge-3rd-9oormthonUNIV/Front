@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "../../css/homePage.css";
-import "../../css/contentPage.css";
+import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 사용
 import LeftPage from "../imagePage/leftPage";
 import RightPage from "../chatGPT-page/rightPage";
+import LogoWithAnimation from "./logoExplanation";
+import Carousel from "./carousel";
+import "../../css/homePage.css";
+import "../../css/contentPage.css";
 import searchMusicApi from "../shared/searchMusicApi";
 
 export default function HomePage() {
@@ -68,12 +70,14 @@ export default function HomePage() {
     setDragDirection(null);
   };
 
+
   // leftButtonPosition과 rightButtonPosition에 따라 서브페이지 표시 여부를 결정하는 로직
   useEffect(() => {
     const limit = window.innerWidth * 0.7;
     setLeftSubPageVisible(leftButtonPosition >= limit);
     setRightSubPageVisible(rightButtonPosition >= limit);
   }, [leftButtonPosition, rightButtonPosition]);
+
 
   return (
     <div
@@ -82,6 +86,7 @@ export default function HomePage() {
       onMouseUp={handleDragEnd}
     >
       <div className="main-page">
+
         <>
           <button className="vector-image" alt="Vector"></button>
           <div
@@ -105,6 +110,9 @@ export default function HomePage() {
               />
               <button type="submit" className="search-bt"></button>
             </form>
+<div className="carousel-wrapper">
+              <Carousel />
+            </div>
           </div>
         </>
 
@@ -121,6 +129,10 @@ export default function HomePage() {
           leftSubPageVisible={leftSubPageVisible}
           handleDragStart={handleDragStart}
         />
+
+
+        
+        {/* 필요한 다른 내용들 */}
       </div>
     </div>
   );
