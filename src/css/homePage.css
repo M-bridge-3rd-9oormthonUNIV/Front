@@ -85,3 +85,7 @@
   background-image: url("https://i.postimg.cc/fRL456ZD/Vector.png");
 }
 
+.carousel-wrapper {
+  position: relative;
+  z-index: 3; /* 기본적으로 다른 요소보다 낮음 */
+}
