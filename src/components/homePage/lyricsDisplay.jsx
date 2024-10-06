@@ -4,7 +4,11 @@ import "../../css/homePage.css";
 import "../../css/musicLyricsPage.css";
 
 /* 가사 컴포넌트 (가사 호출, 표시) */
-export default function LyricsDisplay({ originalLyrics, translatedLyrics }) {
+export default function LyricsDisplay({
+  originalLyrics,
+  translatedLyrics,
+  style,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("korean");
   const options = ["korean", "english"];
@@ -25,7 +29,7 @@ export default function LyricsDisplay({ originalLyrics, translatedLyrics }) {
     <>
       {/* 화면 1 (가사 제공 o) */}
       {originalLyrics !== "데이터없음" && translatedLyrics !== "데이터없음" ? (
-        <div className="allLyricsBox">
+        <div className="allLyricsBox" style={style}>
           <div className="lyricsBox">
             <div
               style={{
@@ -80,7 +84,8 @@ export default function LyricsDisplay({ originalLyrics, translatedLyrics }) {
                       position: "absolute",
                       display: "flex",
                       left: "32px",
-                      top: "-13px",
+                      top: "50%", // 중앙 정렬
+                      transform: "translateY(-50%)", // 수직 중앙 정렬
                       textAlign: "center",
                     }}
                   >
