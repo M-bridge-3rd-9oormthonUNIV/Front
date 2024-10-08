@@ -90,7 +90,7 @@ export const SubAlertModal = ({ isOpen, onClose, message, direction }) => {
           className="modal-button"
           style={{
             width: "45px",
-            height: "50px",
+            height: "30px",
             fontSize: "12px",
           }}
           onClick={onClose}

@@ -94,12 +94,12 @@ export default function SubLyricsDisplay({ songId }) {
             <div key={index}>
               {/* 원문 가사 */}
               <div
-                style={{ color: "white", marginBottom: "5px" }}
+                style={{ color: "white", marginBottom: "8px" }}
                 dangerouslySetInnerHTML={{ __html: pair.original }}
               ></div>
               {/* 번역 가사 */}
               <div
-                style={{ color: "#FF6DCC", marginBottom: "5px" }}
+                style={{ color: "#FF6DCC", marginBottom: "8px" }}
                 dangerouslySetInnerHTML={{ __html: pair.translated }}
               ></div>
             </div>

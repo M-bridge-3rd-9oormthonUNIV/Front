@@ -10,18 +10,19 @@ import "../../css/loading.css";
 
 export default function LyricsDisplay({ songId }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("korean");
-  const options = [
-    "korean",
-    "japanese",
-    "chinese",
-    "english",
-    "french",
-    "spanish",
-    "norwegian",
-    "russian",
-    "hindi",
+  const [selectedLanguage, setSelectedLanguage] = useState("ko"); // 변경된 부분
+  const languages = [
+    { label: "Korean", value: "ko" },
+    { label: "Japanese", value: "ja" },
+    { label: "Chinese", value: "zh" },
+    { label: "English", value: "en" },
+    { label: "French", value: "fr" },
+    { label: "Spanish", value: "es" },
+    { label: "Norwegian", value: "no" },
+    { label: "Russian", value: "ru" },
+    { label: "Hindi", value: "hi" },
   ];
+
   const [originalLyrics, setOriginalLyrics] = useState();
   const [translatedLyrics, setTranslatedLyrics] = useState();
   const [originalLoading, setOriginalLoading] = useState(true); // 로딩 상태 추가
@@ -32,10 +33,10 @@ export default function LyricsDisplay({ songId }) {
     console.log("드롭다운 토글됨: ", !isOpen); // 드롭다운 상태 확인
   };
 
-  const handleOptionClick = (option, event) => {
+  const handleLanguageClick = (language, event) => {
     event.stopPropagation(); // 이벤트 전파 방지
-    console.log("선택된 언어:", option); // 선택된 옵션 로그
-    setSelectedOption(option);
+    console.log("선택된 언어:", language.label); // 선택된 옵션 로그
+    setSelectedLanguage(language.value); // 언어 코드 사용
     setIsOpen(false);
   };
 
@@ -99,9 +100,9 @@ export default function LyricsDisplay({ songId }) {
     };
 
     if (songId) {
-      fetchTranslatedLyrics(songId, selectedOption);
+      fetchTranslatedLyrics(songId, selectedLanguage);
     }
-  }, [songId, selectedOption]);
+  }, [songId, selectedLanguage]);
 
   // 둘 다 로딩 중일 때
   if (translatedLoading && originalLoading) {
@@ -173,18 +174,18 @@ export default function LyricsDisplay({ songId }) {
                   <span className="arrow">⌄</span>
                   <span
                     style={{ paddingLeft: "7px" }}
-                  >{`${selectedOption}`}</span>
+                  >{`${languages.find((lang) => lang.value === selectedLanguage)?.label}`}</span>
                 </button>
 
                 {isOpen && (
                   <div className="dropdown-menu">
-                    {options.map((option) => (
+                    {languages.map((language) => (
                       <div
-                        key={option}
+                        key={language.value}
                         className="dropdown-item"
-                        onClick={(event) => handleOptionClick(option, event)} // 이벤트 전달
+                        onClick={(event) => handleLanguageClick(language, event)} // 이벤트 전달
                       >
-                        {option}
+                        {language.label}
                       </div>
                     ))}
                   </div>
