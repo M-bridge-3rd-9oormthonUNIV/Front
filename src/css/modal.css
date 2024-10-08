@@ -1,5 +1,6 @@
 /* Modal.css */
 .modal-overlay {
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
@@ -13,18 +14,19 @@
 }
 
 .modal-content {
-  background: white;
   display: flex;
+  background: white;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px; /* 패딩 증가 */
+  padding: 18px; /* 패딩 증가 */
   border-radius: 12px; /* 둥근 모서리 증가 */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease; /* 애니메이션 효과 */
-  width: 300px; /* 모달 너비 */
-  height: 170px;
+  width: 250px; /* 모달 너비 */
+  height: 120px;
   font-size: 12px;
+  white-space: pre-line;
 }
 
 .modal-content:hover {
@@ -55,13 +57,12 @@
   background-color: #ff00e5; /* 포인트 색상 */
   color: white;
   border: none;
-  border-radius: 20px; /* 둥근 버튼 */
-  margin-top: 20px;
+  border-radius: 7px; /* 둥근 버튼 */
   width: 80px;
   height: 30px;
   cursor: pointer;
   transition: background-color 0.3s ease; /* 애니메이션 효과 */
-  font-size: 12px; /* 글씨 크기 */
+  font-size: 11px; /* 글씨 크기 */
   text-align: center;
 }
 

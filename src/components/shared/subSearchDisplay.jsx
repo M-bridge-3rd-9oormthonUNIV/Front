@@ -2,16 +2,19 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 사용
 import "../../css/contentPage.css";
 import searchMusicApi from "./searchMusicApi";
+import { SubAlertModal } from "./modal";
 
-export default function SubSearchDisplay() {
+export default function SubSearchDisplay({ direction }) {
   const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태 추가
+  const [isFormatErrorModalOpen, setIsFormatErrorModalOpen] = useState(false);
+  const [isSearchPromptModalOpen, setIsSearchPromptModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = async (e) => {
     e.preventDefault();
 
     if (searchQuery.trim() === "") {
-      alert("검색어를 입력하세요.");
+      setIsSearchPromptModalOpen(true);
     } else {
       // 정규 표현식 수정
       const regex =
@@ -19,9 +22,7 @@ export default function SubSearchDisplay() {
       const match = searchQuery.match(regex);
 
       if (!match) {
-        alert(
-          "형식이 올바르지 않습니다. \n'가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
-        );
+        setIsFormatErrorModalOpen(true);
       } else {
         const artist = match[1]; // 가수 이름
         const track = match[2]; // 노래 제목
@@ -66,6 +67,23 @@ export default function SubSearchDisplay() {
         />
         <button type="submit" className="sub-search-bt"></button>
       </form>
+      <SubAlertModal
+        isOpen={isFormatErrorModalOpen}
+        onClose={() => setIsFormatErrorModalOpen(false)}
+        message={
+          "형식이 올바르지 않습니다.\n '가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
+        }
+        direction={direction}
+      />
+
+      <SubAlertModal
+        isOpen={isSearchPromptModalOpen}
+        onClose={() => setIsSearchPromptModalOpen(false)}
+        message={
+          "노래를 입력하세요."
+        }
+        direction={direction}
+      />
     </div>
   );
 }

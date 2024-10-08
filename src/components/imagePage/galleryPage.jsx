@@ -72,7 +72,7 @@ export default function GalleryPage({
 
       {/* 서브 페이지 30% */}
       <div className={`sub-page left-sub ${leftSubPageVisible ? "show" : ""}`}>
-        <SubSearchDisplay />
+        <SubSearchDisplay direction={"left"}/>
         {/* 이미지 버튼 그룹 */}
       </div>
     </>

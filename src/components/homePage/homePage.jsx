@@ -7,6 +7,7 @@ import Carousel from "./carousel";
 import "../../css/homePage.css";
 import "../../css/contentPage.css";
 import searchMusicApi from "../shared/searchMusicApi";
+import { AlertModal } from "../shared/modal";
 
 export default function HomePage() {
   const [leftSubPageVisible, setLeftSubPageVisible] = useState(false);
@@ -16,13 +17,15 @@ export default function HomePage() {
   const [dragging, setDragging] = useState(false);
   const [dragDirection, setDragDirection] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isFormatErrorModalOpen, setIsFormatErrorModalOpen] = useState(false);
+  const [isSearchPromptModalOpen, setIsSearchPromptModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = async (e) => {
     e.preventDefault();
 
     if (searchQuery.trim() === "") {
-      alert("검색어를 입력하세요.");
+      setIsSearchPromptModalOpen(true);
     } else {
       // 정규 표현식 수정
       const regex =
@@ -30,9 +33,7 @@ export default function HomePage() {
       const match = searchQuery.match(regex);
 
       if (!match) {
-        alert(
-          "형식이 올바르지 않습니다. \n'가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
-        );
+        setIsFormatErrorModalOpen(true);
       } else {
         const artist = match[1]; // 가수 이름
         const track = match[2]; // 노래 제목
@@ -43,10 +44,10 @@ export default function HomePage() {
 
           // songData가 정상적으로 반환되었는지 확인
           if (songData) {
-
             // 여기서 필요한 추가 작업 수행 (예: 페이지 이동)
-            navigate(`/music-lyrics?songId=${songData.songId}&artist=${songData.artist}&track=${songData.title}`);
-
+            navigate(
+              `/music-lyrics?songId=${songData.songId}&artist=${songData.artist}&track=${songData.title}`
+            );
           } else {
             alert("곡을 찾을 수 없습니다.");
           }
@@ -104,7 +105,7 @@ export default function HomePage() {
               opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1,
             }}
           >
-            <LogoWithAnimation/>
+            <LogoWithAnimation />
             <p className="title">M-BRIDGE</p>
             <form className="search-box" onSubmit={handleSearch}>
               <input
@@ -140,7 +141,21 @@ export default function HomePage() {
           songId={"undefined"}
           handleDragStart={handleDragStart}
         />
-        {/* 필요한 다른 내용들 */}
+
+        {/* 모달 팝업창 */}
+        <AlertModal
+          isOpen={isFormatErrorModalOpen}
+          onClose={() => setIsFormatErrorModalOpen(false)}
+          message={
+            "형식이 올바르지 않습니다.\n '가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
+          }
+        />
+
+        <AlertModal
+          isOpen={isSearchPromptModalOpen}
+          onClose={() => setIsSearchPromptModalOpen(false)}
+          message={"검색어를 입력하세요."}
+        />
       </div>
     </div>
   );

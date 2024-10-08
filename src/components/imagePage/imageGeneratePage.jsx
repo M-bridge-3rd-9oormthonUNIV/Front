@@ -4,7 +4,7 @@ import SubLyricsDisplay from "../shared/subLyricsDisplay.jsx";
 import "../../css/imagePage.css";
 import "../../css/contentPage.css";
 import "../../css/modal.css";
-import Modal from "../shared/modal.jsx";
+import {Modal} from "../shared/modal.jsx";
 
 const imageUrl = "https://i.ibb.co/RC5zFFY/cruel-summer.jpg"
 
