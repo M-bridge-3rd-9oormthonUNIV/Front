@@ -6,12 +6,6 @@ import "../../css/contentPage.css";
 import "../../css/modal.css";
 import Modal from "../shared/modal.jsx";
 
-const imageUrls = [
-  "https://i.ibb.co/RC5zFFY/cruel-summer.jpg",
-  "https://i.ibb.co/NF5nxqm/dangerously.webp",
-  "https://i.ibb.co/cTnjKcg/idontthinkthatilikeher.jpg",
-];
-
 const imageUrl = "https://i.ibb.co/RC5zFFY/cruel-summer.jpg"
 
 export default function ImageGeneratePage({
@@ -20,14 +14,21 @@ export default function ImageGeneratePage({
   rightSubPageVisible,
   handleDragStart,
   isImageButtonGroupVisible,
+  songId
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태
-  const [modalMessage, setModalMessage] = useState(""); // 모달 메시지
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
-  const handleButtonClick = (message, action) => {
-    action(); // 설정된 작업 수행
-    setModalMessage(message); // 메시지 설정
-    setIsModalOpen(true); // 모달 열기
+  const handleButtonClick = async (message, action, successMessage, errorMessage) => {
+    try {
+      await action(); // 설정된 작업 수행
+      setModalMessage(successMessage); // 성공 메시지 설정
+    } catch (error) {
+      console.error(error);
+      setModalMessage(errorMessage); // 실패 메시지 설정
+    } finally {
+      setIsModalOpen(true); // 모달 열기
+    }
   };
 
   const handleDownload = async (imageUrl) => {
@@ -46,13 +47,12 @@ export default function ImageGeneratePage({
       document.body.removeChild(link);
       URL.revokeObjectURL(objectURL);
 
-      // 이미지 저장 완료 메시지
-      setModalMessage("이미지를 저장하였습니다."); // 저장 메시지
-      setIsModalOpen(true); // 모달 열기
+      setModalMessage("이미지를 저장하였습니다."); // 성공 메시지
     } catch (error) {
       console.error("이미지를 다운로드할 수 없습니다:", error);
       setModalMessage("이미지를 다운로드하는 데 실패했습니다."); // 실패 메시지
-      setIsModalOpen(true);
+    } finally {
+      setIsModalOpen(true); // 모달 열기
     }
   };
 
@@ -77,12 +77,13 @@ export default function ImageGeneratePage({
             className="generatedImage"
             src={imageUrl}
             style={{ opacity: `${leftSubPageVisible ? "1" : "0"}` }}
+            alt="생성된 이미지"
           />
         </div>
       </div>
 
       <div className={`sub-page left-sub ${leftSubPageVisible ? "show" : ""}`}>
-        <SubLyricsDisplay />
+        <SubLyricsDisplay songId={songId} />
       </div>
 
       <div
@@ -98,7 +99,7 @@ export default function ImageGeneratePage({
             backgroundImage: `url("https://i.postimg.cc/9QhRH5Xd/Vector-1.png")`,
           }}
           title="이미지 재생성"
-          onClick={() => requestImageGenerate()}
+          onClick={() => handleButtonClick("이미지를 재생성하였습니다.", requestImageGenerate, "이미지를 재생성하였습니다.", "이미지 재생성에 실패하였습니다.")}
         ></button>
         <button
           className={`image-bt ${isImageButtonGroupVisible ? "show" : ""}`}
@@ -115,7 +116,7 @@ export default function ImageGeneratePage({
             backgroundImage: `url("https://i.postimg.cc/B6XtBJN0/Vector-3.png")`,
           }}
           title="이미지 업로드"
-          onClick={() => handleButtonClick("이미지를 업로드하였습니다", requestImageShare)}
+          onClick={() => handleButtonClick("이미지를 업로드하였습니다.", requestImageShare, "이미지를 업로드하였습니다.", "이미지 업로드에 실패하였습니다.")}
         ></button>
       </div>
 

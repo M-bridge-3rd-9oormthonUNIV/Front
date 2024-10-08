@@ -1,26 +1,49 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 사용
 import "../../css/contentPage.css";
 import searchMusicApi from "./searchMusicApi";
 
 export default function SubSearchDisplay() {
   const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태 추가
+  const navigate = useNavigate();
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
 
-    // searchQuery.trim()이 빈 문자열인지 확인
     if (searchQuery.trim() === "") {
-      alert("검색어를 입력하세요."); // 아무 것도 입력되지 않았을 때의 처리
+      alert("검색어를 입력하세요.");
     } else {
-      // 가수-제목 또는 가수 - 제목 형식 확인
-      const regex = /^[^\s-]+ ?- ?[^\s-]+$/; // 공백이 있을 수 있고, -로 구분된 두 단어를 요구하는 정규 표현식
-      if (!regex.test(searchQuery)) {
+      // 정규 표현식 수정
+      const regex =
+        /^\s*([^\s-]+(?:\s+[^\s-]+)*)\s*-\s*([^\s-]+(?:\s+[^\s-]+)*)\s*$/;
+      const match = searchQuery.match(regex);
+
+      if (!match) {
         alert(
           "형식이 올바르지 않습니다. \n'가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
-        ); // 형식이 맞지 않을 때의 처리
+        );
       } else {
-        // searchMusicApi 호출
-        // searchMusicApi(artist.trim(), title.trim()); // 트림하여 공백 제거
+        const artist = match[1]; // 가수 이름
+        const track = match[2]; // 노래 제목
+
+        try {
+          // API 호출 부분 주석 해제 및 매개변수 전달
+          const songData = await searchMusicApi(artist, track);
+
+          // songData가 정상적으로 반환되었는지 확인
+          if (songData) {
+            console.log("API 응답 데이터:", songData);
+
+            // 여기서 필요한 추가 작업 수행 (예: 페이지 이동)
+            navigate(
+              `/music-lyrics?songId=${songData.songId}&artist=${songData.artist}&track=${songData.title}`
+            );
+          } else {
+            alert("곡을 찾을 수 없습니다.");
+          }
+        } catch (error) {
+          console.error("API 호출 중 에러 발생:", error);
+        }
       }
     }
   };

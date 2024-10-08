@@ -7,6 +7,7 @@ export default function RightPage({
   rightSubPageVisible,
   rightButtonPosition,
   leftSubPageVisible,
+  songId,
   handleDragStart,
 }) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);

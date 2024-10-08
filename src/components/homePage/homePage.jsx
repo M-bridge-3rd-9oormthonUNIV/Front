@@ -18,32 +18,44 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
+
     if (searchQuery.trim() === "") {
       alert("검색어를 입력하세요.");
     } else {
       // 정규 표현식 수정
-      const regex = /^\s*([^\s-]+(?:\s+[^\s-]+)*)\s*-\s*([^\s-]+(?:\s+[^\s-]+)*)\s*$/;
+      const regex =
+        /^\s*([^\s-]+(?:\s+[^\s-]+)*)\s*-\s*([^\s-]+(?:\s+[^\s-]+)*)\s*$/;
       const match = searchQuery.match(regex);
-  
+
       if (!match) {
         alert(
           "형식이 올바르지 않습니다. \n'가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
         );
       } else {
         const artist = match[1]; // 가수 이름
-        const title = match[2]; // 노래 제목
-  
-        // API 호출 부분 주석 해제 및 매개변수 전달
-        const song = searchMusicApi(artist, title);
-        console.log(song);
-  
-        navigate("/music-lyrics");
+        const track = match[2]; // 노래 제목
+
+        try {
+          // API 호출 부분 주석 해제 및 매개변수 전달
+          const songData = await searchMusicApi(artist, track);
+
+          // songData가 정상적으로 반환되었는지 확인
+          if (songData) {
+
+            // 여기서 필요한 추가 작업 수행 (예: 페이지 이동)
+            navigate(`/music-lyrics?songId=${songData.songId}&artist=${songData.artist}&track=${songData.title}`);
+
+          } else {
+            alert("곡을 찾을 수 없습니다.");
+          }
+        } catch (error) {
+          console.error("API 호출 중 에러 발생:", error);
+        }
       }
     }
   };
-  
 
   const handleDrag = (event) => {
     if (dragging) {
@@ -70,14 +82,12 @@ export default function HomePage() {
     setDragDirection(null);
   };
 
-
   // leftButtonPosition과 rightButtonPosition에 따라 서브페이지 표시 여부를 결정하는 로직
   useEffect(() => {
     const limit = window.innerWidth * 0.7;
     setLeftSubPageVisible(leftButtonPosition >= limit);
     setRightSubPageVisible(rightButtonPosition >= limit);
   }, [leftButtonPosition, rightButtonPosition]);
-
 
   return (
     <div
@@ -86,7 +96,6 @@ export default function HomePage() {
       onMouseUp={handleDragEnd}
     >
       <div className="main-page">
-
         <>
           <button className="vector-image" alt="Vector"></button>
           <div
@@ -95,7 +104,7 @@ export default function HomePage() {
               opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1,
             }}
           >
-            <div className="logo" />
+            <LogoWithAnimation/>
             <p className="title">M-BRIDGE</p>
             <form className="search-box" onSubmit={handleSearch}>
               <input
@@ -110,7 +119,7 @@ export default function HomePage() {
               />
               <button type="submit" className="search-bt"></button>
             </form>
-<div className="carousel-wrapper">
+            <div className="carousel-wrapper">
               <Carousel />
             </div>
           </div>
@@ -120,6 +129,7 @@ export default function HomePage() {
           leftSubPageVisible={leftSubPageVisible}
           leftButtonPosition={leftButtonPosition}
           rightSubPageVisible={rightSubPageVisible}
+          songId={"undefined"}
           handleDragStart={handleDragStart}
         />
 
@@ -127,11 +137,9 @@ export default function HomePage() {
           rightSubPageVisible={rightSubPageVisible}
           rightButtonPosition={rightButtonPosition}
           leftSubPageVisible={leftSubPageVisible}
+          songId={"undefined"}
           handleDragStart={handleDragStart}
         />
-
-
-        
         {/* 필요한 다른 내용들 */}
       </div>
     </div>

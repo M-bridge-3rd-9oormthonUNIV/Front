@@ -1,13 +1,12 @@
 import React from "react";
 
 // 백엔드 api 비동기 요청 (api 완성될 시 수정)
-// 비디오
-// POST
 // 이미지 생성
-export const requestImageGenerate = async ( songId, lyrics ) => {
+// 이미지 서버에 올리기 (업로드)
+export const requestImageGenerate = async ({ songId, lyrics }) => {
   try {
     const response = await fetch(
-        `https://www.m-bridge.site/api/image/generate/${songId}`,
+        `/api/image/generate/${encodeURIComponent(songId)}`,
       {
         method: "POST", // POST 요청임을 명시
         headers: {
@@ -37,7 +36,7 @@ export const requestImageGenerate = async ( songId, lyrics ) => {
 // 이미지 서버에 올리기
 export const requestImageShare = async ({songId, imageUrl}) => {
   try {
-    const response = await fetch(`https://www.m-bridge.site/api/image/share`, {
+    const response = await fetch(`/api/image/share`, {
       method: "POST", // POST 요청임을 명시
       headers: {
         "Content-Type": "application/json", // 요청 데이터 타입을 JSON으로 설정

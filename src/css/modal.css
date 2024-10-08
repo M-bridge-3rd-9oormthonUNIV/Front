@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+  background: rgba(0, 0, 0, 0.7); /* 더 어두운 반투명 배경 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,24 +18,53 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px; /* 패딩 증가 */
+  border-radius: 12px; /* 둥근 모서리 증가 */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease; /* 애니메이션 효과 */
+  width: 300px; /* 모달 너비 */
+  height: 170px;
+  font-size: 12px;
+}
+
+.modal-content:hover {
+  transform: scale(1.05); /* 마우스 오버 시 확대 효과 */
 }
 
 .modal-select-group {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* 위쪽 여백 추가 */
 }
 
 .modal-logo {
   position: relative;
-  width: 55px;
-  height: 30px;
-  object-fit: cover; /* 이미지 비율 유지하면서 크기 맞추기 */
+  width: 70px; /* 너비 조정 */
+  height: 60px; /* 높이 조정 */
+  object-fit: contain; /* 이미지 비율 유지하면서 크기 맞추기 */
   background-image: url("https://i.postimg.cc/zG83vsbq/Group-26-2.png");
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* 버튼 스타일 추가 */
+.modal-button {
+  background-color: #ff00e5; /* 포인트 색상 */
+  color: white;
+  border: none;
+  border-radius: 20px; /* 둥근 버튼 */
+  margin-top: 20px;
+  width: 80px;
+  height: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* 애니메이션 효과 */
+  font-size: 12px; /* 글씨 크기 */
+  text-align: center;
+}
+
+.modal-button:hover {
+  background-color: #d400b3; /* 호버 시 색상 변화 */
 }

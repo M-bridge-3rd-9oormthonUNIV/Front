@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { requestImageGenerate, requestImageShare } from "./imageControlApi";
 import "../../css/imagePage.css";
 import "../../css/contentPage.css";
 import ImageGeneratePage from "./imageGeneratePage";
@@ -9,6 +8,7 @@ export default function LeftPage({
   leftSubPageVisible,
   leftButtonPosition,
   rightSubPageVisible,
+  songId,
   handleDragStart,
 }) {
   const [isImageButtonGroupVisible, setIsImageButtonGroupVisible] =
@@ -47,7 +47,7 @@ export default function LeftPage({
         }}
       ></div>
 
-      {/* 가짜 왼쪽 버튼 페이지(배경투명 윤곽선만 있음) */}
+      {/* 가짜 왼쪽 버튼 페이지 (배경투명 윤곽선만 있음) */}
       <div
         className={`fake-side-page-left`}
         style={{
@@ -62,7 +62,7 @@ export default function LeftPage({
         }}
       ></div>
 
-      {/* 가짜 왼쪽 반원 버튼(shadow효과) */}
+      {/* 가짜 왼쪽 반원 버튼 (shadow효과) */}
       <div
         className={`fake-ellipse-left`}
         style={{
@@ -78,22 +78,26 @@ export default function LeftPage({
       ></div>
 
       {/* 분기 작업 필요 */}
-      {/* 
-      <GalleryPage
-        leftSubPageVisible={leftSubPageVisible}
-        leftButtonPosition={leftButtonPosition}
-        rightSubPageVisible={rightSubPageVisible}
-        handleDragStart={handleDragStart}
-        isImageButtonGroupVisible={isImageButtonGroupVisible}
-      ></GalleryPage>   */}
+      {/* 만약 songId가 있다면 -> 갤러리 화면 띄움. songId가 없다면  -> 이미지 생성화면 */}
 
-      <ImageGeneratePage
-        leftSubPageVisible={leftSubPageVisible}
-        leftButtonPosition={leftButtonPosition}
-        rightSubPageVisible={rightSubPageVisible}
-        handleDragStart={handleDragStart}
-        isImageButtonGroupVisible={isImageButtonGroupVisible}
-      ></ImageGeneratePage>
+      {songId === "undefined" ? (
+        <GalleryPage
+          leftSubPageVisible={leftSubPageVisible}
+          leftButtonPosition={leftButtonPosition}
+          rightSubPageVisible={rightSubPageVisible}
+          handleDragStart={handleDragStart}
+          isImageButtonGroupVisible={isImageButtonGroupVisible}
+        />
+      ) : (
+        <ImageGeneratePage
+          leftSubPageVisible={leftSubPageVisible}
+          leftButtonPosition={leftButtonPosition}
+          rightSubPageVisible={rightSubPageVisible}
+          handleDragStart={handleDragStart}
+          isImageButtonGroupVisible={isImageButtonGroupVisible}
+          songId={songId}  // ImageGeneratePage에 songId 전달
+        />
+      )}
     </>
   );
 }

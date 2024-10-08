@@ -1,8 +1,7 @@
-// Modal.jsx
 import React from "react";
 import "../../css/modal.css";
 
-const Modal = ({ isOpen, onClose, message, onConfirm }) => {
+const Modal = ({ isOpen, onClose, message }) => {
   if (!isOpen) return null;
 
   return (
@@ -11,8 +10,8 @@ const Modal = ({ isOpen, onClose, message, onConfirm }) => {
         <div className="modal-logo"></div>
         <p>{message}</p>
         <div className="modal-select-group">
-          <button onClick={onConfirm}>예</button>
-          <button onClick={onClose}>아니요</button>
+          {/* "닫기" 버튼으로 수정 */}
+          <button className="modal-button" onClick={onClose}>닫기</button>
         </div>
       </div>
     </div>

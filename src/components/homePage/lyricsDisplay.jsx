@@ -1,105 +1,188 @@
-import React, { useState } from "react";
-import { requestTranslateLyrics } from "./musicLyricsApi";
+import React, { useState, useEffect } from "react";
+import {
+  requestTranslateLyrics,
+  requestOriginalLyrics,
+} from "./musicLyricsApi";
 import "../../css/homePage.css";
-import "../../css/musicLyricsPage.css";
+import "../../css/musicLyricsPage.css"; // CSS 스타일
+import "../../css/contentPage.css";
+import "../../css/loading.css";
 
-/* 가사 컴포넌트 (가사 호출, 표시) */
-export default function LyricsDisplay({
-  originalLyrics,
-  translatedLyrics,
-  style,
-}) {
+export default function LyricsDisplay({ songId }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("korean");
-  const options = ["korean", "english"];
+  const options = [
+    "korean",
+    "japanese",
+    "chinese",
+    "english",
+    "french",
+    "spanish",
+    "norwegian",
+    "russian",
+    "hindi",
+  ];
+  const [originalLyrics, setOriginalLyrics] = useState();
+  const [translatedLyrics, setTranslatedLyrics] = useState();
+  const [originalLoading, setOriginalLoading] = useState(true); // 로딩 상태 추가
+  const [translatedLoading, setTranslatedLoading] = useState(true); // 로딩 상태 추가
 
-  // 언어 변경 토글
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+    console.log("드롭다운 토글됨: ", !isOpen); // 드롭다운 상태 확인
   };
 
-  // 옵션 클릭
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option, event) => {
+    event.stopPropagation(); // 이벤트 전파 방지
+    console.log("선택된 언어:", option); // 선택된 옵션 로그
     setSelectedOption(option);
-    requestTranslateLyrics("songId", option); // * 전역변수 songId 사용, 수정해야함
-    setIsOpen(false); // 선택 후 드롭다운 닫기
+    setIsOpen(false);
   };
 
-  return (
-    <>
-      {/* 화면 1 (가사 제공 o) */}
-      {originalLyrics !== "데이터없음" && translatedLyrics !== "데이터없음" ? (
-        <div className="allLyricsBox" style={style}>
-          <div className="lyricsBox">
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                height: "100%",
-                justifyContent: "center",
-              }}
-            >
-              {/* 원문 가사  */}
-              <div className="lyricsIcon">
-                <p style={{ fontSize: "16px" }}>original</p>
-              </div>
-            </div>
+  // 외부 클릭 시 드롭다운 닫기
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isOpen && !event.target.closest(".dropdown")) {
+        setIsOpen(false);
+      }
+    };
 
-            <div className="lyrics">{originalLyrics}</div>
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  // 원본 가사 가져오기
+  useEffect(() => {
+    const fetchOriginalLyrics = async (songId) => {
+      setOriginalLoading(true); // 데이터 요청 시작 시 로딩 상태 변경
+      try {
+        const original = await requestOriginalLyrics(songId);
+
+        const removeItalicTags = (html) => {
+          return html.replace(/<i>|<\/i>/g, "");
+        };
+
+        console.log("원문가사 : " + original);
+        setOriginalLyrics(removeItalicTags(original));
+      } catch (error) {
+        console.error("원본 가사 API 호출 중 오류 발생:", error);
+      } finally {
+        setOriginalLoading(false); // 데이터 요청 완료 후 로딩 상태 변경
+      }
+    };
+
+    if (songId) {
+      fetchOriginalLyrics(songId);
+    }
+  }, [songId]);
+
+  // 번역 가사 가져오기
+  useEffect(() => {
+    const fetchTranslatedLyrics = async (songId, lang) => {
+      setTranslatedLoading(true); // 데이터 요청 시작 시 로딩 상태 변경
+      try {
+        const translated = await requestTranslateLyrics(songId, lang);
+
+        const removeItalicTags = (html) => {
+          return html.replace(/<i>|<\/i>/g, "");
+        };
+
+        console.log("번역가사 : " + translated);
+        setTranslatedLyrics(removeItalicTags(translated));
+      } catch (error) {
+        console.error("번역 가사 API 호출 중 오류 발생:", error);
+      } finally {
+        setTranslatedLoading(false); // 데이터 요청 완료 후 로딩 상태 변경
+      }
+    };
+
+    if (songId) {
+      fetchTranslatedLyrics(songId, selectedOption);
+    }
+  }, [songId, selectedOption]);
+
+  // 둘 다 로딩 중일 때
+  if (translatedLoading && originalLoading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>가사 불러오는 중...</p>
+      </div>
+    );
+  }
+
+  if (originalLyrics === "undefined" && translatedLyrics === "undefined") {
+    return (
+      <div className="allLyricsBox">
+        <div className="lyricsBox">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "50px",
+              marginBottom: "90px",
+              alignItems: "center",
+              textAlign: "center",
+              color: "#FF00E5",
+            }}
+          >
+            <div className="face"></div>
+            <p>
+              Sorry, We don't have lyrics
+              <br />
+              가사가 제공되지 않는 음원입니다
+            </p>
           </div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="allLyricsBox">
+        <div className="lyricsBox">
+          {originalLoading ? ( // originalLoading 상태에 따라 조건부 렌더링
+            <div className="loading-container">
+              <div className="spinner"></div>
+              <p>원본 가사 불러오는 중...</p>
+            </div>
+          ) : (
+            <>
+              <div className="lyricsIcon">original</div>
+              <div
+                className="lyrics"
+                dangerouslySetInnerHTML={{ __html: originalLyrics }}
+              />
+            </>
+          )}
+        </div>
 
-          {/* 가운데 라인 (스크롤?)*/}
-          <div className="line"></div>
+        <div className="line"></div>
 
-          {/* 번역 가사 */}
-          <div className="lyricsBox">
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                height: "100%",
-                justifyContent: "center",
-              }}
-            >
+        <div className="lyricsBox">
+          {translatedLoading ? ( // translatedLoading 상태에 따라 조건부 렌더링
+            <div className="loading-container">
+              <div className="spinner"></div>
+              <p>번역 가사 불러오는 중...</p>
+            </div>
+          ) : (
+            <>
               <div className="dropdown">
-                <button
-                  onClick={toggleDropdown}
-                  style={{
-                    display: "flex",
-                    position: "relative",
-                    width: "100%",
-                    height: "100%",
-                    flexDirection: "row",
-                    backgroundColor: "transparent",
-                    outline: "none",
-                    border: "none",
-                    color: "white",
-                    fontSize: "16px",
-                    cursor: "pointer",
-                  }}
-                >
-                  <p className="arrow">⌄</p>
-                  <p
-                    style={{
-                      position: "absolute",
-                      display: "flex",
-                      left: "32px",
-                      top: "50%", // 중앙 정렬
-                      transform: "translateY(-50%)", // 수직 중앙 정렬
-                      textAlign: "center",
-                    }}
-                  >
-                    {selectedOption}
-                  </p>
+                <button onClick={toggleDropdown} className="dropdown">
+                  <span className="arrow">⌄</span>
+                  <span
+                    style={{ paddingLeft: "7px" }}
+                  >{`${selectedOption}`}</span>
                 </button>
 
                 {isOpen && (
                   <div className="dropdown-menu">
-                    {options.map((option, index) => (
+                    {options.map((option) => (
                       <div
-                        key={index}
+                        key={option}
                         className="dropdown-item"
-                        onClick={() => handleOptionClick(option)}
+                        onClick={(event) => handleOptionClick(option, event)} // 이벤트 전달
                       >
                         {option}
                       </div>
@@ -107,42 +190,15 @@ export default function LyricsDisplay({
                   </div>
                 )}
               </div>
-            </div>
-            <div className="lyrics">{translatedLyrics}</div>
-          </div>
+
+              <div
+                className="lyrics"
+                dangerouslySetInnerHTML={{ __html: translatedLyrics }}
+              />
+            </>
+          )}
         </div>
-      ) : (
-        <div className="allLyricsBox">
-          {/* 화면 2 (가사 제공 x) */}
-          <div className="lyricsBox">
-            <div
-              style={{
-                marginTop: "50px",
-                marginBottom: "90px",
-                display: "flex",
-                flexDirection: "column",
-                justifyItems: "center",
-                alignItems: "center",
-                border: "none",
-                outline: "none",
-                color: "transparent",
-                backgroundColor: "transparent",
-              }}
-            >
-              <div className="face"></div>
-              <p
-                style={{
-                  color: "#FF00E5",
-                  textAlign: "center",
-                }}
-              >
-                Sorry, We don't have lyrics<br></br>가사가 제공되지 않는
-                음원입니다
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
+      </div>
+    );
+  }
 }

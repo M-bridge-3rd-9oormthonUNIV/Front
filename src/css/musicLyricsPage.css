@@ -38,6 +38,8 @@
   flex-direction: column;
   align-items: center;
   background-color: transparent;
+  height: 100%;
+  width: 80vw;
 }
 
 /* 검색 컨테이너 */
@@ -95,41 +97,46 @@
 
 /* 가사 */
 .allLyricsBox {
+  position: relative;
   margin-top: 20px;
   margin-bottom: 20px;
-  overflow: scroll;
+  overflow-y: scroll; /* scroll 대신 auto로 변경 */
+  overflow-x: hidden;
   scrollbar-width: none;
   display: flex;
+  flex-direction: row;
   justify-items: center;
   align-items: flex-start;
-  color: white;
+  height: 96%;
   z-index: 3;
 }
 
 /* 가사 + 아이콘 box */
-.LyricsBox {
+.lyricsBox {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 세로 중앙 정렬 */
+  justify-content: flex-start;
   align-items: center; /* 가로 중앙 정렬 (선택 사항) */
-  height: 100vh;
+  height: 100%;
 }
 
 /* 가사 */
 .lyrics {
   display: flex;
   flex-direction: column;
-  width: 250px;
+  width: 270px;
+  height: 80%;
   text-align: center;
   font-size: 15px;
   line-height: 2;
   z-index: 0;
-  padding-top: 5px;
+  padding-top: 10px;
   padding-left: 30px;
   padding-right: 30px;
+  color: white;
 }
 
-/* 아이콘 (origianl, korean ..) */
 .lyricsIcon {
   display: flex;
   border: none;
@@ -138,11 +145,15 @@
   height: 25px;
   justify-content: center;
   align-items: center;
+  background-size: contain;
   background-image: url("https://i.postimg.cc/Hncbv0N6/Rectangle-21.png");
   background-repeat: no-repeat;
-  background-size: contain;
   background-position: center;
   color: white;
+  box-sizing: border-box; /* 박스 모델 조정 */
+  margin: 0 !important ; /* 마진 초기화 */
+  padding: 0 !important ; /* 패딩 초기화 */
+  vertical-align: middle; /* 수직 정렬 */
 }
 
 /* 가운데 스크롤 line */
@@ -150,7 +161,7 @@
   position: fixed;
   left: 50%;
   width: 1px;
-  height: 48%;
+  height: 100%;
   background-image: url("https://i.postimg.cc/1XqNrmgT/Line-1.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -158,10 +169,10 @@
 }
 
 .dropdown {
-  position: relative; /* 드롭다운을 절대 위치 기준으로 설정하기 위해 relative 추가 */
+  position: relative;
   display: inline-block;
-  border: "none";
-  outline: "none";
+  border: none;
+  outline: none;
   width: 100px;
   height: 25px;
   font-size: 15px;
@@ -170,20 +181,34 @@
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
-  color: black;
+  color: white;
+  box-sizing: border-box; /* 박스 모델 조정 */
+  vertical-align: middle; /* 수직 정렬 */
+  background-color: transparent;
 }
 
 .dropdown-menu {
+  font-size: 13px;
   position: absolute; /* 드롭다운 메뉴를 절대 위치로 설정 */
-  top: 100%; /* 드롭다운 버튼 바로 아래에 위치 */
+  top: 25px; /* 드롭다운 버튼 바로 아래에 위치 */
   left: 50%; /* 가로 중앙 정렬을 위해 50%로 설정 */
   transform: translateX(-50%);
+  height: auto;
   margin-top: 3px;
-  width: 80px;
-  border: 0.3px solid #ccc;
-  border-radius: 4px;
+  width: 79px;
+  border-radius: none;
   cursor: pointer;
-  background-color: white;
+  z-index: 1;
+  color:gray;
+
+  /* 투명도 다름 */
+  /* background-image: url("https://i.postimg.cc/6pvSKTcc/Rectangle-24-1.png"); */
+  background-image: url("https://i.postimg.cc/QN70Vv1N/Rectangle-24-2.png");
+  /* 배경 이미지 설정 */
+  background-repeat: no-repeat;
+  background-size: contain; /* 비율 유지하며 잘리지 않도록 설정 */
+  background-color: transparent;
+  background-position: center; /* 배경 이미지 중앙 정렬 */
 }
 
 .dropdown-item {
@@ -193,9 +218,9 @@
 }
 
 .dropdown-item:hover {
-  background-color: #a1a1a1;
-  border: 0.3px solid #ccc;
-  border-radius: 4px;
+  color:#FF00E5;
+  font-weight: 500;
+  font-size: 15px;
 }
 
 /* 가사 미제공 화면 아이콘 */
@@ -217,11 +242,11 @@
 .arrow {
   display: flex;
   position: absolute;
-  width: 11%;
-  height: 7%;
+  width: 11px;
+  height: 4xp;
   left: 14px;
-  margin-left: 5px;
-  margin-right: 8px;
+  margin-left: 1px;
+  margin-right: 7px;
   color: white;
   font-size: 17px;
   line-height: 0;
@@ -229,4 +254,8 @@
   align-items: center;
   top: 38%; /* 50%로 중앙 정렬 */
   transform: translateY(-50%); /* Y축으로 중앙 정렬 보정 */
+}
+
+.i {
+  display: inline; /* inline으로 설정하여 줄 바꿈 방지 */
 }
