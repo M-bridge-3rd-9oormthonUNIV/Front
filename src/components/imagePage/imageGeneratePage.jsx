@@ -105,7 +105,7 @@ export default function ImageGeneratePage({
           className={`image-bt ${isImageButtonGroupVisible ? "show" : ""}`}
           style={{
             backgroundImage: `url("https://i.postimg.cc/CxsZFPdW/Vector-2.png")`,
-            marginLeft: "54px",
+            marginLeft: "56px",
           }}
           title="이미지 저장"
           onClick={() => handleDownload(imageUrl)} // 바로 다운로드 함수 호출
