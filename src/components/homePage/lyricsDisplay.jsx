@@ -113,7 +113,7 @@ export default function LyricsDisplay({ songId }) {
     );
   }
 
-  if (originalLyrics === "undefined" && translatedLyrics === "undefined") {
+  if (originalLyrics === "Could not fetch lyrics.") {
     return (
       <div className="allLyricsBox">
         <div className="lyricsBox">

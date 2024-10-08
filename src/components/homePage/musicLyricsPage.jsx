@@ -128,7 +128,7 @@ export default function MusicLyricsPage() {
 
           <VideoPlayer artist={artist} songId={songId} />
 
-          <div style={{ opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1, overflowY: "scroll", height: "52%" }}>
+          <div style={{ opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1, height: "52%", overflow:"hidden", scrollbarWidth:"none" }}>
             <LyricsDisplay songId={songId} />
           </div>
         </div>

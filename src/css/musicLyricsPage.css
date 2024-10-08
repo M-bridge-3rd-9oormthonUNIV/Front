@@ -111,6 +111,11 @@
   z-index: 3;
 }
 
+/* Chrome, Safari, Edge용 스크롤바 숨기기 */
+.allLyricsBox::-webkit-scrollbar {
+  display: none;
+}
+
 /* 가사 + 아이콘 box */
 .lyricsBox {
   position: relative;
