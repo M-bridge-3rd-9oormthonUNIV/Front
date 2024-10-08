@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react"; // useEffect 추가
 import { requestImageGenerate, requestImageShare } from "./imageControlApi";
 import SubLyricsDisplay from "../shared/subLyricsDisplay.jsx";
 import "../../css/imagePage.css";
 import "../../css/contentPage.css";
 import "../../css/modal.css";
-import {Modal} from "../shared/modal.jsx";
-
-const imageUrl = "https://i.ibb.co/RC5zFFY/cruel-summer.jpg"
+import { Modal } from "../shared/modal.jsx";
 
 export default function ImageGeneratePage({
   leftSubPageVisible,
@@ -18,10 +16,30 @@ export default function ImageGeneratePage({
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [imageUrl, setImageUrl] = useState(""); // imageUrl 상태 추가
 
-  const handleButtonClick = async (message, action, successMessage, errorMessage) => {
+  // 컴포넌트 마운트 시 이미지 생성
+  useEffect(() => {
+    const generateImage = async () => {
+      try {
+        const generatedImageUrl = await requestImageGenerate(); // 이미지 생성 요청
+        setImageUrl(generatedImageUrl); // 생성된 이미지 URL 상태에 저장
+      } catch (error) {
+        console.error("이미지 생성 중 오류 발생:", error);
+        setModalMessage("이미지 생성에 실패했습니다."); // 실패 메시지 설정
+        setIsModalOpen(true); // 모달 열기
+      }
+    };
+
+    generateImage(); // 이미지 생성 함수 호출
+  }, []); // 빈 배열을 의존성으로 주어 처음 마운트될 때만 실행
+
+  const handleButtonClick = async (action, successMessage, errorMessage) => {
     try {
-      await action(); // 설정된 작업 수행
+      const result = await action(); // 설정된 작업 수행 (requestImageGenerate의 경우 반환값이 있음)
+      if (action === requestImageGenerate) {
+        setImageUrl(result); // 재생성된 이미지 URL로 업데이트
+      }
       setModalMessage(successMessage); // 성공 메시지 설정
     } catch (error) {
       console.error(error);
@@ -73,9 +91,9 @@ export default function ImageGeneratePage({
         }}
       >
         <div className="gallery">
-          <img
+          <img 
             className="generatedImage"
-            src={imageUrl}
+            src={imageUrl} // 상태에서 가져온 imageUrl 사용
             style={{ opacity: `${leftSubPageVisible ? "1" : "0"}` }}
             alt="생성된 이미지"
           />
@@ -99,7 +117,7 @@ export default function ImageGeneratePage({
             backgroundImage: `url("https://i.postimg.cc/9QhRH5Xd/Vector-1.png")`,
           }}
           title="이미지 재생성"
-          onClick={() => handleButtonClick("이미지를 재생성하였습니다.", requestImageGenerate, "이미지를 재생성하였습니다.", "이미지 재생성에 실패하였습니다.")}
+          onClick={() => handleButtonClick(requestImageGenerate, "이미지를 재생성하였습니다.", "이미지 재생성에 실패하였습니다.")}
         ></button>
         <button
           className={`image-bt ${isImageButtonGroupVisible ? "show" : ""}`}
@@ -116,7 +134,7 @@ export default function ImageGeneratePage({
             backgroundImage: `url("https://i.postimg.cc/B6XtBJN0/Vector-3.png")`,
           }}
           title="이미지 업로드"
-          onClick={() => handleButtonClick("이미지를 업로드하였습니다.", requestImageShare, "이미지를 업로드하였습니다.", "이미지 업로드에 실패하였습니다.")}
+          onClick={() => handleButtonClick(requestImageShare, "이미지를 업로드하였습니다.", "이미지 업로드에 실패하였습니다.")}
         ></button>
       </div>
 

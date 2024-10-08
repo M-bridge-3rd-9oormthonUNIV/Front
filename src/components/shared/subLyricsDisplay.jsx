@@ -14,7 +14,7 @@ export default function SubLyricsDisplay({ songId }) {
       try {
         const [original, translated] = await Promise.all([
           requestOriginalLyrics(songId),
-          requestTranslateLyrics(songId,"korean"),
+          requestTranslateLyrics(songId, "korean"),
         ]);
 
         console.log("원문가사 : " + original);
@@ -99,7 +99,7 @@ export default function SubLyricsDisplay({ songId }) {
               ></div>
               {/* 번역 가사 */}
               <div
-                style={{ color: "#FF6DCC", marginBottom: "20px" }}
+                style={{ color: "#FF6DCC", marginBottom: "5px" }}
                 dangerouslySetInnerHTML={{ __html: pair.translated }}
               ></div>
             </div>

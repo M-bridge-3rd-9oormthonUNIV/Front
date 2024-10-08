@@ -66,10 +66,27 @@
 
 }
 
+@keyframes imageFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9); /* 시작할 때 조금 작게 보이게 */
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05); /* 잠깐 커지는 효과 */
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1); /* 원래 크기로 돌아감 */
+  }
+}
+
 .generatedImage {
   width: 70vw; /* 각 이미지의 너비 */
   height: 70vh; /* 각 이미지의 높이 */
-  object-fit:contain ; /* 이미지 비율 유지하며 잘라내기 */
+  object-fit: contain; /* 이미지 비율 유지 */
   transition: opacity 0.7s ease;
   margin-top: 5vh;
+  animation: imageFadeIn 0.7s ease; /* 애니메이션 추가 */
 }
+
