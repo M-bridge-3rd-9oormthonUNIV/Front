@@ -1,8 +1,8 @@
 // 음악 검색
-export default async function searchMusicApi( artist, track ) {
+export default async function searchMusicApi( artist, song ) {
   try {
     const response = await fetch(
-      `/api/search?artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}`
+      `/api/search?artist=${encodeURIComponent(artist)}&song=${encodeURIComponent(song)}`
     );
 
     if (!response.ok) {
