@@ -25,11 +25,11 @@ export default function SubSearchDisplay({ direction }) {
         setIsFormatErrorModalOpen(true);
       } else {
         const artist = match[1]; // 가수 이름
-        const track = match[2]; // 노래 제목
+        const song = match[2]; // 노래 제목
 
         try {
           // API 호출 부분 주석 해제 및 매개변수 전달
-          const songData = await searchMusicApi(artist, track);
+          const songData = await searchMusicApi(artist, song);
 
           // songData가 정상적으로 반환되었는지 확인
           if (songData) {
@@ -37,7 +37,7 @@ export default function SubSearchDisplay({ direction }) {
 
             // 여기서 필요한 추가 작업 수행 (예: 페이지 이동)
             navigate(
-              `/music-lyrics?songId=${songData.songId}&artist=${songData.artist}&track=${songData.title}`
+              `/music-lyrics?songId=${songData.songId}&artist=${songData.artist}&song=${songData.title}`
             );
           } else {
             alert("곡을 찾을 수 없습니다.");
