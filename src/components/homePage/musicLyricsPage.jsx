@@ -21,7 +21,7 @@ export default function MusicLyricsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   // 곡 정보
   const [artist, setArtist] = useState("");
-  const [track, setTrack] = useState("");
+  const [song, setSong] = useState("");
   const [songId, setSongId] = useState("");
   // 페이지 이동
   const navigate = useNavigate();
@@ -44,16 +44,16 @@ export default function MusicLyricsPage() {
       if (!match) {
         setIsFormatErrorModalOpen(true);
       } else {
-        const inputArtist = match[1]; // 가수 이름
-        const inputTrack = match[2]; // 노래 제목
+        const artist = match[1]; // 가수 이름
+        const song = match[2]; // 노래 제목
 
         try {
-          const songData = await searchMusicApi(inputArtist, inputTrack);
+          const songData = await searchMusicApi(artist, song);
 
           if (songData) {
             console.log("API 응답 데이터:", songData);
             navigate(
-              `/music-lyrics?songId=${songData.songId}&artist=${songData.artist}&track=${songData.title}`
+              `/music-lyrics?songId=${songData.songId}&artist=${songData.artist}&song=${songData.title}`
             );
           } else {
             alert("곡을 찾을 수 없습니다.");
@@ -100,12 +100,12 @@ export default function MusicLyricsPage() {
     const queryParams = new URLSearchParams(location.search);
     const songIdParam = queryParams.get("songId");
     const artistParam = queryParams.get("artist");
-    const trackParam = queryParams.get("track");
+    const songParam = queryParams.get("song");
 
     if (songIdParam && artistParam) {
       setSongId(songIdParam);
       setArtist(artistParam);
-      setTrack(trackParam);
+      setSong(songParam);
       setSearchQuery("");
     }
   }, [location]);
@@ -133,7 +133,7 @@ export default function MusicLyricsPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 name="search"
-                placeholder={`${artist} - ${track}`}
+                placeholder={`${artist} - ${song}`}
               />
               <button type="submit" className="search-bt"></button>
             </form>
