@@ -48,14 +48,10 @@ export default function MusicLyricsPage() {
         const inputTrack = match[2]; // 노래 제목
 
         try {
-          // API 호출 부분 주석 해제 및 매개변수 전달
           const songData = await searchMusicApi(inputArtist, inputTrack);
 
-          // songData가 정상적으로 반환되었는지 확인
           if (songData) {
             console.log("API 응답 데이터:", songData);
-
-            // 여기서 필요한 추가 작업 수행 (예: 페이지 이동)
             navigate(
               `/music-lyrics?songId=${songData.songId}&artist=${songData.artist}&track=${songData.title}`
             );
@@ -137,7 +133,7 @@ export default function MusicLyricsPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 name="search"
-                placeholder={`${artist}` + " - " + `${track}`}
+                placeholder={`${artist} - ${track}`}
               />
               <button type="submit" className="search-bt"></button>
             </form>
@@ -173,7 +169,6 @@ export default function MusicLyricsPage() {
           handleDragStart={() => handleDragStart("right")}
         />
  
-        {/* 모달 팝업창 */}
         <AlertModal
           isOpen={isFormatErrorModalOpen}
           onClose={() => setIsFormatErrorModalOpen(false)}

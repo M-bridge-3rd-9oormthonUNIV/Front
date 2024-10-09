@@ -37,14 +37,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: transparent;
   height: 100%;
   width: 80vw;
+  transition: transform 0.3s ease; /* 애니메이션 효과 추가 */
+  padding:0.5vh;
 }
+
+/* 확대 및 축소 효과를 적용할 클래스 */
+.music-box.zoomed {
+  transform: scale(1.05); /* 원하는 확대 비율 */
+}
+
 
 /* 검색 컨테이너 */
 .search-container {
-  margin-top: 30px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -59,12 +67,14 @@
   align-items: center;
   width: 600px;
   height: 45px;
+  /* width: 40vw;
+  height: 5.8vh; */
 }
 
 /* 검색창 */
 .search {
-  width: 600px; /* 최대 너비 지정 */
-  height: 45px;
+  width: 100%; /* 최대 너비 지정 */
+  height: 100%;
   background-color: #130118;
   border: 1px solid;
   border-color: #ff00e5;
@@ -107,7 +117,7 @@
   flex-direction: row;
   justify-items: center;
   align-items: flex-start;
-  height: 96%;
+  height: 50vh;
   z-index: 3;
 }
 
@@ -163,10 +173,10 @@
 
 /* 가운데 스크롤 line */
 .line {
-  position: fixed;
+  position:fixed;
   left: 50%;
   width: 1px;
-  height: 100%;
+  height: 50vh;
   background-image: url("https://i.postimg.cc/1XqNrmgT/Line-1.png");
   background-repeat: no-repeat;
   background-size: cover;
