@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../css/modal.css";
 
-// 이미지 버튼 
+// 기본 모달
 export const Modal = ({ isOpen, onClose, message }) => {
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(onClose, 1500); 
+      return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
+    }
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
@@ -10,7 +17,6 @@ export const Modal = ({ isOpen, onClose, message }) => {
       <div className="modal-content">
         <p>{message}</p>
         <div className="modal-select-group">
-          {/* "닫기" 버튼으로 수정 */}
           <button className="modal-button" onClick={onClose}>
             닫기
           </button>
@@ -20,8 +26,15 @@ export const Modal = ({ isOpen, onClose, message }) => {
   );
 };
 
-// 검색 경고 
+// 경고 모달
 export const AlertModal = ({ isOpen, onClose, message }) => {
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(onClose, 1500); 
+      return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
+    }
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
@@ -32,7 +45,6 @@ export const AlertModal = ({ isOpen, onClose, message }) => {
       >
         <p>{message}</p>
         <div className="modal-select-group">
-          {/* "닫기" 버튼으로 수정 */}
           <button
             className="modal-button"
             style={{ marginBottom: "-5px" }}
@@ -46,8 +58,15 @@ export const AlertModal = ({ isOpen, onClose, message }) => {
   );
 };
 
-// 서브페이지 (30% 화면) 검색 경고 
+// 서브페이지(30%) 경고 모달
 export const SubAlertModal = ({ isOpen, onClose, message, direction }) => {
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(onClose, 1500); 
+      return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
+    }
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   // 화면의 30% 위치 계산
