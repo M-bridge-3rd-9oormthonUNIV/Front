@@ -1,14 +1,8 @@
-import React from "react";
-import { requestImageGenerate, requestImageShare } from "./imageControlApi";
+import React, { useEffect, useState } from "react";
 import SubSearchDisplay from "../shared/subSearchDisplay";
+import { requestImages } from "./imageDisplayApi"; // API 요청 함수
 import "../../css/imagePage.css";
 import "../../css/contentPage.css";
-
-const imageUrls = [
-  "https://i.ibb.co/RC5zFFY/cruel-summer.jpg",
-  "https://i.ibb.co/NF5nxqm/dangerously.webp",
-  "https://i.ibb.co/cTnjKcg/idontthinkthatilikeher.jpg",
-];
 
 export default function GalleryPage({
   leftSubPageVisible,
@@ -17,8 +11,27 @@ export default function GalleryPage({
   handleDragStart,
   isImageButtonGroupVisible,
 }) {
+  const [imageUrls, setImageUrls] = useState([]); // 이미지 URL 상태 관리
+  const [loading, setLoading] = useState(true); // 로딩 상태 관리
 
+  // 이미지 가져오기 함수
+  const fetchImages = async () => {
+    setLoading(true); // 로딩 시작
+    try {
+      const images = await requestImages(); // 이미지 API 호출
+      const urls = images.map((image) => image.url); // 이미지 URL 추출
+      setImageUrls(urls); // 상태 업데이트
+    } catch (error) {
+      console.error("이미지 로드 중 오류 발생:", error);
+    } finally {
+      setLoading(false); // 로딩 종료
+    }
+  };
 
+  // 컴포넌트가 마운트될 때 이미지 가져오기
+  useEffect(() => {
+    fetchImages();
+  }, []);
 
   return (
     <>
@@ -39,22 +52,27 @@ export default function GalleryPage({
       >
         {/* 갤러리 구현 */}
         <div className="gallery">
-          {imageUrls.map((url, index) => (
-            <img
-              key={index}
-              alt={`Image ${index}`}
-              src={url}
-              className="image"
-            />
-          ))}
+          {loading ? ( // 로딩 중일 때 스피너 표시
+            <div className="loading-container">
+              <div className="spinner"></div>
+              <p>이미지를 불러오는 중...</p>
+            </div>
+          ) : (
+            imageUrls.map((url, index) => (
+              <image
+                key={index}
+                alt={`Image ${index}`}
+                src={url}
+                className="image"
+              />
+            ))
+          )}
         </div>
       </div>
 
       {/* 서브 페이지 30% */}
       <div className={`sub-page left-sub ${leftSubPageVisible ? "show" : ""}`}>
-        {/* <SubLyricsDisplay></SubLyricsDisplay> */}
-        <SubSearchDisplay></SubSearchDisplay>
-
+        <SubSearchDisplay direction={"left"}/>
         {/* 이미지 버튼 그룹 */}
       </div>
     </>

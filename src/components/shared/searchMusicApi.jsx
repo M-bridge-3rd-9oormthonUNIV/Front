@@ -1,8 +1,8 @@
-// 음악 검색하고 song 세팅하는 메서드
-export default async function searchMusicApi({ artist, title }) {
+// 음악 검색
+export default async function searchMusicApi( artist, song ) {
   try {
     const response = await fetch(
-      `https://www.m-bridge.site/api/search/${artist}/${title}`
+      `/api/search?artist=${encodeURIComponent(artist)}&song=${encodeURIComponent(song)}`
     );
 
     if (!response.ok) {
@@ -12,8 +12,9 @@ export default async function searchMusicApi({ artist, title }) {
     const data = await response.json();
 
     // 반환값 - song: { title: String, artist: String, albumUrl: String, songId: String }
-    if (data && data.song) {
+    if (data[0]) {
       // * (1) 여기서 전역변수 song 세팅 or (2) song 리턴 -> 리턴값으로 값 설정
+      return data[0];
 
     } else {
       console.error("No songs found");
@@ -21,6 +22,4 @@ export default async function searchMusicApi({ artist, title }) {
   } catch (error) {
     console.error("Error fetching song ID:", error);
   }
-
-  return "zz";
 }
