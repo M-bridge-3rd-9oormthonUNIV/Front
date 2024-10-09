@@ -1,8 +1,32 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef,useState } from "react";
+import { requestVideoId } from "./musicLyricsApi";
 
 /* 영상 컴포넌트 (영상 api 호출) */
-export default function VideoPlayer({ videoUrl }) {
+export default function VideoPlayer({ artist, songId }) {
+  const [videoId,setVideoId]=useState();
   const playerRef = useRef(null);
+
+  useEffect(() => {
+    const fetchVideoId = async (artist, songId) => {
+      const data = await requestVideoId(artist, songId);
+      if (data) {
+        return data;
+      }
+      return null; // 비디오 ID가 없을 경우 null 반환
+    };
+  
+    const getVideoId = async () => {
+      const id = await fetchVideoId(artist, songId);
+      setVideoId(id); // 비디오 ID 설정
+    };
+  
+    // (cruel summer 비디오아이디)
+    //  setVideoId("ic8j13piAhQ"); 
+
+    getVideoId(); // 함수 호출
+    
+  }, [artist, songId]);
+
 
   useEffect(() => {
     const tag = document.createElement("script");
@@ -10,10 +34,9 @@ export default function VideoPlayer({ videoUrl }) {
     document.body.appendChild(tag);
 
     window.onYouTubeIframeAPIReady = () => {
-      const videoId = extractVideoId(videoUrl);
-
       if (!videoId) {
         console.error("비디오 ID가 유효하지 않습니다.");
+        console.log("유효하지 않은 비디오 ID:", videoId);
         return;
       }
 
@@ -43,25 +66,20 @@ export default function VideoPlayer({ videoUrl }) {
         playerRef.current.destroy();
       }
     };
-  }, [videoUrl]);
-
-  // 비디오 ID를 추출하는 함수
-  const extractVideoId = (url) => {
-    const regex =
-      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^&\n]{11})/;
-    const matches = url.match(regex);
-    return matches && matches[1] ? matches[1] : null;
-  };
+  }, [videoId]);
 
   return (
     <div>
-      {videoUrl ? (
+      {videoId ? (
         <div
           id="youtube-player"
           style={{ marginTop: "30px", width: "450px", height: "253px" }}
         ></div>
       ) : (
-        <p>Loading...</p>
+        <div className="loading-container">
+          <div className="spinner" style={{ accentColor:"pink" }}></div>
+          <p>영상 불러오는 중...</p>
+        </div>
       )}
     </div>
   );
