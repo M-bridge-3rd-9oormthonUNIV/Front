@@ -1,23 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/modal.css";
 
-// 기본 모달
+// 이미지 버튼 
 export const Modal = ({ isOpen, onClose, message }) => {
+  const [isHidden, setIsHidden] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
-      const timer = setTimeout(onClose, 1500); 
-      return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
-    }
-  }, [isOpen, onClose]);
+      setIsHidden(false); // isOpen이 true일 때 isHidden을 false로 초기화
+      const timer = setTimeout(() => {
+        handleClose();
+      }, 1500); // 1.5초 후에 모달을 닫음
 
-  if (!isOpen) return null;
+      return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+    } else {
+      setIsHidden(false); // isOpen이 false일 때 isHidden도 초기화
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    setIsHidden(true);
+    setTimeout(() => {
+      onClose(); // 모달을 완전히 닫기
+    }, 300); // CSS transition duration과 동일해야 함
+  };
+
+  if (!isOpen && !isHidden) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className={`modal-overlay ${isHidden ? "hide" : ""}`}>
+      <div className={`modal-content ${isHidden ? "hide" : ""}`}>
         <p>{message}</p>
         <div className="modal-select-group">
-          <button className="modal-button" onClick={onClose}>
+          <button className="modal-button" onClick={handleClose}>
             닫기
           </button>
         </div>
@@ -26,30 +41,38 @@ export const Modal = ({ isOpen, onClose, message }) => {
   );
 };
 
-// 경고 모달
+// 검색 경고 
 export const AlertModal = ({ isOpen, onClose, message }) => {
+  const [isHidden, setIsHidden] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
-      const timer = setTimeout(onClose, 1500); 
-      return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
-    }
-  }, [isOpen, onClose]);
+      setIsHidden(false); // isOpen이 true일 때 isHidden을 false로 초기화
+      const timer = setTimeout(() => {
+        handleClose();
+      }, 1500); // 1.5초 후에 모달을 닫음
 
-  if (!isOpen) return null;
+      return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+    } else {
+      setIsHidden(false); // isOpen이 false일 때 isHidden도 초기화
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    setIsHidden(true);
+    setTimeout(() => {
+      onClose();
+    }, 300);
+  };
+
+  if (!isOpen && !isHidden) return null;
 
   return (
-    <div className="modal-overlay">
-      <div
-        className="modal-content"
-        style={{ width: "370px", height: "150px", textAlign: "center" }}
-      >
+    <div className={`modal-overlay ${isHidden ? "hide" : ""}`}>
+      <div className={`modal-content ${isHidden ? "hide" : ""}`} style={{ width: "370px", height: "150px", textAlign: "center" }}>
         <p>{message}</p>
         <div className="modal-select-group">
-          <button
-            className="modal-button"
-            style={{ marginBottom: "-5px" }}
-            onClick={onClose}
-          >
+          <button className="modal-button" style={{ marginBottom: "-5px" }} onClick={handleClose}>
             닫기
           </button>
         </div>
@@ -58,29 +81,40 @@ export const AlertModal = ({ isOpen, onClose, message }) => {
   );
 };
 
-// 서브페이지(30%) 경고 모달
+// 서브페이지 (30% 화면) 검색 경고 
 export const SubAlertModal = ({ isOpen, onClose, message, direction }) => {
+  const [isHidden, setIsHidden] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
-      const timer = setTimeout(onClose, 1500); 
-      return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
+      setIsHidden(false); // isOpen이 true일 때 isHidden을 false로 초기화
+      const timer = setTimeout(() => {
+        handleClose();
+      }, 1500); // 1.5초 후에 모달을 닫음
+
+      return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+    } else {
+      setIsHidden(false); // isOpen이 false일 때 isHidden도 초기화
     }
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
-  if (!isOpen) return null;
+  const handleClose = () => {
+    setIsHidden(true);
+    setTimeout(() => {
+      onClose();
+    }, 300);
+  };
 
-  // 화면의 30% 위치 계산
+  if (!isOpen && !isHidden) return null;
+
   const position = `${window.innerWidth * 0.00000001}px`;
-
-  // 모달의 위치 스타일 설정
-  const modalPosition =
-    direction === "right"
-      ? { right: position, top: "32%", transform: "translateY(-50%,-50%)"  } // 오른쪽에 붙게
-      : { left: position, top: "32%", transform: "translateY(-50%,-50%)" }; // 왼쪽에 붙게
+  const modalPosition = direction === "right"
+    ? { right: position, top: "32%", transform: "translateY(-50%,-50%)" }
+    : { left: position, top: "32%", transform: "translateY(-50%,-50%)" };
 
   return (
     <div
-      className="modal-overlay"
+      className={`modal-overlay ${isHidden ? "hide" : ""}`}
       style={{
         position: "relative",
         width: "320px",
@@ -88,11 +122,11 @@ export const SubAlertModal = ({ isOpen, onClose, message, direction }) => {
         textAlign: "center",
         padding: "10px",
         background: "transparent",
-        ...modalPosition, // 위치 스타일 적용
+        ...modalPosition,
       }}
     >
       <div
-        className="modal-content"
+        className={`modal-content ${isHidden ? "hide" : ""}`}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -112,7 +146,7 @@ export const SubAlertModal = ({ isOpen, onClose, message, direction }) => {
             height: "30px",
             fontSize: "12px",
           }}
-          onClick={onClose}
+          onClick={handleClose}
         >
           닫기
         </button>

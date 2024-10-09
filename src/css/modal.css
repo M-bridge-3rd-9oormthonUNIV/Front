@@ -6,11 +6,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7); /* 더 어두운 반투명 배경 */
-  display: flex;
+  background: rgba(0, 0, 0, 0.7);
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* 모달이 다른 요소 위에 보이도록 */
+  z-index: 1000;
+  transition: opacity 0.3s ease; /* 서서히 사라지는 효과 추가 */
 }
 
 .modal-content {
@@ -19,15 +19,21 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 18px; /* 패딩 증가 */
-  border-radius: 12px; /* 둥근 모서리 증가 */
+  padding: 18px;
+  border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease; /* 애니메이션 효과 */
-  width: 250px; /* 모달 너비 */
+  transition: transform 0.3s ease, opacity 0.3s ease; /* 모달이 사라질 때 투명도 변화 */
+  width: 250px;
   height: 120px;
   font-size: 12px;
   white-space: pre-line;
+  opacity: 1; /* 초기 투명도 설정 */
 }
+
+.modal-content.hide {
+  opacity: 0; /* 모달이 사라질 때의 투명도 */
+}
+
 
 .modal-content:hover {
   transform: scale(1.05); /* 마우스 오버 시 확대 효과 */
