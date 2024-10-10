@@ -3,19 +3,21 @@ import "../../css/imagePage.css";
 import "../../css/contentPage.css";
 import ImageGeneratePage from "./imageGeneratePage";
 import GalleryPage from "./galleryPage";
+import { motion } from "framer-motion";
 
 export default function LeftPage({
   leftSubPageVisible,
   leftButtonPosition,
   rightSubPageVisible,
   songId,
-  handleDragStart,
+  moveLeftButton,
 }) {
-  const [isImageButtonGroupVisible, setIsImageButtonGroupVisible] =
-    useState(false); // 버튼 그룹 보이기 상태 추가
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // 화면 너비 상태 추가
+  const [isImageButtonGroupVisible, setIsImageButtonGroupVisible] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isInitialLoad, setIsInitialLoad] = useState(true); 
+  const [isBtLeftVisible, setIsBtLeftVisible] = useState(true); // 왼쪽 버튼 가시성 상태
+  const [isBtLeftImageVisible, setIsBtLeftImageVisible] = useState(false); // bt-left-image 버튼 가시성 상태
 
-  // 화면 크기 변화를 감지하여 상태 업데이트
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -23,81 +25,71 @@ export default function LeftPage({
 
     window.addEventListener("resize", handleResize);
 
-    // 컴포넌트가 언마운트될 때 이벤트 리스너를 제거
+    const timer = setTimeout(() => {
+      setIsInitialLoad(false);
+    }, 0);
+
     return () => {
+      clearTimeout(timer);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  const handleImageClick = () => {
+    setIsBtLeftVisible(false); // 왼쪽 버튼 숨김
+    setIsBtLeftImageVisible(true); // bt-left-image 버튼 보이기
+  };
+
+  const handlePageClick = () => {
+    setIsBtLeftVisible(true); // 왼쪽 버튼 다시 보이기
+    setIsBtLeftImageVisible(false); // bt-left-image 버튼 숨김
+  };
+
   const handleButtonClick = () => {
-    // 버튼 클릭 시 이미지 버튼 그룹의 보이기 상태 토글
-    setIsImageButtonGroupVisible(!isImageButtonGroupVisible);
+    moveLeftButton();
   };
 
   return (
-    <>
-      {/* 왼쪽 버튼 */}
-      <div
-        className="bt-left"
-        onMouseDown={() => handleDragStart("left")}
-        onClick={handleButtonClick} // 클릭 이벤트 추가
-        style={{
-          transform: `translateX(${leftButtonPosition}px)`,
-          visibility: rightSubPageVisible ? "hidden" : "visible",
-        }}
-      ></div>
+    <div onClick={handlePageClick}>
+      {isBtLeftVisible && (
+        <motion.div
+          animate={!isInitialLoad ? { x: leftButtonPosition } : { x: 0 }}
+          transition={{ type: "spring", stiffness: 30 }}
+          className={`bt-left ${rightSubPageVisible ? "fade-out" : "fade-in"}`}
+          onClick={handleButtonClick}
+          style={{ opacity: rightSubPageVisible ? 0 : 1 }}
+        ></motion.div>
+      )}
 
-      {/* 가짜 왼쪽 버튼 페이지 (배경투명 윤곽선만 있음) */}
-      <div
-        className={`fake-side-page-left`}
-        style={{
-          transform: `translateX(${Math.min(
-            leftButtonPosition - windowWidth * 0.7, // windowWidth 사용
-            0
-          )}px)`,
-          visibility:
-            rightSubPageVisible === false && leftButtonPosition >= 1
-              ? "visible"
-              : "hidden", // 두 조건 모두 만족할 때만 보이게 설정
-        }}
-      ></div>
-
-      {/* 가짜 왼쪽 반원 버튼 (shadow효과) */}
-      <div
-        className={`fake-ellipse-left`}
-        style={{
-          transform: `translateX(${Math.min(
-            leftButtonPosition - windowWidth * 0.7, // windowWidth 사용
-            0
-          )}px)`,
-          visibility:
-            rightSubPageVisible === false && leftButtonPosition <= 1
-              ? "visible"
-              : "hidden", // 두 조건 모두 만족할 때만 보이게 설정
-        }}
-      ></div>
-
-      {/* 분기 작업 필요 */}
-      {/* 만약 songId가 있다면 -> 갤러리 화면 띄움. songId가 없다면  -> 이미지 생성화면 */}
+      {isBtLeftImageVisible && (
+        <button
+          className="bt-left-image"
+          onClick={() => {
+            // 여기서 이미지 버튼 그룹을 제어하는 동작 추가
+            setIsImageButtonGroupVisible(!isImageButtonGroupVisible);
+          }}
+        >
+        </button>
+      )}
 
       {songId === "undefined" ? (
         <GalleryPage
           leftSubPageVisible={leftSubPageVisible}
           leftButtonPosition={leftButtonPosition}
           rightSubPageVisible={rightSubPageVisible}
-          handleDragStart={handleDragStart}
           isImageButtonGroupVisible={isImageButtonGroupVisible}
+          isInitialLoad={isInitialLoad}
         />
       ) : (
         <ImageGeneratePage
           leftSubPageVisible={leftSubPageVisible}
           leftButtonPosition={leftButtonPosition}
           rightSubPageVisible={rightSubPageVisible}
-          handleDragStart={handleDragStart}
           isImageButtonGroupVisible={isImageButtonGroupVisible}
-          songId={songId}  // ImageGeneratePage에 songId 전달
+          isInitialLoad={isInitialLoad}
+          songId={songId}
         />
       )}
-    </>
+    </div>
   );
 }

@@ -1,17 +1,17 @@
 // 백엔드 async api 비동기 요청 (api 완성될 시 수정)
 // 비디오ID 가져오기
-export const requestVideoId = async (artist, songId) => {
+export const requestVideoId = async (artist, song) => {
 
   try {
     const response = await fetch(
-      `/api/youtube/video/${encodeURIComponent(artist)}/${encodeURIComponent(
-        songId
+      `/api/youtube/video?artist=${encodeURIComponent(artist)}&song=${encodeURIComponent(
+        song
       )}`
     );
     const data = await response.text();
 
-    console.log("유튜브 : " + data.videoId, data);
-    return data.videoId;
+    console.log("유튜브 : " + data);
+    return data;
 
   } catch (error) {
     console.error("Error fetching video URL:", error);

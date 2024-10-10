@@ -3,6 +3,7 @@ import SubSearchDisplay from "../shared/subSearchDisplay";
 import { requestImages } from "./imageDisplayApi"; // API 요청 함수
 import "../../css/imagePage.css";
 import "../../css/contentPage.css";
+import { motion } from "framer-motion";
 
 export default function GalleryPage({
   leftSubPageVisible,
@@ -10,9 +11,12 @@ export default function GalleryPage({
   rightSubPageVisible,
   handleDragStart,
   isImageButtonGroupVisible,
+  isInitialLoad,
 }) {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [imageUrls, setImageUrls] = useState([]); // 이미지 URL 상태 관리
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
+  const [shouldAnimateSubPage, setShouldAnimateSubPage] = useState(false); // 서브 페이지 애니메이션 상태
 
   // 이미지 가져오기 함수
   const fetchImages = async () => {
@@ -33,21 +37,33 @@ export default function GalleryPage({
     fetchImages();
   }, []);
 
+  // 사이드 페이지 애니메이션이 끝났을 때 서브 페이지 애니메이션 시작
+  useEffect(() => {
+    if (!isInitialLoad) {
+      const timer = setTimeout(() => {
+        setShouldAnimateSubPage(true); // 서브 페이지 애니메이션 시작
+      },1000); // 0.3초 지연 후 서브 페이지 애니메이션 시작
+
+      return () => clearTimeout(timer);
+    }
+  }, [isInitialLoad]);
+
   return (
     <>
       {/* 왼쪽 사이드 페이지 70% */}
-      <div
-        className={`side-page left-side show`}
+      <motion.div
+        className={`side-page left-side show ${rightSubPageVisible ? "fade-out" : "fade-in"}`}
+        animate={
+          !isInitialLoad
+            ? { x: Math.min(leftButtonPosition - windowWidth * 0.7, 0) }
+            : { x: 0 }
+        } // leftButtonPosition에 따라 x 값 애니메이션
+        transition={{ type: "spring", stiffness: 30 }} // 스프링 애니메이션 설정
         style={{
-          transform: `translateX(${Math.min(
-            leftButtonPosition - window.innerWidth * 0.7,
-            0
-          )}px)`,
-          opacity: Math.min(leftButtonPosition / (window.innerWidth * 0.7), 1),
-          visibility:
+            opacity:
             rightSubPageVisible === false && leftButtonPosition >= 0
-              ? "visible"
-              : "hidden", // 두 조건 모두 만족할 때만 보이게 설정
+              ? 1
+              : 0, // 두 조건 모두 만족할 때만 보이게 설정
         }}
       >
         {/* 갤러리 구현 */}
@@ -59,7 +75,7 @@ export default function GalleryPage({
             </div>
           ) : (
             imageUrls.map((url, index) => (
-              <image
+              <img
                 key={index}
                 alt={`Image ${index}`}
                 src={url}
@@ -68,13 +84,25 @@ export default function GalleryPage({
             ))
           )}
         </div>
-      </div>
+      </motion.div>
 
       {/* 서브 페이지 30% */}
-      <div className={`sub-page left-sub ${leftSubPageVisible ? "show" : ""}`}>
-        <SubSearchDisplay direction={"left"}/>
-        {/* 이미지 버튼 그룹 */}
-      </div>
+      <motion.div
+        className={`sub-page left-sub ${leftSubPageVisible ? "show" : ""}`}
+        animate={
+          shouldAnimateSubPage // 서브 페이지 애니메이션 상태 확인
+            ? {
+                x: -Math.min(
+                  leftButtonPosition - windowWidth * 0.7 + windowWidth * 0.3,
+                  0
+                ),
+              }
+            : { x: 0 }
+        } // leftButtonPosition에 따라 x 값 애니메이션
+        transition={{ type: "spring", stiffness: 30 }} // 스프링 애니메이션 설정
+      >
+        <SubSearchDisplay direction={"left"} />
+      </motion.div>
     </>
   );
 }
