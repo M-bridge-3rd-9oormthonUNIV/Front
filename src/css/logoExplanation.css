@@ -1,18 +1,42 @@
 .logo {
-    width: 310px;
-    height: 170.16px;
+    width: 100%; /* logo-container와 동일한 너비 */
+    height: 100%; /* logo-container와 동일한 높이 */
     top: 1vh;
     cursor: pointer;
     object-fit: cover; /* 이미지 비율 유지하면서 크기 맞추기 */
     background-image: url("https://i.postimg.cc/zGSc8Wzd/Group-26.png");
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+.logo-container {
+    position: relative;
+    width: 310px; /* 로고와 동일한 크기 */
+    height: 170.16px; /* 로고와 동일한 크기 */
     margin-bottom: 10px;
 }
 
+.logo-container:hover .service-description {
+    opacity: 1;
+    visibility: visible;
+    animation: fadeIn 2s forwards;
+}
+
 .service-description {
-opacity: 0;
-animation: fadeIn 2s forwards; /* 클릭 시 페이드 인 애니메이션 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out;
+    position: absolute; /* 위치 고정 */
+    top: 0; /* 원하는 위치에 맞게 조정 */
+    left: 0; /* 원하는 위치에 맞게 조정 */
+    width: 100%; /* logo-container와 동일한 너비 */
+    height: 100%; /* logo-container와 동일한 높이 */
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 수평 가운데 정렬 */
+    justify-content: center; /* 수직 가운데 정렬 */
+    text-align: center;
 }
 
 .service-image {
