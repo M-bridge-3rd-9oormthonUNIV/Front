@@ -9,23 +9,25 @@ import "../../css/homePage.css";
 import "../../css/musicLyricsPage.css";
 import "../../css/contentPage.css";
 import { AlertModal } from "../shared/modal";
+import useButtonController from "./useButtonController";
 
 export default function MusicLyricsPage() {
-  const [leftSubPageVisible, setLeftSubPageVisible] = useState(false);
-  const [rightSubPageVisible, setRightSubPageVisible] = useState(false);
-  const [leftButtonPosition, setLeftButtonPosition] = useState(0);
-  const [rightButtonPosition, setRightButtonPosition] = useState(0);
-  const [dragging, setDragging] = useState(false);
-  const [dragDirection, setDragDirection] = useState(null);
-  // 검색
   const [searchQuery, setSearchQuery] = useState("");
-  // 곡 정보
   const [artist, setArtist] = useState("");
   const [song, setSong] = useState("");
   const [songId, setSongId] = useState("");
-  // 페이지 이동
   const navigate = useNavigate();
   const location = useLocation();
+
+  // 버튼 컨트롤 훅 사용
+  const {
+    leftButtonPosition,
+    rightButtonPosition,
+    leftSubPageVisible,
+    rightSubPageVisible,
+    moveButton,
+  } = useButtonController(); // 사용
+
   // alert 모달
   const [isFormatErrorModalOpen, setIsFormatErrorModalOpen] = useState(false);
   const [isSearchPromptModalOpen, setIsSearchPromptModalOpen] = useState(false);
@@ -36,7 +38,6 @@ export default function MusicLyricsPage() {
     if (searchQuery.trim() === "") {
       setIsSearchPromptModalOpen(true);
     } else {
-      // 정규 표현식 수정
       const regex =
         /^\s*([^\s-]+(?:\s+[^\s-]+)*)\s*-\s*([^\s-]+(?:\s+[^\s-]+)*)\s*$/;
       const match = searchQuery.match(regex);
@@ -51,7 +52,6 @@ export default function MusicLyricsPage() {
           const songData = await searchMusicApi(artist, song);
 
           if (songData) {
-            console.log("API 응답 데이터:", songData);
             navigate(
               `/music-lyrics?songId=${songData.songId}&artist=${songData.artist}&song=${songData.title}`
             );
@@ -64,37 +64,6 @@ export default function MusicLyricsPage() {
       }
     }
   };
-
-  const handleDrag = (event) => {
-    if (dragging) {
-      const newPosition = event.clientX;
-      const limit = window.innerWidth * 0.7;
-
-      if (dragDirection === "left") {
-        setLeftButtonPosition(Math.min(newPosition, limit));
-      } else if (dragDirection === "right") {
-        setRightButtonPosition(
-          Math.min(window.innerWidth - newPosition, limit)
-        );
-      }
-    }
-  };
-
-  const handleDragStart = (direction) => {
-    setDragging(true);
-    setDragDirection(direction);
-  };
-
-  const handleDragEnd = () => {
-    setDragging(false);
-    setDragDirection(null);
-  };
-
-  useEffect(() => {
-    const limit = window.innerWidth * 0.7;
-    setLeftSubPageVisible(leftButtonPosition >= limit);
-    setRightSubPageVisible(rightButtonPosition >= limit);
-  }, [leftButtonPosition, rightButtonPosition]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -111,11 +80,7 @@ export default function MusicLyricsPage() {
   }, [location]);
 
   return (
-    <div
-      className="main-container"
-      onMouseMove={handleDrag}
-      onMouseUp={handleDragEnd}
-    >
+    <div className="main-container">
       <div className="main-page">
         <button className="vector-image" alt="Vector"></button>
         <img className="background-image" alt="Background"></img>
@@ -123,9 +88,7 @@ export default function MusicLyricsPage() {
         <div className="music-box">
           <div
             className="search-container"
-            style={{
-              opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1,
-            }}
+            // style={{ opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1 }}
           >
             <form className="search-box" onSubmit={handleSearch}>
               <input
@@ -139,11 +102,11 @@ export default function MusicLyricsPage() {
             </form>
           </div>
 
-          <VideoPlayer artist={artist} songId={songId} />
+          <VideoPlayer artist={artist} song={song} />
 
           <div
             style={{
-              opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1,
+              // opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1,
               height: "52%",
               overflow: "hidden",
               scrollbarWidth: "none",
@@ -158,7 +121,7 @@ export default function MusicLyricsPage() {
           leftButtonPosition={leftButtonPosition}
           rightSubPageVisible={rightSubPageVisible}
           songId={songId}
-          handleDragStart={() => handleDragStart("left")}
+          moveLeftButton={() => moveButton(true)} // 왼쪽 버튼 이동
         />
 
         <RightPage
@@ -166,9 +129,9 @@ export default function MusicLyricsPage() {
           rightButtonPosition={rightButtonPosition}
           leftSubPageVisible={leftSubPageVisible}
           songId={songId}
-          handleDragStart={() => handleDragStart("right")}
+          moveRightButton={() => moveButton(false)} // 오른쪽 버튼 이동
         />
- 
+
         <AlertModal
           isOpen={isFormatErrorModalOpen}
           onClose={() => setIsFormatErrorModalOpen(false)}

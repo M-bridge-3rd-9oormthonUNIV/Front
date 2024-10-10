@@ -9,13 +9,10 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-
   height: 100vh;
   width: 78vw;
   z-index: 0;
   opacity: 0;
-
-  transition: opacity 0.4s ease;
   overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-width: none;
@@ -23,6 +20,7 @@
 
 .side-page.show {
   z-index: 3;
+  opacity: 1;
 }
 
 .left-side {
@@ -34,7 +32,7 @@
 .right-side {
   /* 3배 확대 */
   background-image: url("https://i.postimg.cc/9M3GyQHx/Union-10.png");
-  right: -1.37vw; /* vw 단위로 변경 */
+  right: -1.57vw; /* vw 단위로 변경 */
 }
 
 /* 30% 화면 (가사, 검색화면) */
@@ -46,15 +44,13 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  z-index: 0;
+  z-index: 2;
   opacity: 0;
   top: 0;
-
-  transition: opacity 0.3s ease;
+  transition: opacity 1.2s ease;
 }
 
 .sub-page.show {
-  z-index: 2;
   opacity: 1;
 }
 
@@ -263,7 +259,17 @@
 }
 
 .fake-ellipse-right {
-  left: 9.8vw; /* vw 단위로 변경 */
+  left: 9.6vw; /* vw 단위로 변경 */
   top: 32.6vh; /* vh 단위로 변경 */
   background-image: url("https://i.postimg.cc/8PfpSTxj/Ellipse-16-1.png");
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 1.3s ease-in; /* 서서히 나타나는 애니메이션 */
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out; /* 서서히 사라지는 애니메이션 */
 }

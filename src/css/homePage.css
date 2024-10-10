@@ -90,5 +90,5 @@
 
 .carousel-wrapper {
   position: relative;
-  z-index: 3; /* 기본적으로 다른 요소보다 낮음 */
+  /* z-index: 3; 기본적으로 다른 요소보다 낮음 */
 }
