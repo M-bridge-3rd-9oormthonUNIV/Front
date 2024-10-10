@@ -6,7 +6,7 @@ import React from "react";
 export const requestImageGenerate = async ({ songId, lyrics }) => {
   try {
     const response = await fetch(
-        `/api/image/generate/${encodeURIComponent(songId)}`,
+        `https://api.m-bridge.site/api/image/generate/${encodeURIComponent(songId)}`,
       {
         method: "POST", // POST 요청임을 명시
         headers: {
