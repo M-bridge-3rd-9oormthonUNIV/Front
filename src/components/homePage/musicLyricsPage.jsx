@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import LyricsDisplay from "./lyricsDisplay";
 import VideoPlayer from "./videoPlayer";
@@ -18,6 +18,7 @@ export default function MusicLyricsPage() {
   const [songId, setSongId] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+
 
   // 버튼 컨트롤 훅 사용
   const {
@@ -80,73 +81,75 @@ export default function MusicLyricsPage() {
   }, [location]);
 
   return (
-    <div className="main-container">
-      <div className="main-page">
-        <button className="vector-image" alt="Vector"></button>
-        <img className="background-image" alt="Background"></img>
+      <div className="main-container">
+        <div className="main-page">
+          <button className="vector-image" alt="Vector"></button>
+          <img className="background-image" alt="Background"></img>
 
-        <div className="music-box">
-          <div
-            className="search-container"
-            // style={{ opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1 }}
-          >
-            <div className="search-logo" onClick={() => navigate('/')}></div>
-            <form className="search-box" onSubmit={handleSearch}>
-              <input
-                className="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                name="search"
-                placeholder={`${artist} - ${song}`}
-              />
-              <button type="submit" className="search-bt"></button>
-            </form>
+          <div className="music-box">
+            <div
+              className="search-container"
+              // style={{ opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1 }}
+            >
+              <div className="search-logo" onClick={() => navigate("/")}></div>
+              <form className="search-box" onSubmit={handleSearch}>
+                <input
+                  className="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  name="search"
+                  placeholder={`${artist} - ${song}`}
+                />
+                <button type="submit" className="search-bt"></button>
+              </form>
+            </div>
+
+            {artist != "" && song != "" && (
+              <VideoPlayer artist={artist} song={song} />
+            )}
+
+            <div
+              style={{
+                // opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1,
+                height: "52%",
+                overflow: "hidden",
+                scrollbarWidth: "none",
+              }}
+            >
+              <LyricsDisplay songId={songId} />
+            </div>
           </div>
 
-          {artist!=""&&song!=""&&<VideoPlayer artist={artist} song={song} />}
+          <LeftPage
+            leftSubPageVisible={leftSubPageVisible}
+            leftButtonPosition={leftButtonPosition}
+            rightSubPageVisible={rightSubPageVisible}
+            songId={songId}
+            moveLeftButton={() => moveButton(true)} // 왼쪽 버튼 이동
+          />
 
-          <div
-            style={{
-              // opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1,
-              height: "52%",
-              overflow: "hidden",
-              scrollbarWidth: "none",
-            }}
-          >
-            <LyricsDisplay songId={songId} />
-          </div>
+          <RightPage
+            rightSubPageVisible={rightSubPageVisible}
+            rightButtonPosition={rightButtonPosition}
+            leftSubPageVisible={leftSubPageVisible}
+            songId={songId}
+            moveRightButton={() => moveButton(false)} // 오른쪽 버튼 이동
+          />
+
+          <AlertModal
+            isOpen={isFormatErrorModalOpen}
+            onClose={() => setIsFormatErrorModalOpen(false)}
+            message={
+              "형식이 올바르지 않습니다.\n '가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
+            }
+          />
+
+          <AlertModal
+            isOpen={isSearchPromptModalOpen}
+            onClose={() => setIsSearchPromptModalOpen(false)}
+            message={"노래를 입력하세요."}
+          />
         </div>
-
-        <LeftPage
-          leftSubPageVisible={leftSubPageVisible}
-          leftButtonPosition={leftButtonPosition}
-          rightSubPageVisible={rightSubPageVisible}
-          songId={songId}
-          moveLeftButton={() => moveButton(true)} // 왼쪽 버튼 이동
-        />
-
-        <RightPage
-          rightSubPageVisible={rightSubPageVisible}
-          rightButtonPosition={rightButtonPosition}
-          leftSubPageVisible={leftSubPageVisible}
-          songId={songId}
-          moveRightButton={() => moveButton(false)} // 오른쪽 버튼 이동
-        />
-
-        <AlertModal
-          isOpen={isFormatErrorModalOpen}
-          onClose={() => setIsFormatErrorModalOpen(false)}
-          message={
-            "형식이 올바르지 않습니다.\n '가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
-          }
-        />
-
-        <AlertModal
-          isOpen={isSearchPromptModalOpen}
-          onClose={() => setIsSearchPromptModalOpen(false)}
-          message={"노래를 입력하세요."}
-        />
       </div>
-    </div>
   );
 }

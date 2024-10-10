@@ -58,6 +58,7 @@ export default function GalleryPage({
             ? { x: Math.min(leftButtonPosition - windowWidth * 0.7, 0) }
             : { x: 0 }
         } // leftButtonPosition에 따라 x 값 애니메이션
+        
         transition={{ type: "spring", stiffness: 30 }} // 스프링 애니메이션 설정
         style={{
             opacity:

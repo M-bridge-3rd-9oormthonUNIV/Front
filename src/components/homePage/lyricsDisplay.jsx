@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   requestTranslateLyrics,
   requestOriginalLyrics,
@@ -7,6 +7,9 @@ import "../../css/homePage.css";
 import "../../css/musicLyricsPage.css"; // CSS 스타일
 import "../../css/contentPage.css";
 import "../../css/loading.css";
+
+import {MyContext} from "../shared/myContext"
+
 
 export default function LyricsDisplay({ songId }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,8 +26,11 @@ export default function LyricsDisplay({ songId }) {
     { label: "Hindi", value: "hi" },
   ];
 
-  const [originalLyrics, setOriginalLyrics] = useState();
-  const [translatedLyrics, setTranslatedLyrics] = useState();
+  const { originalLyrics,setOriginalLyrics,translatedLyrics,setTranslatedLyrics } = useContext(MyContext);
+
+
+  // const [originalLyrics, setOriginalLyrics] = useState();
+  // const [translatedLyrics, setTranslatedLyrics] = useState();
   const [originalLoading, setOriginalLoading] = useState(true); // 로딩 상태 추가
   const [translatedLoading, setTranslatedLoading] = useState(true); // 로딩 상태 추가
 
@@ -54,7 +60,7 @@ export default function LyricsDisplay({ songId }) {
     };
   }, [isOpen]);
 
-  // 원본 가사 가져오기
+  // 원문 가사 가져오기
   useEffect(() => {
     const fetchOriginalLyrics = async (songId) => {
       setOriginalLoading(true); // 데이터 요청 시작 시 로딩 상태 변경
@@ -65,7 +71,7 @@ export default function LyricsDisplay({ songId }) {
           return html.replace(/<i>|<\/i>/g, "");
         };
 
-        console.log("원문가사 : " + original);
+        console.log("원문 가사 : " + original);
         setOriginalLyrics(removeItalicTags(original));
       } catch (error) {
         console.error("원본 가사 API 호출 중 오류 발생:", error);

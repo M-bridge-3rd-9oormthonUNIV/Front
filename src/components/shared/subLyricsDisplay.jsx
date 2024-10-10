@@ -1,57 +1,55 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "../../css/contentPage.css";
 import "../../components/homePage/musicLyricsApi";
-import {
-  requestOriginalLyrics,
-  requestTranslateLyrics,
-} from "../../components/homePage/musicLyricsApi";
+import { MyContext } from "../shared/myContext"
 
 export default function SubLyricsDisplay({ songId }) {
   const [lyricsPairs, setLyricsPairs] = useState([]);
+  const {
+    originalLyrics,
+    setOriginalLyrics,
+    translatedLyrics,
+    setTranslatedLyrics,
+  } = useContext(MyContext);
 
   useEffect(() => {
-    const fetchLyrics = async (songId) => {
-      try {
-        const [original, translated] = await Promise.all([
-          requestOriginalLyrics(songId),
-          requestTranslateLyrics(songId, "korean"),
-        ]);
+    const fetchLyrics = () => {
+      console.log("원문가사 : " + originalLyrics);
+      console.log("번역가사 : " + translatedLyrics);
 
-        console.log("원문가사 : " + original);
-        console.log("번역가사 : " + translated);
-
-        // <i> 태그 제거하기 - 줄 바꿈 생겨서 제거 필요
-        const removeTags = (html) => {
-          return html.replace(/<i>|<\/i>/g, ""); // <i> 태그를 빈 문자열로 교체
-        };
-
-        // <br> 태그 기준으로 나눔
-        const originalLines = removeTags(original).split("<br>");        
-        const translatedLines = removeTags(translated).split("<br>");
-
-        // 줄 수 맞추기 (짧은 쪽에 빈 문자열 추가)
-        const maxLength = Math.max(originalLines.length, translatedLines.length);
-        while (originalLines.length < maxLength) {
-          originalLines.push("");
+      // <i> 태그 제거하기 - 줄 바꿈 생겨서 제거 필요
+      const removeTags = (text) => {
+        if (typeof text !== 'string') {
+          console.error("removeTags: Expected a string but received:", text);
+          return ""; // 또는 기본값을 반환
         }
-        while (translatedLines.length < maxLength) {
-          translatedLines.push("");
-        }
+        return text.replace(/<[^>]*>/g, ""); // HTML 태그 제거
+      };
 
-        // 원문과 번역 한 줄씩 묶어서 배열로 만듦
-        const pairedLyrics = originalLines.map((line, index) => ({
-          original: line,
-          translated: translatedLines[index],
-        }));
+      // <br> 태그 기준으로 나눔
+      const originalLines = removeTags(originalLyrics).split("<br>");
+      const translatedLines = removeTags(translatedLyrics).split("<br>");
 
-        setLyricsPairs(pairedLyrics);
-      } catch (error) {
-        console.error("Lyrics API 호출 중 오류 발생:", error);
+      // 줄 수 맞추기 (짧은 쪽에 빈 문자열 추가)
+      const maxLength = Math.max(originalLines.length, translatedLines.length);
+      while (originalLines.length < maxLength) {
+        originalLines.push("");
       }
+      while (translatedLines.length < maxLength) {
+        translatedLines.push("");
+      }
+
+      // 원문과 번역 한 줄씩 묶어서 배열로 만듦
+      const pairedLyrics = originalLines.map((line, index) => ({
+        original: line,
+        translated: translatedLines[index],
+      }));
+
+      setLyricsPairs(pairedLyrics);
     };
 
     if (songId) {
-      fetchLyrics(songId);
+      fetchLyrics();
     }
   }, [songId]);
 

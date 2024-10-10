@@ -16,6 +16,8 @@
   overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-width: none;
+  border: none;
+  outline:none;
 }
 
 .side-page.show {
@@ -48,6 +50,8 @@
   opacity: 0;
   top: 0;
   transition: opacity 1.2s ease;
+  border: none;
+  outline:none;
 }
 
 .sub-page.show {
@@ -116,6 +120,8 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  border: none;
+  outline:none;
 }
 
 .subLyricsDisplay {
