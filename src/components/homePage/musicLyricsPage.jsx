@@ -102,7 +102,7 @@ export default function MusicLyricsPage() {
             </form>
           </div>
 
-          <VideoPlayer artist={artist} song={song} />
+          {artist!=""&&song!=""&&<VideoPlayer artist={artist} song={song} />}
 
           <div
             style={{

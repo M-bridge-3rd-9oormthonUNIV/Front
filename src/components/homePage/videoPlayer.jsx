@@ -9,6 +9,7 @@ export default function VideoPlayer({ artist, song }) {
   // videoId 가져오는 부분
   useEffect(() => {
     const fetchVideoId = async () => {
+      console.log("비디오 아티스트, 노래:"+ artist, song)
       const data = await requestVideoId(artist, song);
       setVideoId(data || null);  // 비디오 ID 설정
     };
