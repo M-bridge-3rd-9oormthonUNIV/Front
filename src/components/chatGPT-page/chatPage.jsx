@@ -81,6 +81,7 @@ export default function Chat({
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           message={modalMessage}
+          pinkMessage={"닫기"}
         />
       </>
     );
