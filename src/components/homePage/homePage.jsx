@@ -95,7 +95,7 @@ export default function HomePage() {
               opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1,
             }}
           >
-            <div className="logo" />
+            <LogoWithAnimation />
             <p className="title">M-BRIDGE</p>
             <form className="search-box" onSubmit={handleSearch}>
               <input

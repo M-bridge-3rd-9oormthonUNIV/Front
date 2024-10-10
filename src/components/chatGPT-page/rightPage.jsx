@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../css/contentPage.css";
 import SubLyricsDisplay from "../shared/subLyricsDisplay";
 import SubSearchDisplay from "../shared/subSearchDisplay";
+import Chat from "./chatPage";
 
 export default function RightPage({
   rightSubPageVisible,
@@ -76,7 +77,9 @@ export default function RightPage({
               : "hidden", // 두 조건 모두 만족할 때만 보이게 설정
           opacity: Math.min(rightButtonPosition / (windowWidth * 0.7), 1),
         }}
-      ></div>
+      >
+        <Chat></Chat>
+      </div>
 
       {/* 가사 페이지 30% */}
       <div
