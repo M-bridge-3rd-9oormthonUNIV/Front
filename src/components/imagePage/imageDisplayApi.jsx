@@ -2,7 +2,7 @@
 // 갤러리에서 이미지 가져올때
 export const requestImages = async () => {
   try {
-    const response = await fetch(`/api/images`);
+    const response = await fetch(`https://api.m-bridge.site/api/images`);
     const data = await response.json();
 
     return(data.images);

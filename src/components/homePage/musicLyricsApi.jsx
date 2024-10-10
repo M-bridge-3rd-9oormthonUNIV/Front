@@ -4,7 +4,7 @@ export const requestVideoId = async (artist, song) => {
 
   try {
     const response = await fetch(
-      `/api/youtube/video?artist=${encodeURIComponent(artist)}&song=${encodeURIComponent(
+      `https://api.m-bridge.site/api/youtube/video?artist=${encodeURIComponent(artist)}&song=${encodeURIComponent(
         song
       )}`
     );
