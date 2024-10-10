@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { fetchChatbotResponse } from "../chatGPT-page/chatApi.jsx";
 import {Modal} from "../shared/modal.jsx";
 import "../../css/chatPage.css"; 
@@ -13,6 +13,9 @@ export default function Chat() {
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태
     const [modalMessage, setModalMessage] = useState(""); // 모달 메시지
   
+    const chatBoxRef = useRef(null);
+    const lastMessageRef = useRef(null);
+
     const sendMessage = async () => {
       if (userInput.trim() === "") return;
   
@@ -30,27 +33,35 @@ export default function Chat() {
   
         // 받은 id 저장
         setConversationId(data.id);
-  
-        setUserInput(""); // 입력 필드 초기화
+
   
       } catch (error) {
         console.error("Error sending message:", error);
         setModalMessage("Failed to fetch response. Please try again."); // 오류 메시지 설정
         setIsModalOpen(true); // 모달 열기
       }
+
+      setUserInput("");
     };
   
     const handleKeyPress = (e) => {
         if (e.key === "Enter") {
           sendMessage(); // Enter 누르면 메시지 전송
+          setUserInput("");
         }
-      };
+    };
+    
+    useEffect(() => {
+      if (chatBoxRef.current) {
+        chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+      }
+    }, [messages]);
 
     return (
       <>
         {/* 오른쪽에 열리는 채팅 창 */}
         <div className="chat-box-wrapper">
-          <div className="chat-box">
+          <div className="chat-box"  ref={chatBoxRef}>
             {messages.map((message, index) => (
               <div
                 key={index}

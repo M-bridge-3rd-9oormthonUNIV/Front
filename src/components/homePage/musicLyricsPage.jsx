@@ -90,6 +90,7 @@ export default function MusicLyricsPage() {
             className="search-container"
             // style={{ opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1 }}
           >
+            <div className="search-logo" onClick={() => navigate('/')}></div>
             <form className="search-box" onSubmit={handleSearch}>
               <input
                 className="search"

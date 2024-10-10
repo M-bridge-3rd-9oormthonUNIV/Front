@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../css/imagePage.css";
 import "../../css/contentPage.css";
 import SubSearchDisplay from "../shared/subSearchDisplay";
+import SubLyricsDisplay from "../shared/subLyricsDisplay";
 import { motion } from "framer-motion";
 import Chat from "./chatPage";
 
@@ -106,7 +107,12 @@ export default function RightPage({
         } 
         transition={{ type: "spring", stiffness: 30 }} // 스프링 애니메이션 설정
       >
-        <SubSearchDisplay direction={"right"} />
+        
+        {songId === "undefined" ? (
+          <SubSearchDisplay direction={"right"} />
+      ) : (
+          <SubLyricsDisplay songId={songId} />
+      )}
       </motion.div>
     </>
   );
