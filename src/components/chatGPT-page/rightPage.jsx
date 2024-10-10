@@ -3,6 +3,7 @@ import "../../css/imagePage.css";
 import "../../css/contentPage.css";
 import SubSearchDisplay from "../shared/subSearchDisplay";
 import { motion } from "framer-motion";
+import Chat from "./chatPage";
 
 export default function RightPage({
   rightSubPageVisible,
@@ -88,7 +89,7 @@ export default function RightPage({
         }}
         animate={!isInitialLoad ? { x: Math.max(-(rightButtonPosition - windowWidth * 0.7), 0) } : { x: 0 }} // rightButtonPosition에 따라 x 값 애니메이션
         transition={{ type: "spring", stiffness: 30 }} // 스프링 애니메이션 설정
-      ></motion.div>
+      ><Chat></Chat></motion.div>
 
       {/* 서브 페이지 30% */}
       <motion.div
