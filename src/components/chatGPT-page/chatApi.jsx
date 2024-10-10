@@ -1,6 +1,6 @@
 export const fetchChatbotResponse = async (id, message) => {
   try {
-    const response = await fetch("/api/chat", {
+    const response = await fetch("https://api.m-bridge.site/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
