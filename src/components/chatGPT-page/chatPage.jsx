@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { fetchChatbotResponse } from "../chatGPT-page/chatApi.jsx";
-import Modal from "../shared/modal.jsx";
+import {Modal} from "../shared/modal.jsx";
 import "../../css/chatPage.css"; 
 import "../../css/contentPage.css";
 
