@@ -4,12 +4,12 @@ import {Modal} from "../shared/modal.jsx";
 import "../../css/chatPage.css"; 
 import "../../css/contentPage.css";
 
-export default function Chat({
-  }) {
+export default function Chat() {
     const [messages, setMessages] = useState([
       { sender: "bot", text: "Hello! If you have any questions about the song, please ask." },
     ]);
     const [userInput, setUserInput] = useState("");
+    const [conversationId, setConversationId] = useState(null); // 초기 id는 null로 설정
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태
     const [modalMessage, setModalMessage] = useState(""); // 모달 메시지
   
@@ -19,10 +19,25 @@ export default function Chat({
       const newMessages = [...messages, { sender: "user", text: userInput }];
       setMessages(newMessages);
   
-      const botMessage = await fetchChatbotResponse(userInput);
-      setMessages([...newMessages, { sender: "bot", text: botMessage }]);
+      try {
+        const data = await fetchChatbotResponse(conversationId, userInput); // API 호출
   
-      setUserInput(""); // 입력 필드 초기화
+        // 응답 메시지 추가
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { sender: "bot", text: data.response },
+        ]);
+  
+        // 받은 id 저장
+        setConversationId(data.id);
+  
+        setUserInput(""); // 입력 필드 초기화
+  
+      } catch (error) {
+        console.error("Error sending message:", error);
+        setModalMessage("Failed to fetch response. Please try again."); // 오류 메시지 설정
+        setIsModalOpen(true); // 모달 열기
+      }
     };
   
     const handleKeyPress = (e) => {
