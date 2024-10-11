@@ -114,13 +114,15 @@ export default function GalleryPage({
         transition={{ type: "spring", stiffness: 30 }} // 스프링 애니메이션 설정
       >
         <SubSearchDisplay direction={"left"} />
-
-<AlertModal
-          isOpen={isHelpGuideModalOpen}
-          onClose={() => setIsHelpGuideModalOpen(false)}
-          message={"현재 도움말 정보는 준비 중입니다.\n 곧 유용한 정보로 찾아뵙겠습니다."}
-        />
       </motion.div>
+
+      <AlertModal
+        isOpen={isHelpGuideModalOpen}
+        onClose={() => setIsHelpGuideModalOpen(false)}
+        message={
+          "현재 도움말 정보는 준비 중입니다.\n 곧 유용한 정보로 찾아뵙겠습니다."
+        }
+      />
     </>
   );
 }
