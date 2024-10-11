@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import "../../css/contentPage.css";
-import "../../components/homePage/musicLyricsApi";
 import { MyContext } from "../shared/myContext";
 import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 사용
 
@@ -11,6 +10,8 @@ export default function SubLyricsDisplay({ songId }) {
     setOriginalLyrics,
     translatedLyrics,
     setTranslatedLyrics,
+    lyricsState,
+    setLyricsState
   } = useContext(MyContext);
   const navigate = useNavigate();
 
@@ -19,18 +20,18 @@ export default function SubLyricsDisplay({ songId }) {
       console.log("원문가사 : " + originalLyrics);
       console.log("번역가사 : " + translatedLyrics);
 
-      // <i> 태그 제거하기 - 줄 바꿈 생겨서 제거 필요
+      // HTML 태그 제거하기
       const removeTags = (text) => {
         if (typeof text !== "string") {
           console.error("removeTags: Expected a string but received:", text);
-          return ""; // 또는 기본값을 반환
+          return ""; // 기본값을 반환
         }
-        return text.replace(/<[^>]*>/g, ""); // HTML 태그 제거
+        return text.replace(/<[^>]*>/g, ""); // 모든 HTML 태그 제거
       };
 
-      // <br> 태그 기준으로 나눔
-      const originalLines = removeTags(originalLyrics).split("<br>");
-      const translatedLines = removeTags(translatedLyrics).split("<br>");
+      // 가사를 줄 단위로 나누기 (줄바꿈 기준으로 나누기)
+      const originalLines = removeTags(originalLyrics).split("\n");
+      const translatedLines = removeTags(translatedLyrics).split("\n");
 
       // 줄 수 맞추기 (짧은 쪽에 빈 문자열 추가)
       const maxLength = Math.max(originalLines.length, translatedLines.length);
@@ -41,20 +42,21 @@ export default function SubLyricsDisplay({ songId }) {
         translatedLines.push("");
       }
 
-      // 원문과 번역 한 줄씩 묶어서 배열로 만듦
+      // 원문과 번역을 한 줄씩 짝지어서 배열로 만들기
       const pairedLyrics = originalLines.map((line, index) => ({
         original: line,
         translated: translatedLines[index],
       }));
 
       setLyricsPairs(pairedLyrics);
+      setLyricsState(false);
     };
 
-    // // 둘 다 변경될 때만 fetchLyrics 호출
-    if (songId && originalLyrics && translatedLyrics) {
+    // 가사들이 모두 준비되었을 때 fetchLyrics 실행
+    if (songId && originalLyrics && translatedLyrics && lyricsState) {
       fetchLyrics();
     }
-  }, [songId, originalLyrics, translatedLyrics]); // 의존성 배열에 originalLyrics와 translatedLyrics 추가
+  }, [lyricsState]); // lyricsState 변경 시마다 실행
 
   // 가사가 없을 때
   if (lyricsPairs.length === 0) {
@@ -93,14 +95,12 @@ export default function SubLyricsDisplay({ songId }) {
           {/* 원문 가사와 번역 가사를 한 줄씩 번갈아 표시 */}
           {lyricsPairs.map((pair, index) => (
             <div key={index}>
-              <div
-                style={{ color: "white", marginBottom: "8px" }}
-                dangerouslySetInnerHTML={{ __html: pair.original }}
-              ></div>
-              <div
-                style={{ color: "#FF6DCC", marginBottom: "8px" }}
-                dangerouslySetInnerHTML={{ __html: pair.translated }}
-              ></div>
+              <div style={{ color: "white", marginBottom: "8px" }}>
+                {pair.original}
+              </div>
+              <div style={{ color: "#FF6DCC", marginBottom: "8px" }}>
+                {pair.translated}
+              </div>
             </div>
           ))}
         </div>

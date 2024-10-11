@@ -26,7 +26,7 @@ export default function LyricsDisplay({ songId }) {
     { label: "Hindi", value: "hi" },
   ];
 
-  const { originalLyrics,setOriginalLyrics,translatedLyrics,setTranslatedLyrics } = useContext(MyContext);
+  const { originalLyrics,setOriginalLyrics,translatedLyrics,setTranslatedLyrics,lyricsState, setLyricsState } = useContext(MyContext);
 
 
   // const [originalLyrics, setOriginalLyrics] = useState();
@@ -98,6 +98,8 @@ export default function LyricsDisplay({ songId }) {
 
         console.log("번역가사 : " + translated);
         setTranslatedLyrics(removeItalicTags(translated));
+        setLyricsState(true);
+        
       } catch (error) {
         console.error("번역 가사 API 호출 중 오류 발생:", error);
       } finally {
