@@ -22,7 +22,7 @@ export const requestVideoId = async (artist, song) => {
 export const requestOriginalLyrics = async (songId) => {
   try {
     const response = await fetch(
-      `/api/lyrics/original/${encodeURIComponent(songId)}`
+      `https://api.m-bridge.site/api/lyrics/original/${encodeURIComponent(songId)}`
     );
     // HTML을 텍스트로 가져오기
     const htmlText = await response.text();
@@ -46,7 +46,7 @@ export const requestOriginalLyrics = async (songId) => {
 export const requestTranslateLyrics = async (songId, lang) => {
   try {
     const response = await fetch(
-      `/api/lyrics/translate/${encodeURIComponent(songId)}/${encodeURIComponent(lang)}`,
+      `https://api.m-bridge.site/api/lyrics/translate/${encodeURIComponent(songId)}/${encodeURIComponent(lang)}`,
       {
         method: 'POST', // POST 방식으로 변경
         headers: {

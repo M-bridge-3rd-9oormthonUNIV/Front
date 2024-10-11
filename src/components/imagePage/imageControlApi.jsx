@@ -36,7 +36,7 @@ export const requestImageGenerate = async ({ songId, lyrics }) => {
 // 이미지 서버에 올리기
 export const requestImageShare = async ({songId, imageUrl}) => {
   try {
-    const response = await fetch(`/api/image/share`, {
+    const response = await fetch(`https://api.m-bridge.site/api/image/share`, {
       method: "POST", // POST 요청임을 명시
       headers: {
         "Content-Type": "application/json", // 요청 데이터 타입을 JSON으로 설정
