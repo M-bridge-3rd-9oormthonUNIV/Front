@@ -96,6 +96,7 @@
   background-size: contain;
   z-index: 4;
   cursor: pointer;
+  /* transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease; 자연스러운 전환 효과 */
 }
 
 .bt-left {
@@ -159,7 +160,13 @@
   background-image: url("https://i.postimg.cc/zG83vsbq/Group-26-2.png");
   background-size: cover;
   background-repeat: no-repeat;
-  cursor:pointer
+  cursor:pointer;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease; /* 자연스러운 전환 효과 */
+}
+
+.sub-logo:hover {
+  transform: translateX(-50%) scale(1.1); /* 크기 살짝 키우기 */
+  opacity: 0.85; /* 살짝 투명도 변경 */
 }
 
 /* 공통화면에 쓰이는 검색창 */
@@ -217,7 +224,7 @@
   width: 39px; /* 크기 조정 */
   height: 39px;
   background-image: url("https://i.postimg.cc/fRL456ZD/Vector.png");
-  
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease; /* 자연스러운 전환 효과 */
   z-index: 9999;
 }
 
@@ -228,11 +235,17 @@
   outline: none; /* 경계 없앰 */
   cursor: pointer; /* 커서 설정 */
   top: 8px;
-  right:-36vw;
+  right:-35.75vw;
   width: 39px; /* 크기 조정 */
   height: 43px;
   background-image: url("https://i.postimg.cc/fRL456ZD/Vector.png");
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease; /* 자연스러운 전환 효과 */
   z-index: 9999;
+}
+
+.vector-image-right:hover, .vector-image-left:hover {
+  transform: translateX(0%) scale(1.1); /* 크기 살짝 키우기 */
+  opacity: 0.85; /* 살짝 투명도 변경 */
 }
 
 /* 드래그 효과를 위한 가짜 버튼? 화면 */

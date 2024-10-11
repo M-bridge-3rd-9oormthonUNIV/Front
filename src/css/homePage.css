@@ -87,6 +87,12 @@
   height: 39px;
   background-image: url("https://i.postimg.cc/fRL456ZD/Vector.png");
   cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease; /* 자연스러운 전환 효과 */
+}
+
+.vector-image:hover {
+  transform: translateX(0%) scale(1.1); /* 크기 살짝 키우기 */
+  opacity: 0.85; /* 살짝 투명도 변경 */
 }
 
 .carousel-wrapper {

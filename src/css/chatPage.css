@@ -49,7 +49,6 @@
     border-bottom-left-radius: 0; /* 말풍선 모양 조정 */
   }
 
-
   .chat-input {
     width: 704px; /* 최대 너비 지정 */
     height: 68px;
@@ -71,6 +70,12 @@
     border: none;
     cursor: pointer;
     outline: none;
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease; /* 자연스러운 전환 효과 */
+  }
+
+  .chat-button:hover {
+    transform: translateY(-50%) scale(1.17);  /* 크기 살짝 키우기 */
+    opacity: 0.85; /* 살짝 투명도 변경 */
   }
   
   .chat-bt-group {
