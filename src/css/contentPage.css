@@ -206,18 +206,33 @@
 }
 
 /* 도움말 */
-.vector-image {
-  position: absolute;
-  z-index: 2;
+.vector-image-left {
+  position: relative;
   background-color: transparent; /* 배경 투명 */
   border: none; /* 경계 없앰 */
   outline: none; /* 경계 없앰 */
   cursor: pointer; /* 커서 설정 */
   top: 8px;
-  right: 8px;
+  left: -36vw;
   width: 39px; /* 크기 조정 */
   height: 39px;
   background-image: url("https://i.postimg.cc/fRL456ZD/Vector.png");
+  
+  z-index: 9999;
+}
+
+.vector-image-right {
+  position: relative;
+  background-color: transparent; /* 배경 투명 */
+  border: none; /* 경계 없앰 */
+  outline: none; /* 경계 없앰 */
+  cursor: pointer; /* 커서 설정 */
+  top: 8px;
+  right:-36vw;
+  width: 39px; /* 크기 조정 */
+  height: 43px;
+  background-image: url("https://i.postimg.cc/fRL456ZD/Vector.png");
+  z-index: 9999;
 }
 
 /* 드래그 효과를 위한 가짜 버튼? 화면 */

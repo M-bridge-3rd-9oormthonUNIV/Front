@@ -4,6 +4,7 @@ import "../../css/contentPage.css";
 import SubSearchDisplay from "../shared/subSearchDisplay";
 import SubLyricsDisplay from "../shared/subLyricsDisplay";
 import { motion } from "framer-motion";
+import { AlertModal } from "../shared/modal";
 import Chat from "./chatPage";
 
 export default function RightPage({
@@ -16,6 +17,7 @@ export default function RightPage({
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isInitialLoad, setIsInitialLoad] = useState(true); // 로딩 상태 추가
   const [shouldAnimateSubPage, setShouldAnimateSubPage] = useState(false); // 서브 페이지 애니메이션 상태
+  const [isHelpGuideModalOpen, setIsHelpGuideModalOpen] = useState(false);
 
 
   useEffect(() => {
@@ -64,21 +66,6 @@ export default function RightPage({
         }}
       ></motion.div>
 
-      {/* 가짜 왼쪽 반원 버튼 (shadow효과) */}
-      {/* <div
-        className={`fake-ellipse-right`}
-        style={{
-          transform: `translateX(${Math.max(
-            windowWidth * 0.7 - rightButtonPosition,
-            0
-          )}px)`,
-          visibility:
-            leftSubPageVisible === false && rightButtonPosition <= 1
-              ? "visible"
-              : "hidden",
-        }}
-      ></div> */}
-
       {/* 오른쪽 사이드 페이지 70% */}
       <motion.div
         className={`side-page right-side show ${leftSubPageVisible ? "fade-out" : "fade-in"}`}
@@ -90,7 +77,11 @@ export default function RightPage({
         }}
         animate={!isInitialLoad ? { x: Math.max(-(rightButtonPosition - windowWidth * 0.7), 0) } : { x: 0 }} // rightButtonPosition에 따라 x 값 애니메이션
         transition={{ type: "spring", stiffness: 30 }} // 스프링 애니메이션 설정
-      ><Chat></Chat></motion.div>
+      ><div
+          className="vector-image-right"
+          onClick={() => setIsHelpGuideModalOpen(true)}
+        ></div>
+        <Chat></Chat></motion.div>
 
       {/* 서브 페이지 30% */}
       <motion.div
@@ -111,9 +102,17 @@ export default function RightPage({
         {songId === "undefined" ? (
           <SubSearchDisplay direction={"right"} />
       ) : (
-          <SubLyricsDisplay songId={songId} />
+          <SubLyricsDisplay songId={songId} direction={"right"}/>
       )}
       </motion.div>
+
+      <AlertModal
+        isOpen={isHelpGuideModalOpen}
+        onClose={() => setIsHelpGuideModalOpen(false)}
+        message={
+          "현재 도움말 정보는 준비 중입니다.\n 곧 유용한 정보로 찾아뵙겠습니다."
+        }
+      />
     </>
   );
 }

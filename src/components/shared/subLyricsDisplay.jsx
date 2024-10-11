@@ -2,8 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import "../../css/contentPage.css";
 import { MyContext } from "../shared/myContext";
 import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 사용
+import { SubAlertModal } from "./modal";
 
-export default function SubLyricsDisplay({ songId }) {
+export default function SubLyricsDisplay({ songId, direction }) {
   const [lyricsPairs, setLyricsPairs] = useState([]);
   const {
     originalLyrics,
@@ -14,6 +15,7 @@ export default function SubLyricsDisplay({ songId }) {
     setLyricsState
   } = useContext(MyContext);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchLyrics = () => {
@@ -62,7 +64,6 @@ export default function SubLyricsDisplay({ songId }) {
   if (lyricsPairs.length === 0) {
     return (
       <div className="subLyricsDisplay">
-        <div className="vector-image"></div>
         <div className="sub-logo"></div>
         <div className="miniLyrics">
           <div
@@ -89,7 +90,6 @@ export default function SubLyricsDisplay({ songId }) {
   } else {
     return (
       <div className="subLyricsDisplay">
-        <div className="vector-image"></div>
         <div className="sub-logo" onClick={() => navigate("/")}></div>
         <div className="miniLyrics">
           {/* 원문 가사와 번역 가사를 한 줄씩 번갈아 표시 */}

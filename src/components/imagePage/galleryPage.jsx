@@ -3,6 +3,7 @@ import SubSearchDisplay from "../shared/subSearchDisplay";
 import { requestImages } from "./imageDisplayApi"; // API 요청 함수
 import "../../css/imagePage.css";
 import "../../css/contentPage.css";
+import { AlertModal } from "../shared/modal.jsx";
 import { motion } from "framer-motion";
 import { MyContext } from "../shared/myContext";
 
@@ -18,9 +19,8 @@ export default function GalleryPage({
   const [imageUrls, setImageUrls] = useState([]); // 이미지 URL 상태 관리
   const [loading, setLoading] = useState(false); // 로딩 상태 관리
   const [shouldAnimateSubPage, setShouldAnimateSubPage] = useState(false); // 서브 페이지 애니메이션 상태
-  const {
-    galleryImageUrl, setGalleryImageUrl
-  } = useContext(MyContext);
+  const [isHelpGuideModalOpen, setIsHelpGuideModalOpen] = useState(false);
+  const { galleryImageUrl, setGalleryImageUrl } = useContext(MyContext);
 
   // 이미지 가져오기 함수
   const fetchImages = async () => {
@@ -39,7 +39,6 @@ export default function GalleryPage({
   // 컴포넌트가 마운트될 때 이미지 가져오기
   useEffect(() => {
     // fetchImages();
-
   }, [galleryImageUrl]);
 
   // 사이드 페이지 애니메이션이 끝났을 때 서브 페이지 애니메이션 시작
@@ -47,7 +46,7 @@ export default function GalleryPage({
     if (!isInitialLoad) {
       const timer = setTimeout(() => {
         setShouldAnimateSubPage(true); // 서브 페이지 애니메이션 시작
-      },1000); // 0.3초 지연 후 서브 페이지 애니메이션 시작
+      }, 1000); // 0.3초 지연 후 서브 페이지 애니메이션 시작
 
       return () => clearTimeout(timer);
     }
@@ -57,23 +56,27 @@ export default function GalleryPage({
     <>
       {/* 왼쪽 사이드 페이지 70% */}
       <motion.div
-        className={`side-page left-side show ${rightSubPageVisible ? "fade-out" : "fade-in"}`}
+        className={`side-page left-side show ${
+          rightSubPageVisible ? "fade-out" : "fade-in"
+        }`}
         animate={
           !isInitialLoad
             ? { x: Math.min(leftButtonPosition - windowWidth * 0.7, 0) }
             : { x: 0 }
         } // leftButtonPosition에 따라 x 값 애니메이션
-        
         transition={{ type: "spring", stiffness: 30 }} // 스프링 애니메이션 설정
         style={{
-            opacity:
-            rightSubPageVisible === false && leftButtonPosition >= 0
-              ? 1
-              : 0, // 두 조건 모두 만족할 때만 보이게 설정
+          opacity:
+            rightSubPageVisible === false && leftButtonPosition >= 0 ? 1 : 0, // 두 조건 모두 만족할 때만 보이게 설정
         }}
       >
+        <div
+          className="vector-image-left"
+          onClick={() => setIsHelpGuideModalOpen(true)}
+        ></div>
+
         {/* 갤러리 구현 */}
-        <div className="gallery" >
+        <div className="gallery">
           {loading ? ( // 로딩 중일 때 스피너 표시
             <div className="loading-container">
               <div className="spinner"></div>
@@ -89,8 +92,9 @@ export default function GalleryPage({
             //   />
             // ))
             galleryImageUrl && ( // galleryImageUrl 값이 있을 때만 이미지 표시
-      <img className="image" src={galleryImageUrl} alt="Gallery" />
-          ))}
+              <img className="image" src={galleryImageUrl} alt="Gallery" />
+            )
+          )}
         </div>
       </motion.div>
 
@@ -110,6 +114,12 @@ export default function GalleryPage({
         transition={{ type: "spring", stiffness: 30 }} // 스프링 애니메이션 설정
       >
         <SubSearchDisplay direction={"left"} />
+
+<AlertModal
+          isOpen={isHelpGuideModalOpen}
+          onClose={() => setIsHelpGuideModalOpen(false)}
+          message={"현재 도움말 정보는 준비 중입니다.\n 곧 유용한 정보로 찾아뵙겠습니다."}
+        />
       </motion.div>
     </>
   );

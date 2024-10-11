@@ -8,6 +8,8 @@ export default function SubSearchDisplay({ direction }) {
   const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태 추가
   const [isFormatErrorModalOpen, setIsFormatErrorModalOpen] = useState(false);
   const [isSearchPromptModalOpen, setIsSearchPromptModalOpen] = useState(false);
+  const [isHelpGuideModalOpen, setIsHelpGuideModalOpen] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSearch = async (e) => {
@@ -51,8 +53,7 @@ export default function SubSearchDisplay({ direction }) {
 
   return (
     <div className="subSearchDisplay">
-      <div className="vector-image"></div>
-      <div className="sub-logo" onClick={()=> navigate("/")}></div>
+      <div className="sub-logo" onClick={() => navigate("/")}></div>
 
       <form className="sub-search-box" onSubmit={handleSearch}>
         {/* 검색창 */}
@@ -79,9 +80,7 @@ export default function SubSearchDisplay({ direction }) {
       <SubAlertModal
         isOpen={isSearchPromptModalOpen}
         onClose={() => setIsSearchPromptModalOpen(false)}
-        message={
-          "노래를 입력하세요."
-        }
+        message={"노래를 입력하세요."}
         direction={direction}
       />
     </div>
