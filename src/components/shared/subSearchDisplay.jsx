@@ -52,7 +52,7 @@ export default function SubSearchDisplay({ direction }) {
   return (
     <div className="subSearchDisplay">
       <div className="vector-image"></div>
-      <div className="sub-logo"></div>
+      <div className="sub-logo" onClick={()=> navigate("/")}></div>
 
       <form className="sub-search-box" onSubmit={handleSearch}>
         {/* 검색창 */}

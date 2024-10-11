@@ -14,9 +14,11 @@ export default function LeftPage({
 }) {
   const [isImageButtonGroupVisible, setIsImageButtonGroupVisible] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [isInitialLoad, setIsInitialLoad] = useState(true); 
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [isBtLeftVisible, setIsBtLeftVisible] = useState(true); // 왼쪽 버튼 가시성 상태
-  const [isBtLeftImageVisible, setIsBtLeftImageVisible] = useState(false); // bt-left-image 버튼 가시성 상태
+  const [isBtLeftImageVisible, setIsBtLeftImageVisible] = useState(false); // 이미지 제어 버튼 가시성 상태
+  const [animateLeftButton, setAnimateLeftButton] = useState(true); // 왼쪽 버튼 애니메이션 여부
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,22 +37,30 @@ export default function LeftPage({
     };
   }, []);
 
-  const handleImageClick = () => {
+  // 이미지 클릭 시 왼쪽 버튼 숨기고, 이미지 버튼 보이기
+  const handleImageClick = (event) => {
+    event.stopPropagation(); // 이벤트 버블링 방지
     setIsBtLeftVisible(false); // 왼쪽 버튼 숨김
-    setIsBtLeftImageVisible(true); // bt-left-image 버튼 보이기
+    setIsBtLeftImageVisible(true); // 이미지 제어 버튼 보이기
   };
 
+  // 페이지 클릭 시 왼쪽 버튼 다시 보이기
   const handlePageClick = () => {
+    setAnimateLeftButton(false); // 애니메이션 없이 나타나도록 설정
+    setIsBtLeftImageVisible(false); // 이미지 제어 버튼 숨김
     setIsBtLeftVisible(true); // 왼쪽 버튼 다시 보이기
-    setIsBtLeftImageVisible(false); // bt-left-image 버튼 숨김
+    setIsImageButtonGroupVisible(false);
   };
 
   const handleButtonClick = () => {
     moveLeftButton();
+    setAnimateLeftButton(true); // 버튼 이동 시 애니메이션 사용
   };
 
   return (
     <div onClick={handlePageClick}>
+    {/* <div>  */}
+      {/* 왼쪽 버튼 */}
       {isBtLeftVisible && (
         <motion.div
           animate={!isInitialLoad ? { x: leftButtonPosition } : { x: 0 }}
@@ -61,17 +71,23 @@ export default function LeftPage({
         ></motion.div>
       )}
 
+      {/* 이미지 버튼 그룹 제어 버튼 */}
       {isBtLeftImageVisible && (
         <button
           className="bt-left-image"
-          onClick={() => {
-            // 여기서 이미지 버튼 그룹을 제어하는 동작 추가
+          style={{
+            position: 'absolute', 
+            left: "64.75%", 
+            transform: 'translateY(-31%)', 
+          }}
+          onClick={(event) => {
+            event.stopPropagation(); // 이벤트 버블링 방지
             setIsImageButtonGroupVisible(!isImageButtonGroupVisible);
           }}
-        >
-        </button>
+        ></button>
       )}
 
+      {/* 자식 컴포넌트에 handleImageClick 전달 */}
       {songId === "undefined" ? (
         <GalleryPage
           leftSubPageVisible={leftSubPageVisible}
@@ -88,8 +104,10 @@ export default function LeftPage({
           isImageButtonGroupVisible={isImageButtonGroupVisible}
           isInitialLoad={isInitialLoad}
           songId={songId}
+          handleImageClick={handleImageClick} // 이미지 클릭 이벤트 함수 전달
         />
       )}
     </div>
   );
 }
+

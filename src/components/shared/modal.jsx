@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../css/modal.css";
 
 // 이미지 버튼 
-export const Modal = ({ isOpen, onClose, message }) => {
+export const Modal = ({ isOpen, onClose, message, pinkMessage }) => {
   const [isHidden, setIsHidden] = useState(false);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export const Modal = ({ isOpen, onClose, message }) => {
         <p>{message}</p>
         <div className="modal-select-group">
           <button className="modal-button" onClick={handleClose}>
-            닫기
+            {pinkMessage}
           </button>
         </div>
       </div>

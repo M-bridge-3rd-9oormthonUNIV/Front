@@ -14,7 +14,9 @@ export default function VideoPlayer({ artist, song }) {
       setVideoId(data || null);  // 비디오 ID 설정
     };
 
-    fetchVideoId();  // 함수 호출
+    // fetchVideoId();  // 함수 호출
+
+    setVideoId("ic8j13piAhQ");
   }, [artist, song]);
 
   // YouTube IFrame API 로드 및 비디오 플레이어 초기화

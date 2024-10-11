@@ -159,6 +159,7 @@
   background-image: url("https://i.postimg.cc/zG83vsbq/Group-26-2.png");
   background-size: cover;
   background-repeat: no-repeat;
+  cursor:pointer
 }
 
 /* 공통화면에 쓰이는 검색창 */

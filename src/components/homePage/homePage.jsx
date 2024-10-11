@@ -14,6 +14,7 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isFormatErrorModalOpen, setIsFormatErrorModalOpen] = useState(false);
   const [isSearchPromptModalOpen, setIsSearchPromptModalOpen] = useState(false);
+  const [isHelpGuideModalOpen, setIsHelpGuideModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -55,16 +56,11 @@ export default function HomePage() {
   return (
     <div className="main-container">
       <div className="main-page">
-        <button
+      <button
           className="vector-image"
-          alt="Vector"
-          onClick={() => moveButton(true)}
-        />
-        <button
-          className="vector-image"
-          alt="Vector"
-          onClick={() => moveButton(false)}
-          style={{ marginLeft: "auto" }}
+          alt="도움말"
+          onClick={() => setIsHelpGuideModalOpen(true)}
+          style={{ zIndex: leftSubPageVisible || rightSubPageVisible ? 1 : 4 }} // z-index 조정
         />
         <div
           className="center"
@@ -80,7 +76,7 @@ export default function HomePage() {
               placeholder="가수 - 제목으로 검색해주세요"
               style={{ background: "rgba(255, 255, 255, 0.15)", fontSize: "25px" }}
             />
-            <button type="submit" className="search-bt" />
+            <button type="submit" className="search-bt" onClick={handleSearch}/>
           </form>
           <div className="carousel-wrapper" style={{
               zIndex: leftSubPageVisible || rightSubPageVisible ? -1 : 1,
@@ -117,6 +113,11 @@ export default function HomePage() {
           isOpen={isSearchPromptModalOpen}
           onClose={() => setIsSearchPromptModalOpen(false)}
           message={"검색어를 입력하세요."}
+        />
+        <AlertModal
+          isOpen={isHelpGuideModalOpen}
+          onClose={() => setIsHelpGuideModalOpen(false)}
+          message={"현재 도움말 정보는 준비 중입니다.\n 곧 유용한 정보로 찾아뵙겠습니다."}
         />
       </div>
     </div>

@@ -76,7 +76,7 @@
 /* 도움말 */
 .vector-image {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
   background-color: transparent; /* 배경 투명 */
   border: none; /* 경계 없앰 */
   outline: none; /* 경계 없앰 */
@@ -86,6 +86,7 @@
   width: 39px; /* 크기 조정 */
   height: 39px;
   background-image: url("https://i.postimg.cc/fRL456ZD/Vector.png");
+  cursor: pointer;
 }
 
 .carousel-wrapper {

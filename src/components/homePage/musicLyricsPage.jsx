@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import LyricsDisplay from "./lyricsDisplay";
 import VideoPlayer from "./videoPlayer";
@@ -19,7 +19,6 @@ export default function MusicLyricsPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-
   // 버튼 컨트롤 훅 사용
   const {
     leftButtonPosition,
@@ -32,6 +31,7 @@ export default function MusicLyricsPage() {
   // alert 모달
   const [isFormatErrorModalOpen, setIsFormatErrorModalOpen] = useState(false);
   const [isSearchPromptModalOpen, setIsSearchPromptModalOpen] = useState(false);
+  const [isHelpGuideModalOpen, setIsHelpGuideModalOpen] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -81,75 +81,92 @@ export default function MusicLyricsPage() {
   }, [location]);
 
   return (
-      <div className="main-container">
-        <div className="main-page">
-          <button className="vector-image" alt="Vector"></button>
-          <img className="background-image" alt="Background"></img>
+    <div className="main-container">
+      <div className="main-page">
+        <button
+          className="vector-image"
+          alt="도움말"
+          onClick={() => setIsHelpGuideModalOpen(true)}
+          style={{ zIndex: leftSubPageVisible || rightSubPageVisible ? 1 : 4 }} // z-index 조정
+        />
+        <img className="background-image" alt="Background"></img>
 
-          <div className="music-box">
-            <div
-              className="search-container"
-              // style={{ opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1 }}
-            >
+        <div className="music-box">
+          <div
+            className="search-container"
+            // style={{ opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1 }}
+          >
+            <div className="search-box">
               <div className="search-logo" onClick={() => navigate("/")}></div>
               <form className="search-box" onSubmit={handleSearch}>
-                <input
-                  className="search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  name="search"
-                  placeholder={`${artist} - ${song}`}
-                />
+                <div className="search">
+                  <input
+                    className="search-input"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    name="search"
+                    placeholder={`${artist} - ${song}`}
+                  />
+                </div>
                 <button type="submit" className="search-bt"></button>
               </form>
             </div>
-
-            {artist != "" && song != "" && (
-              <VideoPlayer artist={artist} song={song} />
-            )}
-
-            <div
-              style={{
-                // opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1,
-                height: "52%",
-                overflow: "hidden",
-                scrollbarWidth: "none",
-              }}
-            >
-              <LyricsDisplay songId={songId} />
-            </div>
           </div>
 
-          <LeftPage
-            leftSubPageVisible={leftSubPageVisible}
-            leftButtonPosition={leftButtonPosition}
-            rightSubPageVisible={rightSubPageVisible}
-            songId={songId}
-            moveLeftButton={() => moveButton(true)} // 왼쪽 버튼 이동
-          />
+          {artist != "" && song != "" && (
+            <VideoPlayer artist={artist} song={song} />
+          )}
 
-          <RightPage
-            rightSubPageVisible={rightSubPageVisible}
-            rightButtonPosition={rightButtonPosition}
-            leftSubPageVisible={leftSubPageVisible}
-            songId={songId}
-            moveRightButton={() => moveButton(false)} // 오른쪽 버튼 이동
-          />
-
-          <AlertModal
-            isOpen={isFormatErrorModalOpen}
-            onClose={() => setIsFormatErrorModalOpen(false)}
-            message={
-              "형식이 올바르지 않습니다.\n '가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
-            }
-          />
-
-          <AlertModal
-            isOpen={isSearchPromptModalOpen}
-            onClose={() => setIsSearchPromptModalOpen(false)}
-            message={"노래를 입력하세요."}
-          />
+          <div
+            style={{
+              // opacity: leftSubPageVisible || rightSubPageVisible ? 0 : 1,
+              height: "52%",
+              overflow: "hidden",
+              scrollbarWidth: "none",
+            }}
+          >
+            <LyricsDisplay songId={songId} />
+          </div>
         </div>
+
+        <LeftPage
+          leftSubPageVisible={leftSubPageVisible}
+          leftButtonPosition={leftButtonPosition}
+          rightSubPageVisible={rightSubPageVisible}
+          songId={songId}
+          moveLeftButton={() => moveButton(true)} // 왼쪽 버튼 이동
+        />
+
+        <RightPage
+          rightSubPageVisible={rightSubPageVisible}
+          rightButtonPosition={rightButtonPosition}
+          leftSubPageVisible={leftSubPageVisible}
+          songId={songId}
+          moveRightButton={() => moveButton(false)} // 오른쪽 버튼 이동
+        />
+
+        <AlertModal
+          isOpen={isFormatErrorModalOpen}
+          onClose={() => setIsFormatErrorModalOpen(false)}
+          message={
+            "형식이 올바르지 않습니다.\n '가수-제목' 또는 '가수 - 제목' 형태로 입력해 주세요."
+          }
+        />
+
+        <AlertModal
+          isOpen={isSearchPromptModalOpen}
+          onClose={() => setIsSearchPromptModalOpen(false)}
+          message={"노래를 입력하세요."}
+        />
+
+        <AlertModal
+          isOpen={isHelpGuideModalOpen}
+          onClose={() => setIsHelpGuideModalOpen(false)}
+          message={
+            "현재 도움말 정보는 준비 중입니다.\n 곧 유용한 정보로 찾아뵙겠습니다."
+          }
+        />
       </div>
+    </div>
   );
 }

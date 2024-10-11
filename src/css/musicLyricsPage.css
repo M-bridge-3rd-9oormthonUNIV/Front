@@ -54,14 +54,18 @@
 }
 
 .search-logo {
-  width: 74px;
-  height: 42px;
+  position:absolute;
+  left:6px;
+  width: 54px;
+  height: 24px;
   background-image: url("https://i.postimg.cc/zG83vsbq/Group-26-2.png");
-  background-size: cover;
+  opacity: 0.6;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   cursor: pointer;
-  margin-right: 25px;
+  /* margin-right: 25px; */
+  z-index: 4;
 }
 
 .search-box {
@@ -74,20 +78,42 @@
 
 /* 검색창 */
 .search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 600px; /* 최대 너비 지정 */
   height: 45px;
   background-color: #130118;
   border: 1px solid;
   border-color: #ff00e5;
   box-shadow: 0 0 30px #ff00e5;
-  padding-left: 15px;
   color: white;
-  font-size: 20px !important;
+  font-size: 21px !important;
   z-index: 3;
 }
 
+.search-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 540px; /* 최대 너비 지정 */
+  height: 42px;
+  color: white;
+  font-size: 21px !important;
+  z-index: 3;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-align: center;
+}
+
 .search::placeholder {
-  color: white; /* placeholder 색상을 흰색으로 설정 */
+  color: white; 
+  opacity: 1; /* 불투명도를 100%로 설정 */
+}
+
+.search-input::placeholder {
+  color: white; 
   opacity: 1; /* 불투명도를 100%로 설정 */
 }
 
@@ -104,6 +130,8 @@
   background-repeat: no-repeat;
   background-color: transparent;
   background-image: url("https://i.postimg.cc/cLMwzLDG/Vector-1.png");
+  cursor: pointer;
+  z-index: 3;
 }
 
 /* 가사 */

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import SubSearchDisplay from "../shared/subSearchDisplay";
 import { requestImages } from "./imageDisplayApi"; // API 요청 함수
 import "../../css/imagePage.css";
 import "../../css/contentPage.css";
 import { motion } from "framer-motion";
+import { MyContext } from "../shared/myContext";
 
 export default function GalleryPage({
   leftSubPageVisible,
@@ -15,8 +16,11 @@ export default function GalleryPage({
 }) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [imageUrls, setImageUrls] = useState([]); // 이미지 URL 상태 관리
-  const [loading, setLoading] = useState(true); // 로딩 상태 관리
+  const [loading, setLoading] = useState(false); // 로딩 상태 관리
   const [shouldAnimateSubPage, setShouldAnimateSubPage] = useState(false); // 서브 페이지 애니메이션 상태
+  const {
+    galleryImageUrl, setGalleryImageUrl
+  } = useContext(MyContext);
 
   // 이미지 가져오기 함수
   const fetchImages = async () => {
@@ -34,8 +38,9 @@ export default function GalleryPage({
 
   // 컴포넌트가 마운트될 때 이미지 가져오기
   useEffect(() => {
-    fetchImages();
-  }, []);
+    // fetchImages();
+
+  }, [galleryImageUrl]);
 
   // 사이드 페이지 애니메이션이 끝났을 때 서브 페이지 애니메이션 시작
   useEffect(() => {
@@ -68,22 +73,24 @@ export default function GalleryPage({
         }}
       >
         {/* 갤러리 구현 */}
-        <div className="gallery">
+        <div className="gallery" >
           {loading ? ( // 로딩 중일 때 스피너 표시
             <div className="loading-container">
               <div className="spinner"></div>
               <p>이미지를 불러오는 중...</p>
             </div>
           ) : (
-            imageUrls.map((url, index) => (
-              <img
-                key={index}
-                alt={`Image ${index}`}
-                src={url}
-                className="image"
-              />
-            ))
-          )}
+            // imageUrls.map((url, index) => (
+            //   <img
+            //     key={index}
+            //     alt={`Image ${index}`}
+            //     src={url}
+            //     className="image"
+            //   />
+            // ))
+            galleryImageUrl && ( // galleryImageUrl 값이 있을 때만 이미지 표시
+      <img className="image" src={galleryImageUrl} alt="Gallery" />
+          ))}
         </div>
       </motion.div>
 
